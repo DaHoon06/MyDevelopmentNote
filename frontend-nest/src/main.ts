@@ -5,6 +5,7 @@ import store from './store'
 import GAuth from 'vue-google-oauth2'
 import VueAxios from 'vue-axios';
 import VueCookies from "vue-cookies";
+import Vuetify from "vuetify";
 
 import { BootstrapVue, IconsPlugin,PaginationNavPlugin } from 'bootstrap-vue'
 
@@ -20,7 +21,7 @@ Vue.use(PaginationNavPlugin)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookies);
-
+Vue.use(Vuetify);
 Vue.use(GAuth, {clientId: process.env.VUE_APP_ClientID, scope: process.env.VUE_APP_SCOPE})
 
 Vue.use(VueAxios,axios);

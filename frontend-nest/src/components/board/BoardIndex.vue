@@ -5,66 +5,66 @@
       <section class="board_main">
         <MenuTitle></MenuTitle>
 
-      <div class="board_section_wrap">
+        <div class="board_section_wrap">
 
-        <CategoryList></CategoryList>
+          <CategoryList></CategoryList>
 
-        <section id="board_area">
-          <div class="search_FAQ">
-            <ul>
-              <li>
-                <span class="faq_title">FAQ</span>
-              </li>
-              <li>
-                <span class="search_title">검색</span>
-              </li>
-              <li>
-                <input type="text" class="faq_input" />
-              </li>
-              <li>
-                <button class="faq_btn">검색</button>
-              </li>
-            </ul>
-          </div>
-
-        <div class="board_section2">
-          <b-table-simple hover small caption-top responsive>
-            <b-thead head-variant="dark">
-              <b-tr>
-                <b-th>제목</b-th>
-                <b-th>내용</b-th>
-                <b-th>작성자</b-th>
-              </b-tr>
-            </b-thead>
-
-            <b-tbody>
-              <tr>
-                <td colspan="3" v-if="test" style="text-align: center">게시글이 존재하지 않습니다.</td>
-              </tr>
-
-              <tr v-for="(board,index) in board" :key="index">
-                <td>{{board.title}}</td>
-                <td v-on:click='detailBoard(board)'><a class="boardDetail">{{board.content}}</a></td>
-                <td>{{board.writer}}</td>
-              </tr>
-            </b-tbody>
-          </b-table-simple>
-
-          <div id="pageList">
-            <div v-for="(pageNum,index) in perPage" :key="index">
-              <a class="page" v-on:click="page(pageNum)">{{pageNum}}</a>
+          <section id="board_area">
+            <div class="search_FAQ">
+              <ul>
+                <li>
+                  <span class="faq_title">FAQ</span>
+                </li>
+                <li>
+                  <span class="search_title">검색</span>
+                </li>
+                <li>
+                  <input type="text" class="faq_input" />
+                </li>
+                <li>
+                  <button class="faq_btn">검색</button>
+                </li>
+              </ul>
             </div>
-          </div>
 
-          <button class="board-write_btn" v-on:click="writeForm">
-            <span>글작성</span>
-          </button>
+            <div class="board_section2">
+              <b-table-simple hover small caption-top responsive>
+                <b-thead head-variant="dark">
+                  <b-tr>
+                    <b-th>제목</b-th>
+                    <b-th>내용</b-th>
+                    <b-th>작성자</b-th>
+                  </b-tr>
+                </b-thead>
+
+                <b-tbody>
+                  <tr>
+                    <td colspan="3" v-if="test" style="text-align: center">게시글이 존재하지 않습니다.</td>
+                  </tr>
+
+                  <tr v-for="(board,index) in board" :key="index">
+                    <td>{{board.title}}</td>
+                    <td v-on:click='detailBoard(board)'><a class="boardDetail">{{board.content}}</a></td>
+                    <td>{{board.writer}}</td>
+                  </tr>
+                </b-tbody>
+              </b-table-simple>
+
+              <div id="pageList">
+                <div v-for="(pageNum,index) in perPage" :key="index">
+                  <a class="page" v-on:click="page(pageNum)">{{pageNum}}</a>
+                </div>
+              </div>
+
+              <button class="board-write_btn" v-on:click="writeForm">
+                <span>글작성</span>
+              </button>
+            </div>
+          </section>
 
         </div>
-      </section>
-      </div>
 
-    </section>
+      </section>
     </div>
 
   </div>
@@ -94,17 +94,15 @@ export default class BoardIndex extends Vue{
             content: string };
 
   async created(){
-
     const res = await this.axios.get(BoardURI.GetData);
 
     if(res.data.msg === 'noData'){
       this.test = true;
+    } else {
+      this.board = res.data.board;
+      this.currentPage = res.data.currentPage;
+      this.perPage = res.data.totalPage;
     }
-
-    this.board = res.data.board;
-    this.currentPage = res.data.currentPage;
-    this.perPage = res.data.totalPage;
-
     throw new Error(res.status);
   }
 
@@ -175,7 +173,6 @@ a{
 }
 
 #boardList {
-
   height: 710px;
 }
 

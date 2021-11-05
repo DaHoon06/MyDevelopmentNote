@@ -34,7 +34,7 @@ instance.interceptors.response.use(response => {
     if (status === 401) {
         console.log('error시 401에러')
     } else {
-        console.log('error시 모르는 에러')
+        console.log('error ::: ',error)
     }
     return response
 });

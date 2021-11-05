@@ -95,7 +95,6 @@ export default class BoardIndex extends Vue{
 
   async created(){
     const res = await this.axios.get(BoardURI.GetData);
-    alert(res.data.board);
     if(res.data.msg === 'noData'){
       this.test = true;
     } else {
@@ -131,8 +130,8 @@ export default class BoardIndex extends Vue{
     }).catch((err)=> {console.error(err)});
   }
 
-  async page(pageNum){
-    await axios.get(`/api/board/?page=${pageNum}`).then((res)=> {
+  async page(pageNum: string){
+    await axios.get(`/api/board/${pageNum}`).then((res)=> {
       this.board = res.data.board;
       this.currentPage = res.data.currentPage;
       this.perPage = res.data.totalPage;

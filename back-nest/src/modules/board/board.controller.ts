@@ -15,7 +15,7 @@ import { BoardService } from './board.service';
 export class BoardController {
   constructor(private boardService: BoardService) {}
 
-  @Get()
+  @Get(':page?')
    async getBoard(@Param('page') page: string, @Res() res) {
     console.log('Get Board page : ',page);
     const boardData = await this.boardService.getBoard(page);

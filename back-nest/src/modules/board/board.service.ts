@@ -13,7 +13,6 @@ export class BoardService {
 
   async getBoard(page: string) {
     const $count = {$count: 'allCount'};
-
     const [{allCount}] = await this.boardModel.aggregate([
         $count
     ]).exec();

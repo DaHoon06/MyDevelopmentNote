@@ -88,25 +88,19 @@ export default class WriterForm extends Vue{
     this.btn = true;
     this.image = '';
   }
-
-  created(){
+  //axios 인스턴스에 문제있는듯....
+  async created(){
       if(this.$route.params.id != null){
-
         const _id = this.$route.params.id;
-
-        this.axios.get(`/api/board/b/${_id}`,{
-        }).then((res) => {
+        const res = await axios.get(`/api/board/d/${_id}`);
+        //const res = await this.axios.get(`/api/board/d/${_id}`);
           this.board = res.data.board;
-
           this.title = this.board.title;
           this.content = this.board.content;
-
           this.btn = false;
-        }).catch((err) => {
-          console.error(err);
-        })
       }
 
+      throw new Error();
   }
 
   writeBoard(){
@@ -157,18 +151,18 @@ export default class WriterForm extends Vue{
   this.image = '';
   }
 
-  updateBoard() {
+  async updateBoard() {
     const _id = this.$route.params.id;
-    this.axios.put(`/api/board/${_id}`,{
+    const res = await axios.put(`/api/board/${_id}`,{
       title : this.title,
       content : this.content
-    }).then((res) => {
-      this.$router.push({
-        path : '/board'
-      })
-    }).catch((err) => {
-      console.log(err);
     })
+      if(res){
+        await this.$router.push({
+          path : '/board'
+        })
+      }
+    throw new Error();
   }
 
   async uploadFile(){

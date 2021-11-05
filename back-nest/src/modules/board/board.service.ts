@@ -44,8 +44,27 @@ export class BoardService {
   //     };
   //   }).sort({"_id": -1}).skip(hidePost).limit(maxPost);
   // };
-  async getBoard(): Promise<BoardDB[]> {
-    return this.boardModel.find().exec();
+  async getBoard(page): Promise<BoardDB[]> {
+    const $count = {$count: 'allCount'}
+      const [{allCount}] = await this.boardModel.aggregate([
+          $count
+      ]).exec();
+
+      if(page === undefined){
+        page = '1';
+      }
+
+      let {
+        startPage,
+        endPage,
+        hidePost,
+        maxPost,
+        totalPage,
+        currentPage
+      } = paging(page, allCount);
+      console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
+
+    return this.boardModel.find().sort({"_id": -1}).exec();
   }
 
   async insertData(boardData: boardDTO): Promise<BoardDB> {
@@ -57,26 +76,24 @@ export class BoardService {
     return insertBoard.save();
   }
 
-  async getDetailBoard(id: string){
-    this.boardModel.findOne({_id: id},(err: CallbackError, boardData: boardDTO) => {
-      console.log(boardData);
-      return boardData;
-    })
+  async getDetailBoard(id: string): Promise<BoardDB>{
+    // this.boardModel.findOne({_id: id},(err: CallbackError, boardData: boardDTO) => {
+    //   console.log(boardData);
+    //   return boardData;
+    // })
+    return this.boardModel.findOne({_id: id});
   };
 
-  async updateBoard(id: string,boardDTO) {
-    this.boardModel.findOne({_id: id},(err, boardData) => {
-      boardData.title = boardDTO.title;
-      boardData.content = boardDTO.content;
-      boardData.updated_at = new Date();
-      return boardData.save();
-    });
+  async updateBoard(id: string,boardDTO): Promise<BoardDB> {
+    boardDTO.updated_at = new Date();
+    return this.boardModel.findByIdAndUpdate({_id: id},boardDTO);
   };
 
   async deleteBoardData(id: string) {
-    this.boardModel.remove({_id: id},(err) => {
-      if(err){return }
-      return '';
-    })
+    // this.boardModel.remove({_id: id},(err) => {
+    //   if(err){return }
+    //   return '';
+    // })
+    return this.boardModel.deleteOne({_id: id});
   };
 }

@@ -14,15 +14,15 @@
       <b-form>
         <div>
           <b-form-input
-                id="input-2" v-model="board.board_title" readonly></b-form-input>
+                id="input-2" v-model="board.title" readonly></b-form-input>
         </div>
         <div>
-          <b-form-textarea id="textarea" readonly v-model="board.board_content" rows="3"
+          <b-form-textarea id="textarea" readonly v-model="board.content" rows="3"
               max-rows="6"></b-form-textarea>
         </div>
         <div>
           <b-form-input
-              id="input-2" v-model="board.board_writer" readonly></b-form-input>
+              id="input-2" v-model="board.writer" readonly></b-form-input>
         </div>
           <b-button variant="primary" v-on:click="updateBoard(board)">수정하기</b-button>
           <b-button variant="primary" v-on:click="deleteBoard(board)">삭제하기</b-button>
@@ -83,17 +83,17 @@ export default class WriterForm extends Vue {
   }
 
   board: {
-    board_title: string,
-    board_writer: string,
-    board_content: string
+    title: string,
+    writer: string,
+    content: string
   }
 
   constructor() {
     super();
     this.board = {
-      board_title: '',
-      board_writer: '',
-      board_content: '',
+      title: '',
+      writer: '',
+      content: '',
     }
 
     this.comment_content = '';
@@ -105,21 +105,19 @@ export default class WriterForm extends Vue {
   }
 
 
-  created() {
+  async created() {
     const _id = this.$route.params.id;
 
-    axios(`/api/board/b/${_id}`).then((res) => {
-      this.board = res.data.board;
-    }).catch((err) => {
-      console.log(err);
-    });
+    const res = await axios.get(`/api/board/d/${_id}`);
+    this.board = res.data.board;
+
 
     //댓글 존재여부 체크
-    axios(`/api/board/comment/b/${_id}`).then((res) => {
-      this.comments = res.data.comment;
-    }).catch((err) => {
-      console.log(err);
-    });
+    // axios(`/api/board/comment/b/${_id}`).then((res) => {
+    //   this.comments = res.data.comment;
+    // }).catch((err) => {
+    //   console.log(err);
+    // });
   }
 
   mounted(){
@@ -139,14 +137,14 @@ export default class WriterForm extends Vue {
     })
   }
 
-  deleteBoard(board: any) {
-    axios.delete(`/api/board/${board._id}`).then((res) => {
-      this.$router.push({
+  async deleteBoard(board: any) {
+    const res = await axios.delete(`/api/board/${board._id}`);
+    if(res){
+      await this.$router.push({
         path: '/board'
       })
-    }).catch((err) => {
-      console.error(err);
-    })
+    }
+    throw new Error();
   }
 
   cancelWrite() {

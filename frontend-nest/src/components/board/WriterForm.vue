@@ -15,11 +15,11 @@
         <b-form>
           <div>
             <b-form-input placeholder="제목을 입력해주세요."
-                  id="input-2" v-model="board_title" required></b-form-input>
+                  id="input-2" v-model="title" required></b-form-input>
           </div>
           <div>
             <b-form-textarea placeholder="내용을 입력해주세요."
-                id="textarea" v-model="board_content" rows="3"
+                id="textarea" v-model="content" rows="3"
                 max-rows="6"></b-form-textarea>
           </div>
             <b-button v-if="btn" v-on:click="writeBoard" variant="primary">작성하기</b-button>
@@ -41,9 +41,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from "axios";
 import CategoryList from "@/components/board/CategoryList.vue";
 import MenuTitle from "@/components/board/MenuTItle.vue";
+import {BoardURI} from "@/utils/board.URI";
+import axios from "axios";
 
 @Component({
   components: {
@@ -54,23 +55,23 @@ export default class WriterForm extends Vue{
 
   btn: boolean;
 
-  board_title: string;
-  board_content: string;
+  title: string;
+  content: string;
 
-  board: { board_title: string,
-            board_writer: string,
-            board_content: string }
+  board: { title: string,
+            writer: string,
+            content: string }
 
 
   constructor() {
     super();
-    this.board_title = '';
-    this.board_content = '';
+    this.title = '';
+    this.content = '';
 
     this.board = {
-      board_title : '',
-      board_writer : '',
-      board_content : '',
+      title: '',
+      writer: '',
+      content: '',
     }
 
     this.btn = true;
@@ -81,12 +82,12 @@ export default class WriterForm extends Vue{
 
         const _id = this.$route.params.id;
 
-        axios.get(`/api/board/b/${_id}`,{
+        this.axios.get(`/api/board/b/${_id}`,{
         }).then((res) => {
           this.board = res.data.board;
 
-          this.board_title = this.board.board_title;
-          this.board_content = this.board.board_content;
+          this.title = this.board.title;
+          this.content = this.board.content;
 
           this.btn = false;
         }).catch((err) => {
@@ -98,8 +99,8 @@ export default class WriterForm extends Vue{
 
   writeBoard(){
     axios.post('/api/board',{
-      board_title : this.board_title,
-      board_content : this.board_content,
+      title: this.title,
+      content: this.content,
     }).then((res) => {
       this.$router.push({
         path : '/board'
@@ -108,12 +109,27 @@ export default class WriterForm extends Vue{
       console.log(err);
     })
   }
+  /*
+  async writeBoard(){
+    const res = await this.axios.post(BoardURI.DataInsert,{
+      title: this.title,
+      content: this.content
+    });
+    if(res){
+      await this.$router.push({
+        path: '/board'
+      })
+      throw new Error(res.status);
+    }
+
+  }
+  */
 
   updateBoard() {
     const _id = this.$route.params.id;
-    axios.put(`/api/board/${_id}`,{
-      board_title : this.board_title,
-      board_content : this.board_content
+    this.axios.put(`/api/board/${_id}`,{
+      board_title : this.title,
+      board_content : this.content
     }).then((res) => {
       this.$router.push({
         path : '/board'

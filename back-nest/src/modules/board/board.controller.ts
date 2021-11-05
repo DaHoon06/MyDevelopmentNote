@@ -5,40 +5,37 @@ import {
   Get,
   Param,
   Post,
-  Put,
+  Put, Res,
 } from '@nestjs/common';
 import { boardDTO } from './board.dto';
 import { BoardService } from './board.service';
-import { response } from 'express';
 
 @Controller('board')
 export class BoardController {
   constructor(private boardService: BoardService) {}
 
-  @Get()
-  async getBoard() {
-    console.log('Get Board');
-    const res = await this.boardService.getBoard();
-    console.log(res);
-    if (res === null) {
+  @Get('/:page?')
+  async getBoard(@Param('page')page: string, @Res() res) {
+    console.log('Get Board page : ',page);
+    const boardData = await this.boardService.getBoard(page);
+
+    if (boardData === undefined) {
       console.log('게시글이 존재하지 않습니다.');
-      response.json({
-        msg: 'noData',
-      });
+      return res.status(500).send({msg: 'noData'});
     }
-    response.json({
-      msg: 'noData',
-    });
+    console.log(boardData+' :::::');
+    return res.status(200).send({board: boardData});
   }
 
   @Post()
-  async insertData(@Body() boardDTO: boardDTO) {
-    console.log('Post Board');
+  async insertData(@Body() boardDTO: boardDTO, @Res() res) {
+    console.log('Post Board',boardDTO);
     await this.boardService.insertData(boardDTO);
   }
 
-  @Get(':id')
+  @Get('d/:id')
   async getDetailBoard(@Param('id') id: string) {
+    console.log('GET BOARD : ',id);
     await this.boardService.getDetailBoard(id);
   }
 

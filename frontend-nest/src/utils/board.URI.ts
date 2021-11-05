@@ -1,4 +1,4 @@
-export enum TestURL {
+export enum BoardURI {
     DataInsert = '/board',
     GetData = '/board',
     DataDetail = '/board/:id',

@@ -33,8 +33,7 @@ boardController.get('/:page?',async(req, res) => {
       currentPage
    } = paging(page, allCount);
 
-  console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
-
+   console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
    Board.find(((err: CallbackError, boards: IBoard) => {
       if(err){
          return res.status(500).send({err: 'DB Failure'});

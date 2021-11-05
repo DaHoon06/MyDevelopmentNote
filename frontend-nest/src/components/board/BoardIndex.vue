@@ -95,7 +95,7 @@ export default class BoardIndex extends Vue{
 
   async created(){
     const res = await this.axios.get(BoardURI.GetData);
-
+    alert(res.data.board);
     if(res.data.msg === 'noData'){
       this.test = true;
     } else {

@@ -153,7 +153,7 @@ export default class WriterForm extends Vue{
 
   async updateBoard() {
     const _id = this.$route.params.id;
-    const res = await axios.put(`/api/board/${_id}`,{
+    const res = await axios.patch(`/api/board/${_id}`,{
       title : this.title,
       content : this.content
     })

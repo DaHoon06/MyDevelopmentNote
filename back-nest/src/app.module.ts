@@ -9,9 +9,10 @@ import { AppService } from './app.service';
 import { mongoConn } from './modules/DB/mongo.conn';
 import { BoardModule } from './modules/board/board.module';
 import {UploadModule} from "./upload/upload.module";
+import {CommentModule} from "./modules/comment/comment.module";
 
 @Module({
-  imports: [BoardModule, mongoConn ,UploadModule],
+  imports: [BoardModule, mongoConn ,UploadModule,CommentModule],
   controllers: [AppController],
   providers: [AppService],
   exports: [],

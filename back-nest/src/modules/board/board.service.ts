@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import { BoardDB, BoardDocument } from '../DB/schemas/board.schema';
+import { BoardDB, BoardDocument } from '../DB/schemas/board/board.schema';
 import {CallbackError, Model} from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { boardDTO } from './board.dto';
@@ -11,61 +11,36 @@ export class BoardService {
     @InjectModel(BoardDB.name)
     private boardModel: Model<BoardDocument>) {}
 
-  // async getBoard(page: string) {
-  //   const $count = {$count: 'allCount'}
-  //   const [{allCount}] = await this.boardModel.aggregate([
-  //       $count
-  //   ]).exec();
-  //
-  //   if(page === undefined){
-  //     page = '1';
-  //   }
-  //
-  //   let {
-  //     startPage,
-  //     endPage,
-  //     hidePost,
-  //     maxPost,
-  //     totalPage,
-  //     currentPage
-  //   } = paging(page, allCount);
-  //   console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
-  //
-  //   this.boardModel.find((err: CallbackError, boardData: boardDTO) => {
-  //     //console.log(boardData);
-  //     // return {
-  //     //   board: boardData,
-  //     //   totalPage: totalPage,
-  //     //   startPage: startPage,
-  //     //   currentPage: currentPage,
-  //     // };
-  //     return{
-  //       board: boardData
-  //     };
-  //   }).sort({"_id": -1}).skip(hidePost).limit(maxPost);
-  // };
-  async getBoard(page): Promise<BoardDB[]> {
-    const $count = {$count: 'allCount'}
-      const [{allCount}] = await this.boardModel.aggregate([
-          $count
-      ]).exec();
+  async getBoard(page: string) {
+    const $count = {$count: 'allCount'};
 
-      if(page === undefined){
-        page = '1';
-      }
+    const [{allCount}] = await this.boardModel.aggregate([
+        $count
+    ]).exec();
 
-      let {
-        startPage,
-        endPage,
-        hidePost,
-        maxPost,
-        totalPage,
-        currentPage
-      } = paging(page, allCount);
-      console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
+    if(page === undefined){
+      page = '1';
+    }
 
-    return this.boardModel.find().sort({"_id": -1}).exec();
-  }
+    let {
+      startPage,
+      endPage,
+      hidePost,
+      maxPost,
+      totalPage,
+      currentPage
+    } = paging(page, allCount);
+    console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
+
+    const board = await this.boardModel.find({}).sort({"_id": -1}).skip(hidePost).limit(maxPost).exec();
+
+    return {
+      board,
+      totalPage,
+      startPage,
+      currentPage
+    }
+  };
 
   async insertData(boardData: boardDTO): Promise<BoardDB> {
     boardData.created_at = new Date();
@@ -77,11 +52,10 @@ export class BoardService {
   }
 
   async getDetailBoard(id: string): Promise<BoardDB>{
-    // this.boardModel.findOne({_id: id},(err: CallbackError, boardData: boardDTO) => {
-    //   console.log(boardData);
-    //   return boardData;
-    // })
-    return this.boardModel.findOne({_id: id});
+    const detailBoard = await this.boardModel.findOne({_id: id}) as boardDTO;
+    console.log(detailBoard.updated_at);
+
+    return detailBoard;
   };
 
   async updateBoard(id: string,boardDTO): Promise<BoardDB> {
@@ -90,10 +64,7 @@ export class BoardService {
   };
 
   async deleteBoardData(id: string) {
-    // this.boardModel.remove({_id: id},(err) => {
-    //   if(err){return }
-    //   return '';
-    // })
     return this.boardModel.deleteOne({_id: id});
   };
+
 }

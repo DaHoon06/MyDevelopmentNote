@@ -3,28 +3,28 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
+  Param, Patch,
   Post,
   Put, Query, Res,
 } from '@nestjs/common';
 import { boardDTO } from './board.dto';
 import { BoardService } from './board.service';
 
+
 @Controller('board')
 export class BoardController {
   constructor(private boardService: BoardService) {}
 
   @Get()
-  async getBoard(@Param('page') page: string, @Res() res) {
+   async getBoard(@Param('page') page: string, @Res() res) {
     console.log('Get Board page : ',page);
     const boardData = await this.boardService.getBoard(page);
-    // const boardData = await this.boardService.getBoard();
-    if (boardData === undefined) {
+
+    if (!boardData) {
       console.log('게시글이 존재하지 않습니다.');
       return res.status(500).send({msg: 'noData'});
     }
-    console.log(boardData+' :::::');
-    return res.status(200).send({board: boardData});
+    return res.status(200).send(boardData);
   }
 
   @Post()
@@ -41,7 +41,7 @@ export class BoardController {
     return res.status(200).send({board: boardData});
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateBoard(@Body() boardDTO: boardDTO,
                     @Param('id') id: string) {
     console.log('put!!',boardDTO,id);

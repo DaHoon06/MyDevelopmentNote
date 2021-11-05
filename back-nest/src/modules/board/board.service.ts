@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import { BoardDB, BoardDocument } from '../DB/schemas/board.schema';
+import { BoardDB, BoardDocument } from '../DB/schemas/board/board.schema';
 import {CallbackError, Model} from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { boardDTO } from './board.dto';

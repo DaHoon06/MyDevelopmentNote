@@ -30,7 +30,7 @@
         </b-form>
 
         <div v-if="comments != null" v-for="(comment,index) in comments" :key="index">
-          <div class="comment-area">{{comment.comment_content}}</div>
+          <div class="comment-area">{{comment.c_content}}</div>
           <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
 
           <br/>
@@ -38,13 +38,13 @@
           <button>수정</button>
           <button>삭제</button>
         </div>
-        <div class="comment-area2" v-if="comments == 0">
+        <div class="comment-area2" v-if="notExistComment">
           답변이 존재하지 않습니다.
         </div>
 
         <div>
           <form>
-            <b-form-textarea ref="regi_comment" rows="10" cols="10" v-model="comment_content"></b-form-textarea>
+            <b-form-textarea ref="regi_comment" rows="10" cols="10" v-model="c_content"></b-form-textarea>
             <b-button variant="primary" @click="comment">답변</b-button>
           </form>
         </div>
@@ -74,11 +74,11 @@ import MenuTitle from "@/components/board/MenuTItle.vue";
 
 })
 export default class WriterForm extends Vue {
-
-  comment_content: string
+  notExistComment: boolean;
+  c_content: string
 
   comments: {
-    comment_content: string,
+    c_content: string,
     updated_at: string,
   }
 
@@ -99,9 +99,10 @@ export default class WriterForm extends Vue {
     this.comment_content = '';
 
     this.comments = {
-      comment_content: '',
+      c_content: '',
       updated_at: '',
     }
+    this.notExistComment = true;
   }
 
 
@@ -111,19 +112,20 @@ export default class WriterForm extends Vue {
     const res = await axios.get(`/api/board/d/${_id}`);
     this.board = res.data.board;
 
-
     //댓글 존재여부 체크
-    // axios(`/api/board/comment/b/${_id}`).then((res) => {
-    //   this.comments = res.data.comment;
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
+    const c_res = await axios(`/api/comment/${_id}`);
+    if(c_res.data.msg === 'noData'){
+      this.notExistComment = true;
+    } else {
+      this.comments = c_res.data.comments;
+      this.notExistComment = false;
+    }
   }
 
   mounted(){
     const _id = this.$route.params.id;
 
-    axios(`/api/board/comment/b/${_id}`).then((res) => {
+    axios(`/api/comment/${_id}`).then((res) => {
       this.comments = res.data.comment;
     }).catch((err) => {
       console.log(err);
@@ -153,17 +155,19 @@ export default class WriterForm extends Vue {
     })
   }
 
+  //댓글입력
   async comment(){
     const _id = this.$route.params.id;
+    const res = await axios.post('/api/comment',{
+        c_content: this.c_content,
+        b_id: _id,
+    });
+    if(res.data !== undefined){
+      this.c_content = '';
+      window.location.reload();
+      this.$refs.regi_comment.focus();
+    }
 
-    await axios.post('/api/board/comment',{
-        comment_content: this.comment_content,
-        board_id: _id,
-    }).catch((err) => {console.error(err);})
-
-    this.comment_content = '';
-    window.location.reload();
-    this.$refs.regi_comment.focus();
   }
 
 

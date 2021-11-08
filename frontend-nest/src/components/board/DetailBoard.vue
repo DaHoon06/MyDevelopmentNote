@@ -10,50 +10,51 @@
         <div class="board_section_wrap">
           <CategoryList></CategoryList>
 
-      <div class="board_section2">
-      <b-form>
-        <div>
-          <b-form-input
-                id="input-2" v-model="board.title" readonly></b-form-input>
-        </div>
-        <div>
-          <b-form-textarea id="textarea" readonly v-model="board.content" rows="3"
-              max-rows="6"></b-form-textarea>
-        </div>
-        <div>
-          <b-form-input
-              id="input-2" v-model="board.writer" readonly></b-form-input>
-        </div>
-          <b-button variant="primary" v-on:click="updateBoard(board)">수정하기</b-button>
-          <b-button variant="primary" v-on:click="deleteBoard(board)">삭제하기</b-button>
-          <b-button variant="danger" v-on:click="cancelWrite">취소</b-button>
-        </b-form>
+          <div class="board_section2">
+          <b-form>
+            <div>
+              <b-form-input
+                    id="input-2" v-model="board.title" readonly></b-form-input>
+            </div>
+            <div>
+              <b-form-textarea id="textarea" readonly v-model="board.content" rows="3"
+                  max-rows="6"></b-form-textarea>
+            </div>
+            <div>
+              <b-form-input
+                  id="input-2" v-model="board.writer" readonly></b-form-input>
+            </div>
+              <b-button variant="primary" v-on:click="updateBoard(board)">수정하기</b-button>
+              <b-button variant="primary" v-on:click="deleteBoard(board)">삭제하기</b-button>
+              <b-button variant="danger" v-on:click="cancelWrite">취소</b-button>
+            </b-form>
 
-        <div v-if="comments != null" v-for="(comment,index) in comments" :key="index">
-          <div class="comment-area">{{comment.c_content}}</div>
-          <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
+            <!--  답변 시작  -->
+            <div v-if="comments != null" v-for="(comment,index) in comments" :key="index">
+              <div class="comment-area">{{comment.c_content}}</div>
+              <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
 
-          <br/>
+              <br/>
 
-          <button>수정</button>
-          <button>삭제</button>
-        </div>
-        <div class="comment-area2" v-if="notExistComment">
-          답변이 존재하지 않습니다.
-        </div>
+              <button @click="update_comment(comment)">수정</button>
+              <button @click="delete_comment(comment)">삭제</button>
+            </div>
+            <div class="comment-area2" v-if="comments == 0">
+              답변이 존재하지 않습니다.
+            </div>
 
-        <div>
-          <form>
-            <b-form-textarea ref="regi_comment" rows="10" cols="10" v-model="c_content"></b-form-textarea>
-            <b-button variant="primary" @click="comment">답변</b-button>
-          </form>
-        </div>
-      </div>
-        </div>
+            <div>
+              <form>
+                <b-form-textarea ref="regi_comment" rows="10" cols="10" v-model="c_content"></b-form-textarea>
+                <b-button variant="primary" @click="comment">답변</b-button>
+              </form>
+            </div>
 
+          </div>
+        </div>
       </section>
 
-    <section class="board-section"></section>
+      <section class="board-section"></section>
     </div>
 
   </div>
@@ -74,7 +75,7 @@ import MenuTitle from "@/components/board/MenuTItle.vue";
 
 })
 export default class WriterForm extends Vue {
-  notExistComment: boolean;
+
   c_content: string
 
   comments: {
@@ -97,37 +98,28 @@ export default class WriterForm extends Vue {
     }
 
     this.c_content = '';
-
     this.comments = {
       c_content: '',
       updated_at: '',
     }
-    this.notExistComment = true;
-  }
 
+  }
 
   async created() {
     const _id = this.$route.params.id;
     const res = await axios.get(`/api/board/d/${_id}`);
-    this.board = res.data.board;
-
-    //댓글 존재여부 체크
     const c_res = await axios(`/api/comment/${_id}`);
-    if(c_res.data.msg === 'noData'){
-      this.notExistComment = true;
-    } else {
-      this.comments = c_res.data.comments;
-      this.notExistComment = false;
-    }
+
+    this.board = res.data.board;
+    this.comments = c_res.data.comments;
+
+    throw new Error();
   }
 
-  mounted(){
+  async mounted(){
     const _id = this.$route.params.id;
-    axios(`/api/comment/${_id}`).then((res) => {
-      this.comments = res.data.comment;
-    }).catch((err) => {
-      console.log(err);
-    });
+    const res = await axios(`/api/comment/${_id}`);
+    this.comments = res.data.comments;
   }
 
   updateBoard(board: any) {
@@ -152,18 +144,35 @@ export default class WriterForm extends Vue {
     })
   }
 
-  //댓글입력
+  //--  댓글입력
   async comment(){
     const _id = this.$route.params.id;
     const res = await axios.post('/api/comment',{
         c_content: this.c_content,
         b_id: _id,
     });
-    if(res.data !== undefined){
-      this.c_content = '';
-      window.location.reload();
-      this.$refs.regi_comment.focus();
+
+    this.c_content = '';
+    location.reload();
+    this.$refs.regi_comment.focus();
+  }
+
+  async delete_comment(comment: any){
+    const _id = comment._id;
+    const res = await axios.delete(`/api/comment/${_id}`);
+    if(res){
+      location.reload();
     }
+  }
+
+  async update_comment(comment: any){
+    const _id = comment._id;
+    const res = await axios.get(`/api/comment/p/${_id}`);
+    const commentData = res.data;
+    alert(commentData);
+    this.c_content = commentData.c_content;
+    //const res = await axios.patch(`/api/comment/${_id}`);
+
 
   }
 

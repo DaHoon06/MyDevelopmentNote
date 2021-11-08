@@ -16,7 +16,7 @@
             </li>
             <li v-else><a id="logout_btn" @click="$store.commit('logout')">로그아웃</a></li>
             <li> | </li>
-            <li v-if="this.$store.state.token === null">회원가입</li>
+            <li v-if="this.$store.state.token === null"><a href="/signIn">회원가입</a></li>
             <li v-else>마이페이지</li>
             <li>출석체크</li>
             <li>고객센터</li>

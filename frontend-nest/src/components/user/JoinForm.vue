@@ -7,18 +7,20 @@
         <ol>
           <li>
             <label>이메일</label>
-            <input type="email" v-model="email" placeholder="abca@domain.com" required="required" size="20" class="box"/>
-            <input type="button" value="중복확인" class="check" />
+            <input type="email" ref="email" v-model="email" placeholder="abca@domain.com" id="email" required="required" size="20" class="box"/>
+            <input type="button" value="중복확인" class="check" @click="emailCheck" />
             <div id="email_check"></div>
           </li>
           <li>
             <label>비밀번호</label>
-            <input type="password" v-model="pw1" size="20" required="required" class="box"/>
+            <input type="password" placeholder="8 ~ 12 글자" @change="pwCheck1" id="pw1" v-model="pw1" size="20" required="required" class="box"/>
+            <div>* 1개이상의 문자와 특수문자 포함</div>
+            <div id="pw_check1"></div>
           </li>
           <li>
             <label>비밀번호 확인</label>
-            <input type="password" v-model="pw2" size="20" required="required" class="box"/>
-            <div id="pw_check"></div>
+            <input type="password" @change="pwCheck2" id="pw2" v-model="pw2" size="20" required="required" class="box"/>
+            <div id="pw_check2"></div>
           </li>
           <li>
             <label>이름</label>
@@ -26,7 +28,7 @@
           </li>
           <li>
             <label>전화번호</label>
-            <input type="tel" v-model="phone" placeholder="010-1234-5678" size="20" class="box" />
+            <input type="tel" v-model="phone" @change="phoneCheck" required placeholder="010-1234-5678" size="20" class="box" />
           </li>
         </ol>
       </fieldset>
@@ -78,6 +80,53 @@ export default class JoinForm extends Vue{
     })
   }
 
+  //----   유효성 검사   -----
+  //비밀번호
+  pwCheck1(){
+    let data = document.getElementById('pw1').value;
+    let regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if(!regExp.test(data)){
+      document.getElementById('pw_check1').innerText = '하나 이상의 문자 및 특수문자가 포함되어야합니다.';
+      document.getElementById('pw1').value = '';
+    } else {
+      document.getElementById('pw_check1').innerText = 'OK';
+    }
+  }
+  pwCheck2() {
+    let pw1 = document.getElementById('pw1').value;
+    let pw2 = document.getElementById('pw2').value;
+
+    if(pw1 !== pw2){
+      document.getElementById('pw_check2').innerText = '비밀번호가 일치하지 않습니다.';
+    } else {
+      document.getElementById('pw_check2').innerText = 'OK';
+    }
+  }
+  //이메일
+  async emailCheck(){
+    const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if(regExp.test(this.email)){
+      const res = await axios.post('/api/user/emailCheck',{email: this.email});
+      if(res.data.result === 0){
+        document.getElementById('email_check').innerText = '사용가능한 이메일 입니다.';
+      } else {
+        document.getElementById('email_check').innerText = '중복된 이메일 입니다.';
+      }
+    } else {
+      document.getElementById('email_check').innerText = '이메일 형식이 맞지 않습니다.';
+      this.email = '';
+      this.$refs.email.focus();
+    }
+  }
+  //핸드폰
+  async phoneCheck(){
+    const regExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+    if(!regExp.test(this.phone)){
+      alert('전화번호 확인');
+      this.phone = '';
+    }
+  }
+
   cancle(){
     this.$router.push({
       path: '/'
@@ -97,8 +146,6 @@ export default class JoinForm extends Vue{
 
 }
 
-
-
 #joinForm{
   margin-top: 30px;
   position: relative;
@@ -110,7 +157,7 @@ export default class JoinForm extends Vue{
   top: 350px;
   left: 50%;
   transform: translate(-50%,-50%);
-  border-radius: 27%;
+  border-radius: 5px;
 
 }
 
@@ -184,5 +231,11 @@ li{
   width: 100%;
   height: 710px;
 }
+
+#email_check,#pw_check1, #pw_check2{
+  color: #d91515;
+  font-size: 15px;
+}
+
 
 </style>

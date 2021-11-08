@@ -22,11 +22,16 @@ export class CommentService {
         return insertComment.save();
     };
 
+    async detailComment(id){
+        return this.commentModel.findById(id).exec();
+    };
+
     async updateComment(){
 
     };
-    async deleteComment(){
 
+    async deleteComment(id){
+        return this.commentModel.deleteOne({_id: id}).exec();
     };
 
 

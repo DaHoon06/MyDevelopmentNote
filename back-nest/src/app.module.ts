@@ -10,9 +10,10 @@ import { mongoConn } from './modules/DB/mongo.conn';
 import { BoardModule } from './modules/board/board.module';
 import {UploadModule} from "./upload/upload.module";
 import {CommentModule} from "./modules/comment/comment.module";
+import {UserModule} from "./modules/user/user.module";
 
 @Module({
-  imports: [BoardModule, mongoConn ,UploadModule,CommentModule],
+  imports: [BoardModule, mongoConn ,UploadModule,CommentModule,UserModule],
   controllers: [AppController],
   providers: [AppService],
   exports: [],

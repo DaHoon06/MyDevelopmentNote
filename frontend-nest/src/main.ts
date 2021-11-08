@@ -6,7 +6,7 @@ import GAuth from 'vue-google-oauth2'
 import VueAxios from 'vue-axios';
 import VueCookies from "vue-cookies";
 import Vuetify from "vuetify";
-
+import VueToast from 'vue-toast-notification';
 import { BootstrapVue, IconsPlugin,PaginationNavPlugin } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -23,7 +23,7 @@ Vue.use(IconsPlugin)
 Vue.use(VueCookies);
 Vue.use(Vuetify);
 Vue.use(GAuth, {clientId: process.env.VUE_APP_ClientID, scope: process.env.VUE_APP_SCOPE})
-
+//Vue.use(VueToast);
 Vue.use(VueAxios,axios);
 Vue.use(require('vue-moment'));
 

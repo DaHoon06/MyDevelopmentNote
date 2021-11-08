@@ -11,11 +11,19 @@ export class CommentController{
         console.log('GET Comment : ');
         const commentData = await this.commentService.getComment(id);
 
-        if(commentData === undefined){
-            return res.status(500).send({msg: 'noData'});
+        if(commentData === []){
+            console.log('no data');
+            return res.status(500).send({comments: 0});
         }
-        console.log(commentData);
+        console.log(commentData,'왜 2번 찍히지'); //이게 두번 찍힌다.
         return res.status(200).send({comments: commentData});
+    }
+
+    @Get('/p/:id')
+    async detailComment(@Param('id') id: string,@Res() res){
+        console.log('Detail COMMENT',id);
+        const comment = await this.commentService.deleteComment(id);
+        return res.status(200).send(comment);
     }
 
     @Post()
@@ -24,9 +32,9 @@ export class CommentController{
         await this.commentService.insertComment(commentDTO);
     }
 
-    @Delete()
-    async deleteComment(){
-
+    @Delete(':id')
+    async deleteComment(@Param('id')id: string){
+        await this.commentService.deleteComment(id);
     }
 
     @Patch()

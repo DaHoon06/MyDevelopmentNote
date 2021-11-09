@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="detailBoard">
 
     <div class="board_wrapper">
       <section class="board-section"></section>
@@ -28,26 +28,28 @@
               <b-button variant="primary" @click="deleteBoard(board)">삭제하기</b-button>
               <b-button variant="danger" @click="cancelWrite">취소</b-button>
             </b-form>
-
             <!--  답변 시작  -->
+            <div id="comment_wrapper">
+              <form>
+                <b-form-textarea ref="regi_comment" rows="10" cols="10" v-model="c_content" id="commentArea"></b-form-textarea>
+              </form>
+              <div>
+                <b-button id="commentData" variant="primary" @click="comment">답변</b-button>
+              </div>
+            </div>
+
             <div v-if="comments != null" v-for="(comment,index) in comments" :key="index">
-              <textarea readonly class="comment-area" name="showComment">{{comment.c_content}}</textarea>
-              <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
-
-              <br/>
-
-              <button @click="toggleBtn($event,comment,index)" id="updateBtn1" name="updateBtn" >수정</button>
-              <button @click="delete_comment(comment)">삭제</button>
+              <b-form-textarea readonly class="comment-area" name="showComment">{{comment.c_content}}</b-form-textarea>
+              <div class="data_wrapper">
+                <span class="comment_date_title">작성일 </span> <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
+              </div>
+              <div class="comment_btn_wrapper">
+                <button @click="toggleBtn($event,comment,index)" name="updateBtn" >수정</button>
+                <button @click="delete_comment(comment)">삭제</button>
+              </div>
             </div>
             <div class="comment-area2" v-if="comments == 0">
               답변이 존재하지 않습니다.
-            </div>
-
-            <div>
-              <form>
-                <b-form-textarea ref="regi_comment" rows="10" cols="10" v-model="c_content"></b-form-textarea>
-                <b-button variant="primary" @click="comment">답변</b-button>
-              </form>
             </div>
 
           </div>
@@ -173,8 +175,8 @@ export default class WriterForm extends Vue {
       ele.innerText = '수정'
       await this.saveComment(comment,index);
     }
-
   }
+
   async saveComment(comment,index){
     const _id = comment._id;
     const data = document.getElementsByName('showComment')[index].value;
@@ -192,6 +194,10 @@ export default class WriterForm extends Vue {
 </script>
 
 <style scoped>
+
+#detailBoard{
+  height: 1080px;
+}
 
 .board_wrapper{
   display: flex;
@@ -220,11 +226,11 @@ export default class WriterForm extends Vue {
 }
 
 .comment-area {
-  margin: 20px;
-  width: 80%;
-  border: 1px solid black;
+  margin-left: 60px;
+  margin-top: 20px;
+  width: 600px;
   height: 100px;
-  overflow-y: scroll;
+  resize: none;
 }
 
 .comment-area2 {
@@ -234,15 +240,63 @@ export default class WriterForm extends Vue {
   height: 100px;
 }
 
-.comment_date{
-
+.data_wrapper{
+  text-align: right;
+  margin-right: 40px;
 }
 
-#updateBtn1{
-  display: block;
+.comment_date_title {
+  font-size: 13px;
+  color: gray;
 }
-#updateBtn2{
-  display: none;
+
+.comment_date {
+  font-size: 12px;
+  color: gray;
+}
+
+.comment_btn_wrapper{
+  text-align: right;
+  margin-right: 32px;
+}
+.comment_btn_wrapper button {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.comment_btn_wrapper button:hover {
+  color: #ffffff;
+  background-color: #4f5050;
+  border-radius: 4px;
+}
+
+#commentArea {
+  width: 600px;
+  height: 90px;
+  resize: none;
+}
+
+#comment_wrapper{
+  margin-left: 60px;
+  margin-top: 20px;
+}
+
+#comment_wrapper div {
+  text-align: right;
+  margin-right: 40px;
+  margin-top: 10px;
+}
+
+#commentData{
+  border: none;
+  background-color: #f3f3ed;
+  color: black;
+}
+
+#commentData:hover {
+  background-color: #adb5bd;
+  color: #ffffff;
 }
 
 </style>

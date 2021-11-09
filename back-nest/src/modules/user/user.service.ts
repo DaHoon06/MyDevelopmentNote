@@ -3,7 +3,7 @@ import {Injectable} from "@nestjs/common";
 @Injectable()
 export class userService {
 
-    emailCheck(email){
+    async emailCheck(email){
         return {result: 0};
     }
 
@@ -11,15 +11,18 @@ export class userService {
 
     }
 
-    login(){
-
+    async login(){
+        return '';
     }
 
-    getUserInfo(username){
-
+    async findOne(username){
+        return {
+            id: 'test',
+            password: 0,
+        };
     }
 
-    findUser(id) {
-
+    async findUser(id) {
+        return 'test_findUser';
     }
 }

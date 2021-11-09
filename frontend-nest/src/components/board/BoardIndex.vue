@@ -172,7 +172,7 @@ a{
 }
 
 #boardList {
-  height: 710px;
+  height: 1080px;
 }
 
 .board_wrapper{

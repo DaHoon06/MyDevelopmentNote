@@ -9,13 +9,19 @@
             <label>이메일</label>
             <input type="email" ref="email" v-model="email" placeholder="abca@domain.com" id="email" required="required" size="20" class="box"/>
             <input type="button" value="중복확인" class="check" @click="emailCheck" />
-            <div id="email_check"></div>
+            <div class="alert_txt">
+              <p id="email_check"></p>
+            </div>
           </li>
           <li>
             <label>비밀번호</label>
             <input type="password" placeholder="8 ~ 12 글자" @change="pwCheck1" id="pw1" v-model="pw1" size="20" required="required" class="box"/>
-            <div>* 1개이상의 문자와 특수문자 포함</div>
-            <div id="pw_check1"></div>
+            <div class="alert_txt">
+              <p>1개이상의 문자와 특수문자 포함</p>
+            </div>
+            <div class="alert_txt">
+              <p id="pw_check1"></p>
+            </div>
           </li>
           <li>
             <label>비밀번호 확인</label>
@@ -146,7 +152,29 @@ export default class JoinForm extends Vue{
   text-decoration: none;
   margin: 0;
   padding: 0;
+}
+/*----  경고 문구 -----*/
+.alert_txt{
+  text-align: right;
+}
 
+.alert_txt p{
+  color: gray;
+  font-size: 12px;
+}
+
+#pw_check1 {
+  position: relative;
+  left: 55px;
+}
+#pw_check2 {
+  position: relative;
+  left: 70px;
+}
+
+#email_check{
+  position: relative;
+  right: 66px;
 }
 
 #joinForm{

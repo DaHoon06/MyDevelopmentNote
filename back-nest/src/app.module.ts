@@ -11,9 +11,17 @@ import { BoardModule } from './modules/board/board.module';
 import {UploadModule} from "./upload/upload.module";
 import {CommentModule} from "./modules/comment/comment.module";
 import {UserModule} from "./modules/user/user.module";
+import {AuthModule} from "./modules/auth/auth.module";
 
 @Module({
-  imports: [BoardModule, mongoConn ,UploadModule,CommentModule,UserModule],
+  imports: [
+      BoardModule,
+      mongoConn,
+      AuthModule,
+      UploadModule,
+      CommentModule,
+      UserModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
   exports: [],

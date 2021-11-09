@@ -1,17 +1,12 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { mongoConn } from './modules/DB/mongo.conn';
 import { BoardModule } from './modules/board/board.module';
-import {UploadModule} from "./upload/upload.module";
-import {CommentModule} from "./modules/comment/comment.module";
-import {UserModule} from "./modules/user/user.module";
-import {AuthModule} from "./modules/auth/auth.module";
+import { UploadModule } from "./upload/upload.module";
+import { CommentModule } from "./modules/comment/comment.module";
+import { UserModule } from "./modules/user/user.module";
+import { AuthModule } from "./modules/auth/auth.module";
 
 @Module({
   imports: [

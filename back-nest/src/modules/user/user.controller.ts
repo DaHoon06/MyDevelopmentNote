@@ -1,8 +1,9 @@
-import {Body, Controller, Get, Post, Req, Res, Session, UseGuards} from "@nestjs/common";
-import {userService} from "./user.service";
-import {googleLoginDTO} from "./dto/google.login.dto";
-import {AuthGuard} from "@nestjs/passport";
-import {AuthService} from "../auth/auth.service";
+import { Body, Controller, Get, Post, Req, Res, Session, UseGuards } from "@nestjs/common";
+import { userService } from "./user.service";
+import { googleLoginDTO } from "./dto/google.login.dto";
+import { AuthGuard } from "@nestjs/passport";
+import { AuthService } from "../auth/auth.service";
+import {catchError} from "rxjs";
 
 @Controller('user')
 export class userController{
@@ -11,38 +12,46 @@ export class userController{
         private authService: AuthService,
     ) {}
 
-    @UseGuards(AuthGuard('local'))
+    @UseGuards(AuthGuard('local')) // 첫번째 필터 역할
     @Post('login')
-    async login_(@Body() userInfo, @Session() session){
+    async login(@Body() userInfo){
         //TODO : 검사가 끝난 USER ID, PW로 SIGN 해서
         const {access_token} = await this.authService.signToken(userInfo);
-
         console.log(access_token)
-
-        // console.log(body)
-        // const access_token = (await this.authService.login(req.user)).access_token;
-        // await res.cookie('Authorization',access_token);
-
-        //TODO : 토큰값 반환
-        return userInfo;
+        //TODO: 토큰값 반환
+        return {
+            result: true,
+            data: {
+                userInfo,
+                access_token
+            },
+        }
     }
 
     @Post('googleLogin')
-    async googleLogin(@Body()userInfo: googleLoginDTO){
-        console.log(userInfo);
+    async googleLogin(@Body() userInfo: googleLoginDTO){
+        const {access_token} = await this.authService.signToken(userInfo);
+        return {
+            result: true,
+            data: {
+                userInfo,
+                access_token
+            },
+        }
     }
 
+    //로그인이 되었는지 확인
     @UseGuards(AuthGuard('jwt'))
     @Post('isLogin')
-    async login(@Req() req){
+    async isLogin(@Req() req){
         // return this.authService.login(req.user);
     }
+
 
     @Post('emailCheck')
     async emailCheck(@Body() email: string,@Res() res){
         console.log('emailCheck : ',email);
         const data = await this.userService.emailCheck(email);
-        console.log(data);
         return res.status(200).send(data);
     }
 

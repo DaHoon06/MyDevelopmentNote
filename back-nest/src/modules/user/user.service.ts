@@ -1,14 +1,10 @@
-import {Injectable} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class userService {
 
     async emailCheck(email){
         return {result: 0};
-    }
-
-    googleLogin(){
-
     }
 
     async login(){

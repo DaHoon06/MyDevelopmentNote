@@ -55,23 +55,22 @@ const store = new Vuex.Store({
   },
   // - 비동기 로직 : mutations의 값을 정의 commit
   actions: {
-    async google_login(context,googleUser: any){
+    async google_login(context, googleUser){
       try{
         const profile = googleUser.getBasicProfile();
-
         const user = await Vue.axios.post('/user/googleLogin',{
           info: profile,
         });
 
-        if(user){
-          let userData = user.data.userData.userInfo;
-          let jwt_token = user.data.userData.token;
+        const { result, data } = user.data;
+        if(result){
+          let userData = data.userInfo;
+          let jwt_token = data.access_token;
           //state 저장
           await context.commit('google_login',{userData,jwt_token});
         }
-        return user; // 이건 무슨 역할???
       } catch (e) {
-        throw Error(e);
+        throw new Error();
       }
     },
 

@@ -10,7 +10,6 @@ import JoinForm from  '@/components/user/JoinForm.vue';
 import chartIndex from '@/components/chart/chartIndex.vue';
 import ImageBanner from "@/components/ImageBanner.vue";
 
-
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -59,5 +58,4 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
 export default router

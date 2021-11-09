@@ -39,7 +39,7 @@
             </div>
 
             <div v-if="comments != null" v-for="(comment,index) in comments" :key="index">
-              <b-form-textarea readonly class="comment-area" name="showComment">{{comment.c_content}}</b-form-textarea>
+              <textarea readonly class="comment-area" name="showComment">{{comment.c_content}}</textarea>
               <div class="data_wrapper">
                 <span class="comment_date_title">작성일 </span> <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
               </div>
@@ -226,6 +226,10 @@ export default class WriterForm extends Vue {
 }
 
 .comment-area {
+  padding: 5px;
+  border: 1px solid #c4c0c0;
+  border-radius: 5px;
+  background-color: #f5f6f6;
   margin-left: 60px;
   margin-top: 20px;
   width: 600px;

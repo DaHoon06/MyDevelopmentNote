@@ -17,7 +17,6 @@ const instance :AxiosInstance = axios.create({
 instance.interceptors.request.use(config  => {
     if (Vue.$cookies) {
         const token = Vuex.getters.getAccessToken;
-        //config.headers['Authorization'] = token;
         config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;

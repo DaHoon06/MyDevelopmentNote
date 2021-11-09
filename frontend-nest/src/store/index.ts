@@ -59,7 +59,7 @@ const store = new Vuex.Store({
       try{
         const profile = googleUser.getBasicProfile();
 
-        const user = await Vue.axios.post('/user/login',{
+        const user = await Vue.axios.post('/user/googleLogin',{
           info: profile,
         });
 

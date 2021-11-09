@@ -92,6 +92,7 @@ export default class JoinForm extends Vue{
       document.getElementById('pw_check1').innerText = 'OK';
     }
   }
+
   pwCheck2() {
     let pw1 = document.getElementById('pw1').value;
     let pw2 = document.getElementById('pw2').value;
@@ -102,6 +103,7 @@ export default class JoinForm extends Vue{
       document.getElementById('pw_check2').innerText = 'OK';
     }
   }
+
   //이메일
   async emailCheck(){
     const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -118,6 +120,7 @@ export default class JoinForm extends Vue{
       this.$refs.email.focus();
     }
   }
+
   //핸드폰
   async phoneCheck(){
     const regExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;

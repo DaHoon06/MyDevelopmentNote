@@ -24,19 +24,19 @@
               <b-form-input
                   id="input-2" v-model="board.writer" readonly></b-form-input>
             </div>
-              <b-button variant="primary" v-on:click="updateBoard(board)">수정하기</b-button>
-              <b-button variant="primary" v-on:click="deleteBoard(board)">삭제하기</b-button>
-              <b-button variant="danger" v-on:click="cancelWrite">취소</b-button>
+              <b-button variant="primary" @click="updateBoard(board)">수정하기</b-button>
+              <b-button variant="primary" @click="deleteBoard(board)">삭제하기</b-button>
+              <b-button variant="danger" @click="cancelWrite">취소</b-button>
             </b-form>
 
             <!--  답변 시작  -->
             <div v-if="comments != null" v-for="(comment,index) in comments" :key="index">
-              <div class="comment-area">{{comment.c_content}}</div>
+              <textarea readonly class="comment-area" name="showComment">{{comment.c_content}}</textarea>
               <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
 
               <br/>
 
-              <button @click="update_comment(comment)">수정</button>
+              <button @click="toggleBtn($event,comment,index)" id="updateBtn1" name="updateBtn" >수정</button>
               <button @click="delete_comment(comment)">삭제</button>
             </div>
             <div class="comment-area2" v-if="comments == 0">
@@ -67,21 +67,22 @@ import CategoryList from "@/components/board/CategoryList.vue";
 import MenuTitle from "@/components/board/MenuTItle.vue";
 
 
-
 @Component({
   components: {
     CategoryList,MenuTitle
   },
-
 })
 export default class WriterForm extends Vue {
 
-  c_content: string
+  c_content: string;
+  newComment: string;
 
   comments: {
     c_content: string,
     updated_at: string,
-  }
+    b_id: string,
+    _id: string
+  }[]
 
   board: {
     title: string,
@@ -96,8 +97,8 @@ export default class WriterForm extends Vue {
       writer: '',
       content: '',
     }
-
     this.c_content = '';
+    this.newComment = '';
     this.comments = {
       c_content: '',
       updated_at: '',
@@ -114,12 +115,6 @@ export default class WriterForm extends Vue {
     this.comments = c_res.data.comments;
 
     throw new Error();
-  }
-
-  async mounted(){
-    const _id = this.$route.params.id;
-    const res = await axios(`/api/comment/${_id}`);
-    this.comments = res.data.comments;
   }
 
   updateBoard(board: any) {
@@ -151,7 +146,6 @@ export default class WriterForm extends Vue {
         c_content: this.c_content,
         b_id: _id,
     });
-
     this.c_content = '';
     location.reload();
     this.$refs.regi_comment.focus();
@@ -160,20 +154,37 @@ export default class WriterForm extends Vue {
   async delete_comment(comment: any){
     const _id = comment._id;
     const res = await axios.delete(`/api/comment/${_id}`);
-    if(res){
+    if(res.data.result === 1){
       location.reload();
+    } else {
+      alert('삭제 실패');
     }
   }
+  //수정 < - > 저장 버튼 전환
+  async toggleBtn(event: any,comment: any,index: string){
+    const ele = event.target;
+    ele.classList.toggle('isUpdate');
 
-  async update_comment(comment: any){
+    const isUpdate = ele.classList.contains('isUpdate');
+    if(isUpdate){
+      ele.innerText = '저장'
+      document.getElementsByName('showComment')[index].removeAttribute('readonly');
+    }else{
+      ele.innerText = '수정'
+      await this.saveComment(comment,index);
+    }
+
+  }
+  async saveComment(comment,index){
     const _id = comment._id;
-    const res = await axios.get(`/api/comment/p/${_id}`);
-    const commentData = res.data;
-    alert(commentData);
-    this.c_content = commentData.c_content;
-    //const res = await axios.patch(`/api/comment/${_id}`);
+    const data = document.getElementsByName('showComment')[index].value;
+    comment.c_content = data as string;
 
-
+    const res = await axios.patch(`/api/comment/${_id}`,comment);
+    location.reload();
+    if(res.result === 1){
+      location.reload();
+    }
   }
 
 
@@ -225,6 +236,13 @@ export default class WriterForm extends Vue {
 
 .comment_date{
 
+}
+
+#updateBtn1{
+  display: block;
+}
+#updateBtn2{
+  display: none;
 }
 
 </style>

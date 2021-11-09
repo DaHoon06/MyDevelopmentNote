@@ -35,9 +35,9 @@ export class BoardController {
 
   @Get('/d/:id')
   async getDetailBoard(@Param('id') id: string, @Res() res) {
-    console.log('GET BOARD: ',id);
+    // console.log('GET BOARD: ',id);
     const boardData = await this.boardService.getDetailBoard(id);
-    console.log('상세보기',boardData);
+    // console.log('상세보기',boardData);
     return res.status(200).send({board: boardData});
   }
 

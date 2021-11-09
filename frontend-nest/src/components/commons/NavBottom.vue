@@ -5,9 +5,9 @@
 
     <b-button-group>
       <b-dropdown right text="Menu">
-        <b-dropdown-item>게시판</b-dropdown-item>
-        <b-dropdown-item>ChartJS</b-dropdown-item>
-        <b-dropdown-item>Item 3</b-dropdown-item>
+        <b-dropdown-item to="/board">게시판</b-dropdown-item>
+        <b-dropdown-item to="/chart">ChartJS</b-dropdown-item>
+        <b-dropdown-item to="/test">TEST</b-dropdown-item>
       </b-dropdown>
     </b-button-group>
 

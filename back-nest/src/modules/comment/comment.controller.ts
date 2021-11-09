@@ -2,27 +2,27 @@ import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Res} from "@nest
 import {CommentService} from "./comment.service";
 import {CommentDTO} from "./comment.dto";
 
+
 @Controller('comment')
 export class CommentController{
     constructor(private commentService: CommentService) {}
 
     @Get(':id')
     async getComment(@Param('id')id: string,@Res() res){
-        console.log('GET Comment : ');
+        console.log('GET Comment');
         const commentData = await this.commentService.getComment(id);
 
-        if(commentData === []){
+        if(!commentData){
             console.log('no data');
             return res.status(500).send({comments: 0});
         }
-        console.log(commentData,'왜 2번 찍히지'); //이게 두번 찍힌다.
         return res.status(200).send({comments: commentData});
     }
 
     @Get('/p/:id')
     async detailComment(@Param('id') id: string,@Res() res){
         console.log('Detail COMMENT',id);
-        const comment = await this.commentService.deleteComment(id);
+        const comment = await this.commentService.detailComment(id);
         return res.status(200).send(comment);
     }
 
@@ -33,13 +33,24 @@ export class CommentController{
     }
 
     @Delete(':id')
-    async deleteComment(@Param('id')id: string){
-        await this.commentService.deleteComment(id);
+    async deleteComment(@Param('id')id: string,@Res() res){
+        const data = await this.commentService.deleteComment(id);
+        if(data){
+            return res.status(200).send({result: 1});
+        }
+        return res.status(500).send({result: 0});
     }
 
-    @Patch()
-    async updateComment(){
-
+    @Patch(':id')
+    async updateComment(@Param('id')id: string,
+                        @Body() comment: CommentDTO,@Res() res){
+        // console.log('PATCH COMMENT !!',comment);
+        console.log(comment);
+        const data = await this.commentService.updateComment(id,comment);
+        if(data){
+            return res.status(200).send({result: 1});
+        }
+        return res.status(500).send({result: 0});
     }
 
 }

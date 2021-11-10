@@ -16,8 +16,7 @@
         <li><a href="/board">게시판</a></li>
         <li><a href="/chart">ChartJS</a></li>
         <li><a href="/test">TEST</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
+        <li><a id="show-btn" @click="$bvModal.show('bv-modal-example')">Login</a></li>
       </ul>
     </div>
 
@@ -33,14 +32,23 @@
 
   </nav>
 
+  <login-form></login-form>
+
 </div>
 </template>
 
 <script lang="ts">
 import {Component,Vue} from "vue-property-decorator";
+import LoginForm from "@/components/user/LoginForm.vue";
 
-@Component
+@Component({
+  components: {LoginForm},
+  LoginForm,
+})
 export default class NavBottom extends Vue{
+
+  login(){}
+
 
 }
 </script>
@@ -58,7 +66,7 @@ ul > li {
 
 #nav_bottom{
   background-color: rgb(88, 87, 155);
-  width: 1900px;
+  width: 100%;
   height: 50px;
   display: flex;
   flex-direction: row;
@@ -79,6 +87,11 @@ ul > li {
 
 #sub_menu{
   display: none;
+}
+
+#show-btn:hover{
+  cursor: pointer;
+  color: #adb5bd;
 }
 
 @media screen and (max-width: 1000px) {

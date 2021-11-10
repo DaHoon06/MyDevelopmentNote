@@ -9,7 +9,8 @@ import paging from '../../config/paging';
 export class BoardService {
   constructor(
     @InjectModel(BoardDB.name)
-    private boardModel: Model<BoardDocument>) {}
+    private boardModel: Model<BoardDocument>
+  ) {}
 
   async getBoard(page: string) {
     const $count = {$count: 'allCount'};
@@ -42,19 +43,12 @@ export class BoardService {
   };
 
   async insertData(boardData: boardDTO): Promise<BoardDB> {
-    boardData.created_at = new Date();
-    boardData.updated_at = new Date();
-    boardData.writer = '다훈';
-
     const insertBoard = new this.boardModel(boardData);
     return insertBoard.save();
   }
 
   async getDetailBoard(id: string): Promise<BoardDB>{
-    const detailBoard = await this.boardModel.findOne({_id: id}) as boardDTO;
-    console.log(detailBoard.updated_at);
-
-    return detailBoard;
+    return await this.boardModel.findOne({_id: id}) as boardDTO;
   };
 
   async updateBoard(id: string,boardDTO): Promise<BoardDB> {

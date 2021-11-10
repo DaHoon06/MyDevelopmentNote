@@ -1,22 +1,23 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import * as mongoose from "mongoose";
 
 export type CommentDocument = CommentDB & Document;
 
 @Schema()
 export class CommentDB {
-    @Prop()
+    @Prop({ type: mongoose.Schema.Types.ObjectId, default: null})
     b_id: string;
 
-    @Prop()
+    @Prop({ type: String, required: true })
     c_content: string;
 
-    @Prop()
+    @Prop({ type: String, required: true })
     c_writer: string;
 
-    @Prop()
+    @Prop({ default: new Date() })
     created_at: Date;
 
-    @Prop()
+    @Prop({ default: new Date() })
     updated_at: Date;
 }
 

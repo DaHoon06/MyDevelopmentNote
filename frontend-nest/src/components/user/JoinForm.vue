@@ -1,7 +1,7 @@
 <template>
   <div class="main">
 
-    <form id="joinForm">
+    <form id="joinForm" v-on:submit="join">
       <fieldset id="join">
         <legend id="joinTitle">JOIN</legend>
         <ol>
@@ -71,19 +71,24 @@ export default class JoinForm extends Vue{
     this.phone = '';
   }
 
-  join(){
-    axios.post('/api/user/signUp',{
-      email: this.email,
-      pw: this.pw1,
-      name: this.name,
-      phone: this.phone,
-    }).then((res) => {
-        this.$router.push({
-          path : '/'
+  async join(){
+    if(confirm('가입하시겠습니까?')){
+      const res = await axios.post('/api/user/signUp',{
+        email: this.email,
+        password: this.pw1,
+        name: this.name,
+        phone: this.phone,
+      });
+      if(res.data.result === 1){
+        await this.$router.push({
+          path: '/login',
         })
-    }).catch((err) => {
-      console.error(err);
-    })
+      } else {
+        alert('가입 실패...');
+        throw new Error();
+      }
+    }
+    await this.cancle();
   }
 
   //----   유효성 검사   -----
@@ -95,7 +100,7 @@ export default class JoinForm extends Vue{
       document.getElementById('pw_check1').innerText = '하나 이상의 문자 및 특수문자가 포함되어야합니다.';
       document.getElementById('pw1').value = '';
     } else {
-      document.getElementById('pw_check1').innerText = 'OK';
+      document.getElementById('pw_check1').innerText = '사용가능한 비밀번호 입니다.';
     }
   }
 
@@ -106,7 +111,7 @@ export default class JoinForm extends Vue{
     if(pw1 !== pw2){
       document.getElementById('pw_check2').innerText = '비밀번호가 일치하지 않습니다.';
     } else {
-      document.getElementById('pw_check2').innerText = 'OK';
+      document.getElementById('pw_check2').innerText = '비밀번호가 일치합니다.';
     }
   }
 
@@ -115,7 +120,8 @@ export default class JoinForm extends Vue{
     const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     if(regExp.test(this.email)){
       const res = await axios.post('/api/user/emailCheck',{email: this.email});
-      if(res.data.result === 0){
+
+      if(res.data.msg === 'noData'){
         document.getElementById('email_check').innerText = '사용가능한 이메일 입니다.';
       } else {
         document.getElementById('email_check').innerText = '중복된 이메일 입니다.';
@@ -136,8 +142,8 @@ export default class JoinForm extends Vue{
     }
   }
 
-  cancle(){
-    this.$router.push({
+  async cancle(){
+    await this.$router.push({
       path: '/'
     })
   }
@@ -165,11 +171,11 @@ export default class JoinForm extends Vue{
 
 #pw_check1 {
   position: relative;
-  left: 55px;
+  left: 10px;
 }
 #pw_check2 {
   position: relative;
-  left: 70px;
+  left: 90px;
 }
 
 #email_check{

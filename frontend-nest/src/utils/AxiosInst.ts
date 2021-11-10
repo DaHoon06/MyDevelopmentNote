@@ -39,19 +39,19 @@ instance.interceptors.response.use(response => {
     const {status, data} = response
 
     if (status === 401) {
-        Vue.$toast.open({
-            message: data.message,
-            type: 'error',
-            duration: 5000
-        });
+        // Vue.$toast.open({
+        //     message: data.message,
+        //     type: 'error',
+        //     duration: 5000
+        // });
         return router.replace({path: "/"}).catch(() => ({}))
     } else {
 
-        Vue.$toast.open({
-            message: data.message,
-            type: 'error',
-            duration: 5000
-        });
+        // Vue.$toast.open({
+        //     message: data.message,
+        //     type: 'error',
+        //     duration: 5000
+        // });
     }
     return response
 });

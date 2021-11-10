@@ -71,11 +71,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import PostList from "@/components/post/PostList.vue";
 
 @Component({
   components: {
-    PostList
+
   }
 })
 export default class MainHome extends Vue {

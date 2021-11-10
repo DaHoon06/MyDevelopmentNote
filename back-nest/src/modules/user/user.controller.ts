@@ -4,6 +4,7 @@ import { googleLoginDTO } from "./dto/google.login.dto";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "../auth/auth.service";
 import {catchError} from "rxjs";
+import {UserInfoDto} from "./dto/user.info.dto";
 
 @Controller('user')
 export class userController{
@@ -14,9 +15,12 @@ export class userController{
 
     @UseGuards(AuthGuard('local')) // 첫번째 필터 역할
     @Post('login')
-    async login(@Body() userInfo){
+    async login(@Body() userInfo,@Req() req){
+        const { user } = req;
+
         //TODO : 검사가 끝난 USER ID, PW로 SIGN 해서
-        const {access_token} = await this.authService.signToken(userInfo);
+
+        const { access_token } = await this.authService.signToken(userInfo);
         console.log(access_token)
         //TODO: 토큰값 반환
         return {
@@ -50,9 +54,17 @@ export class userController{
 
     @Post('emailCheck')
     async emailCheck(@Body() email: string,@Res() res){
-        console.log('emailCheck : ',email);
         const data = await this.userService.emailCheck(email);
-        return res.status(200).send(data);
+        if(data.msg === 'ok'){return res.send({msg: 'noData'});}
+        return res.send({msg: 'exist'});
+    }
+
+    @Post('signUp')
+    async join(@Body() userInfo: UserInfoDto){
+        const data = await this.userService.join(userInfo);
+        if(data){
+            return { result : 1 }
+        } return { result : 0 }
     }
 
 }

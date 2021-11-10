@@ -68,7 +68,7 @@ export default class WriterForm extends Vue{
   content: string;
 
   file: string;
-  image: string;
+  image: string | ArrayBuffer | null;
   board: { title: string,
             writer: string,
             content: string }
@@ -93,13 +93,12 @@ export default class WriterForm extends Vue{
       if(this.$route.params.id != null){
         const _id = this.$route.params.id;
         const res = await axios.get(`/api/board/d/${_id}`);
-        //const res = await this.axios.get(`/api/board/d/${_id}`);
+
           this.board = res.data.board;
           this.title = this.board.title;
           this.content = this.board.content;
           this.btn = false;
       }
-
       throw new Error();
   }
 
@@ -107,6 +106,7 @@ export default class WriterForm extends Vue{
     axios.post('/api/board',{
       title: this.title,
       content: this.content,
+      writer: this.$store.state.memberName,
     }).then((res) => {
       this.$router.push({
         path : '/board'
@@ -115,21 +115,6 @@ export default class WriterForm extends Vue{
       console.log(err);
     })
   }
-  /*
-  async writeBoard(){
-    const res = await this.axios.post(BoardURI.DataInsert,{
-      title: this.title,
-      content: this.content
-    });
-    if(res){
-      await this.$router.push({
-        path: '/board'
-      })
-      throw new Error(res.status);
-    }
-
-  }
-  */
 
   onFileChange(e: string){
     let files = e.target.files || e.dataTransfer.files;
@@ -137,7 +122,8 @@ export default class WriterForm extends Vue{
       return;
     this.createImage(files[0]);
   }
-  createImage(file: string) {
+
+  createImage(file: any) {
     let image = new Image();
     let reader = new FileReader();
     let vm = this;

@@ -1,10 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { compare } from 'bcrypt';
 import { JwtService } from "@nestjs/jwt";
+import { userService } from "../user/user.service";
 
 @Injectable()
 export class AuthService {
     constructor(
+        private userService: userService,
         private jwtService: JwtService,
     ) {}
 
@@ -20,32 +22,33 @@ export class AuthService {
     }
 
     async validateUser(username: string, password: string): Promise<any>{
-        // const user = await this.userService.findOne(username);
-        // if(!user || (user && !compare(password, user.password))){
-        //     return null;
-        // }
-
-        const payload = {
-            username: 'dhjeon',
-            password: '1234@'
+        const user = await this.userService.findOne(username);
+        //console.log(user);
+        if(user.password !== password){
+            console.log('비밀번호 틀림');
+            return null;
         }
-
-        // const token = this.jwtService.sign(payload);
-        // console.log(token)
-        // return{
-        //     username:'test_name',
-        //     password:'test_pw'
-        // }
-       // return await this.userService.findUser(user.id);
+        const payload = {
+            username: username,
+            password: password
+        }
+        const token = this.jwtService.sign(payload);
+        //console.log(token);
+        return{
+            result: true,
+            data: {
+                user,
+                token
+            }
+        }
     }
 
     async signToken(user){
-        console.log(user);
         const payload = {
             username: user.username,
             password: user.password,
         };
-        return {access_token: this.jwtService.sign(payload)}
+        return { access_token: this.jwtService.sign(payload) }
     }
 
     async login(user: any){
@@ -57,7 +60,7 @@ export class AuthService {
         const token =  this.jwtService.sign(payload)
 
         return {
-            access_token:token
+            access_token: token
         }
     }
 }

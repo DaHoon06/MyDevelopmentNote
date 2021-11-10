@@ -4,11 +4,9 @@ import MainHome from '../components/MainHome.vue'
 import BoardIndex from '../components/board/BoardIndex.vue';
 import WriterForm from "@/components/board/WriterForm.vue";
 import DetailBoard from '@/components/board/DetailBoard.vue';
-
 import JoinForm from  '@/components/user/JoinForm.vue';
-
 import chartIndex from '@/components/chart/chartIndex.vue';
-import ImageBanner from "@/components/ImageBanner.vue";
+import IndexPage from "@/components/IndexPage.vue";
 
 Vue.use(VueRouter)
 
@@ -45,9 +43,16 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/test',
-    name : 'ImageBanner',
-    component: ImageBanner
+    name: 'IndexPage',
+    component: IndexPage
+  },
+  {
+    path: '/sideBar',
+    name: 'sideBar',
+    component: () => import('../components/sideBar.vue')
   }
+
+
 
 
 

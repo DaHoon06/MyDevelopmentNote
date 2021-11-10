@@ -15,10 +15,6 @@ export class CommentService {
     };
 
     async insertComment(commentData: CommentDTO): Promise<CommentDB>{
-        commentData.created_at = new Date();
-        commentData.updated_at = new Date();
-        commentData.c_writer = '다훈';
-
         const insertComment = new this.commentModel(commentData);
         return insertComment.save();
     };

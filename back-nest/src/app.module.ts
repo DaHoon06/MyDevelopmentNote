@@ -21,14 +21,4 @@ import { AuthModule } from "./modules/auth/auth.module";
   providers: [AppService],
   exports: [],
 })
-export class AppModule {
-  /*configure(consumer: MiddlewareConsumer): any {
-    consumer
-        .apply(LoggerMiddleware)
-        .exclude( // 특정 Route를 제외 시킴
-            {path: 'cats', method: RequestMethod.GET},
-            'cats/(.*)',
-        )
-        .forRoutes(CatsController);
-  }*/
-}
+export class AppModule {}

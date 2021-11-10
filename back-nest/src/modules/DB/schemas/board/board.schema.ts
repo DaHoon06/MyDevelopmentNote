@@ -4,19 +4,19 @@ export type BoardDocument = BoardDB & Document;
 
 @Schema()
 export class BoardDB {
-  @Prop() // 문서의 속정 정의의
+  @Prop({ type: String, required: true }) // 문서의 속정 정의의
   title: string;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   content: string;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   writer: string;
 
-  @Prop()
+  @Prop({ default: new Date() })
   created_at: Date;
 
-  @Prop()
+  @Prop({ default: new Date() })
   updated_at: Date;
 }
 

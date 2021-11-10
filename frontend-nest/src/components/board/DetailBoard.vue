@@ -38,7 +38,9 @@
               </div>
             </div>
 
-            <div v-if="comments != null" v-for="(comment,index) in comments" :key="index">
+            comments:{{comments}}
+
+            <div v-if="!comments" v-for="(comment,index) in comments" :key="index">
               <textarea readonly class="comment-area" name="showComment">{{comment.c_content}}</textarea>
               <div class="data_wrapper">
                 <span class="comment_date_title">작성일 </span> <span class="comment_date">{{$moment(comment.updated_at).format('YYYY-MM-DD')}}</span>
@@ -101,10 +103,7 @@ export default class WriterForm extends Vue {
     }
     this.c_content = '';
     this.newComment = '';
-    this.comments = {
-      c_content: '',
-      updated_at: '',
-    }
+    this.comments = []
 
   }
 
@@ -146,6 +145,7 @@ export default class WriterForm extends Vue {
     const _id = this.$route.params.id;
     const res = await axios.post('/api/comment',{
         c_content: this.c_content,
+        c_writer: this.$store.state.memberName,
         b_id: _id,
     });
     this.c_content = '';

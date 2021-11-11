@@ -53,9 +53,9 @@ export class userController{
 
     @Post('emailCheck')
     async emailCheck(@Body() email: string,@Res() res){
-        const data = await this.userService.emailCheck(email);
-        if(data.msg === 'ok'){return res.send({msg: 'noData'});}
-        return res.send({msg: 'exist'});
+        const { result } = await this.userService.emailCheck(email);
+        if(result){ return { result: true}}
+        return { result: false };
     }
 
     @Post('signUp')

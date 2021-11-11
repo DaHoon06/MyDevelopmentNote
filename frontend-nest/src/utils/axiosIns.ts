@@ -19,7 +19,6 @@ instance.interceptors.request.use(config  => {
         const token = Vuex.getters.token;
             config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
 })
 

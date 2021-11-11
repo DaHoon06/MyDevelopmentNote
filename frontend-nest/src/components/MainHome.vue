@@ -72,20 +72,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component({
-  components: {
-
-  }
-})
+@Component
 export default class MainHome extends Vue {
-
-
-  constructor() {
-    super();
-
-  }
-
-
 }
 </script>
 

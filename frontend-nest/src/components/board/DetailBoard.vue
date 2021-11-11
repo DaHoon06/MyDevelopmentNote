@@ -181,7 +181,8 @@ export default class WriterForm extends Vue {
 
   async saveComment(comment: any ,index: number){
     const _id = comment._id;
-    const data = document.getElementsByName('showComment')[index].value;
+    let data = ''
+    //const data = document.getElementsByName('showComment')[index].value;
     comment.c_content = data as string;
 
     const { result } = await Vue.axios.patch(`/api/comment/${_id}`,comment) as { result: boolean };

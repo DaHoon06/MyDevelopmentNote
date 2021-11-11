@@ -52,8 +52,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import CategoryList from "@/components/board/CategoryList.vue";
 import MenuTitle from "@/components/board/MenuTItle.vue";
-import {BoardURI} from "@/utils/board.URI";
-import axios from "axios";
+import {IBoard} from "@/components/board/interface/IBoard";
 
 @Component({
   components: {
@@ -88,35 +87,36 @@ export default class WriterForm extends Vue{
     this.btn = true;
     this.image = '';
   }
-  //axios 인스턴스에 문제있는듯....
+
   async created(){
       if(this.$route.params.id != null){
         const _id = this.$route.params.id;
-        const res = await axios.get(`/api/board/d/${_id}`);
+        const { boardData } = await Vue.axios.get(`/api/board/d/${_id}`) as { boardData: IBoard };
 
-          this.board = res.data.board;
-          this.title = this.board.title;
-          this.content = this.board.content;
-          this.btn = false;
+        this.board = boardData;
+        this.title = this.board.title;
+        this.content = this.board.content;
+        this.btn = false;
       }
       throw new Error();
   }
 
-  writeBoard(){
-    axios.post('/api/board',{
+  async writeBoard(){
+    const { result } = await Vue.axios.post('/api/board',{
       title: this.title,
       content: this.content,
       writer: this.$store.state.memberName,
-    }).then((res) => {
-      this.$router.push({
+    }) as { result: boolean };
+
+    if(result){
+      await this.$router.push({
         path : '/board'
       })
-    }).catch((err) => {
-      console.log(err);
-    })
+    }
+    throw new Error();
   }
 
-  onFileChange(e: string){
+  onFileChange(e: any){
     let files = e.target.files || e.dataTransfer.files;
     if (!files.length)
       return;
@@ -128,22 +128,23 @@ export default class WriterForm extends Vue{
     let reader = new FileReader();
     let vm = this;
 
-    reader.onload = (e) => {
+    reader.onload = (e: any) => {
       vm.image = e.target.result;
     };
     reader.readAsDataURL(file);
   }
+
   removeImage(e : string) {
   this.image = '';
   }
 
   async updateBoard() {
     const _id = this.$route.params.id;
-    const res = await axios.patch(`/api/board/${_id}`,{
+    const { result } = await Vue.axios.patch(`/api/board/${_id}`,{
       title : this.title,
       content : this.content
-    })
-      if(res){
+    }) as { result: boolean };
+      if(result){
         await this.$router.push({
           path : '/board'
         })
@@ -156,7 +157,7 @@ export default class WriterForm extends Vue{
     formData.append('file', this.file);
 
     try {
-      const { data } = await axios.post('/api/fileUpload', formData, {
+      const { data } = await Vue.axios.post('/api/fileUpload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -167,12 +168,12 @@ export default class WriterForm extends Vue{
     }
   }
 
-  async selectFile($file){
+  async selectFile($file: string){
     this.file = $file;
   }
 
-  cancelWrite(){
-    this.$router.push({
+  async cancelWrite(){
+    await this.$router.push({
       path: '/board'
     })
   }

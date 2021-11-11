@@ -38,25 +38,14 @@
     </div>
   </div>
 
-  <!-- Modal -->
-  <div v-if="isModal" @close-modal="isModal=false">
-    <b-modal id="modal-center" centered title="Login">
 
-      <form v-on:submit="Login">
-        <input type="email" v-model="email" placeholder="e-mail" />  <br/>
-        <input type="password" v-model="pw" placeholder="Password" />  <br/>
-        <button type="submit">Login</button> <button  v-on:click="signIn">SignIn</button>
-      </form>
-
-    </b-modal>
-  </div>
 
 </div>
 </template>
 
 <script lang="ts">
 import {Component,Vue} from "vue-property-decorator";
-import axios from "axios";
+import {IBoard} from "@/components/board/interface/IBoard";
 
 @Component
 export default class NavMiddle extends Vue{
@@ -72,6 +61,8 @@ export default class NavMiddle extends Vue{
   data: string;
   keyword: string[];
 
+  board: IBoard;
+
   constructor() {
     super();
     this.email = '';
@@ -84,19 +75,19 @@ export default class NavMiddle extends Vue{
     this.show_keyword = false;
     this.data = '';
     this.keyword = [];
+
+    this.board._id = '';
+    this.board.title = '';
+    this.board.content = '';
+    this.board.writer = '';
+    this.board.created_at = '';
+    this.board.updated_at = '';
   }
 
-  async Login(){
-    const res = await axios.post('/api/user',{
-      email : this.email,
-      pw : this.pw,
-    })
-    console.log(res.data);
-  }
 
-  signIn(){
+  async signIn(){
     this.isModal=false;
-    this.$router.push({
+    await this.$router.push({
       path : '/signIn'
     });
   }

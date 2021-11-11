@@ -32,13 +32,16 @@ export class BoardService {
     } = paging(page, allCount);
     console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
 
-    const board = await this.boardModel.find({}).sort({"_id": -1}).skip(hidePost).limit(maxPost).exec();
+    const board = await this.boardModel.find().sort({"_id": -1}).skip(hidePost).limit(maxPost).exec();
 
-    return {
+    const data = {
+      result: true,
       board,
       totalPage,
-      startPage,
       currentPage
+    }
+    return {
+      data
     }
   };
 

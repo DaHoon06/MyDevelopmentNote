@@ -73,13 +73,14 @@ export default class JoinForm extends Vue{
 
   async join(){
     if(confirm('가입하시겠습니까?')){
-      const res = await axios.post('/api/user/signUp',{
+      const { result } = await Vue.axios.post('/api/user/signUp',{
         email: this.email,
         password: this.pw1,
         name: this.name,
         phone: this.phone,
-      });
-      if(res.data.result === 1){
+      }) as { result: boolean };
+
+      if(result){
         await this.$router.push({
           path: '/login',
         })

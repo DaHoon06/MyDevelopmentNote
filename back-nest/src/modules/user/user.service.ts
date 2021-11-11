@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { UserDB, UserDocument } from "../DB/schemas/user/user.schema";
 import { Model } from "mongoose";
 import { UserInfoDto } from "./dto/user.info.dto";
+import * as crypto from 'crypto';
 
 @Injectable()
 export class userService {
@@ -23,16 +24,16 @@ export class userService {
         return '';
     }
 
-    async findOne(id){
-        return await this.userModel.findOne({id: id}).exec();
+    async validateCheck(id){
+        return await this.userModel.findOne({email: id}).exec();
     }
 
-    async findUser(id) {
-        return 'test_findUser';
-    }
 
     async join(userInfo: UserInfoDto): Promise<UserDB>{
-        console.log('서비스 안 ',userInfo)
+        let { password } = userInfo
+        userInfo.password =
+            crypto.createHash('sha512').update(password).digest('hex').toString();
+
         const insertUser = new this.userModel(userInfo);
         return insertUser.save();
     }

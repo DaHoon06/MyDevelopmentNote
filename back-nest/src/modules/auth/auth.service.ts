@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { compare } from 'bcrypt';
 import { JwtService } from "@nestjs/jwt";
 import { userService } from "../user/user.service";
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -22,28 +22,40 @@ export class AuthService {
     }
 
     async validateUser(username: string, password: string): Promise<any>{
-        const user = await this.userService.findOne(username);
-        //console.log(user);
-        if(user.password !== password){
+        const user = await this.userService.validateCheck(username);
+        const hashPw = crypto.createHash('sha512').update(password).digest('hex').toString();
+
+        if(!user || user.password !== hashPw){
             console.log('비밀번호 틀림');
             return null;
         }
-        const payload = {
-            username: username,
-            password: password
-        }
-        const token = this.jwtService.sign(payload);
-        //console.log(token);
         return{
             result: true,
-            data: {
-                user,
-                token
+            info:{
+                email: user.email,
+                phone: user.phone,
+                name: user.name
             }
         }
     }
-
     async signToken(user){
+        const payload = {
+            username: user.id,
+            password: user.password,
+        };
+        const {email, name, phone} = await this.userService.validateCheck(user.id);
+
+        return {
+            userData: {
+                email,
+                name,
+                phone
+            },
+            access_token: this.jwtService.sign(payload)
+        }
+    }
+
+    async signToken_google(user){
         const payload = {
             username: user.username,
             password: user.password,
@@ -58,7 +70,6 @@ export class AuthService {
         };
 
         const token =  this.jwtService.sign(payload)
-
         return {
             access_token: token
         }

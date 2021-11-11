@@ -42,12 +42,11 @@ import {Component,Vue} from "vue-property-decorator";
 import LoginForm from "@/components/user/LoginForm.vue";
 
 @Component({
-  components: {LoginForm},
-  LoginForm,
+  components: {
+    LoginForm
+  },
 })
 export default class NavBottom extends Vue{
-
-  login(){}
 
 
 }

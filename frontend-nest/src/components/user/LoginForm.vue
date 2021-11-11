@@ -37,8 +37,8 @@ export default class LoginForm extends Vue{
   constructor() {
     super();
 
-    this.id = '';
-    this.password = '';
+    this.id = 'hh@naver.com';
+    this.password = '123qwe!@#';
 
     this.userInfo = {
       id: '',
@@ -47,11 +47,11 @@ export default class LoginForm extends Vue{
   }
 
   async login(){
-    const payload = {
+    const info = {
       id: this.id,
       password: this.password
     }
-    await this.$store.dispatch('login',payload);
+    await this.$store.dispatch('login',info);
   }
 
 }

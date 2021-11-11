@@ -4,11 +4,12 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
+Vue.$cookies.config('id');
+
 const store = new Vuex.Store({
-  plugins: [createPersistedState()],
+  // plugins: [createPersistedState()],
+  //컴포넌트간의 공통으로 사용될 데이터를 정의
   state: {
-    //컴포넌트간의 공통으로 사용될 데이터를 정의
-    //접근은 $store.state.counter 이러한 형태로 접근
     token: null,
     memberName: null,
     memberImg: null,
@@ -37,8 +38,8 @@ const store = new Vuex.Store({
   mutations: {
     login(state,{ userData, jwt_token }){
       state.token = jwt_token
-     // state.memberName = userData.name || null
-      state.memberEmail = userData.id || null
+      state.memberName = userData.name || null
+      state.memberEmail = userData.email || null
       state.isLogin = true
     },
     logout (state) {
@@ -60,38 +61,53 @@ const store = new Vuex.Store({
   },
   // - 비동기 로직 : mutations의 값을 정의 commit
   actions: {
-    async login(context,{id,password}){
+    async login(context,info){
       try {
-        const res = await Vue.axios.post('/user/login', {
-          id: id,
-          password: password,
-        });
+        console.log('login 시도')
 
-        const {result, data} = res.data;
-        if (res) {
-          let userData = data.userInfo.id;
-          let jwt_token = data.access_token;
-
-          await context.commit('login', {userData, jwt_token});
+        const user = {
+          id: info.id,
+          password: info.password,
         }
-      } catch (e) {
-        throw new Error();
+
+        const { data } = await Vue.axios({
+          url:'/user/login',
+          method:'POST',
+          data : user
+        })
+
+
+        console.log('data 출력--------')
+
+        console.log(data);
+        // alert(data);
+      //   const { result,...userData } = data;
+      //
+      //   if (result) {
+      //     let user = userData;
+      //     let jwt_token = userData.access_token;
+      //
+      //     await context.commit('login', { user, jwt_token });
+      //   }
+      // } catch (e) {
+      //   throw new Error();
+      }catch (e) {
+        console.log('ERROR',e.message)
       }
     },
-
     async google_login(context, googleUser){
       try{
         const profile = googleUser.getBasicProfile();
-        const user = await Vue.axios.post('/user/googleLogin',{
+        const { data } = await Vue.axios.post('/user/googleLogin',{
           info: profile,
-        });
+        }) as { data: any};
 
-        const { result, data } = user.data;
+        const { result , ...userInfo } = data;
         if(result){
-          let userData = data.userInfo.info;
-          let jwt_token = data.access_token;
+          let userData = userInfo;
+          let jwt_token = userInfo.access_token;
           //state 저장
-          await context.commit('google_login',{userData,jwt_token});
+          await context.commit('google_login',{ userData,jwt_token });
         }
       } catch (e) {
         throw new Error();

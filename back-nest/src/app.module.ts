@@ -7,6 +7,7 @@ import { UploadModule } from "./upload/upload.module";
 import { CommentModule } from "./modules/comment/comment.module";
 import { UserModule } from "./modules/user/user.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { jwtTokenCheck } from "./jwt/jwt.token.check";
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { AuthModule } from "./modules/auth/auth.module";
       CommentModule,
       UserModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController,jwtTokenCheck],
   providers: [AppService],
   exports: [],
 })

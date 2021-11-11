@@ -39,7 +39,7 @@
 
                 <b-tbody>
                   <tr>
-                    <td colspan="3" v-if="test" style="text-align: center">게시글이 존재하지 않습니다.</td>
+                    <td colspan="3" v-if="noContent" style="text-align: center">게시글이 존재하지 않습니다.</td>
                   </tr>
 
                   <tr v-for="(board,index) in board" :key="index">
@@ -72,7 +72,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from "axios";
 import {BoardURI} from "@/utils/board.URI";
 import CategoryList from "@/components/board/CategoryList.vue";
 import MenuTitle from '@/components/board/MenuTItle.vue';
@@ -84,7 +83,7 @@ import MenuTitle from '@/components/board/MenuTItle.vue';
 })
 export default class BoardIndex extends Vue{
 
-  test: boolean;
+  noContent: boolean;
   perPage: number;
   currentPage: number;
 
@@ -92,18 +91,6 @@ export default class BoardIndex extends Vue{
             title: string,
             writer: string,
             content: string };
-
-  async created(){
-    const res = await this.axios.get(BoardURI.GetData);
-    if(res.data.msg === 'noData'){
-      this.test = true;
-    } else {
-      this.board = res.data.board;
-      this.currentPage = res.data.currentPage;
-      this.perPage = res.data.totalPage;
-    }
-    throw new Error(res.status);
-  }
 
   constructor() {
     super();
@@ -113,38 +100,64 @@ export default class BoardIndex extends Vue{
       writer : '',
     };
 
-    this.test = false;
+    this.noContent = false;
     this.perPage = 3;
     this.currentPage = 1;
   }
 
- async detailBoard(board : any) {
+    async created(){
+      const { data } = await Vue.axios.get(BoardURI.GetData);
+      let { result, board, totalPage, currentPage } = data;
+
+      if(result){
+        this.noContent = true;
+      } else {
+        this.board = board;
+        this.currentPage = currentPage;
+        this.perPage = totalPage;
+      }
+      throw new Error();
+    }
+
+ async detailBoard(board: any) {
   await this.$router.push({
       path : `/board/detail/${board._id}`,
     })
   }
 
   async writeForm(){
-    await this.$router.push({
-      path : '/board/write',
-    }).catch((err)=> {console.error(err)});
+    const token = this.$store.state.token;
+    // 토큰 검사
+    if(!token){
+      const res = await Vue.axios.get(`/api/board/check`);
+      if(res){
+        await this.$router.push({
+          path : '/board/write',
+        })
+
+      }
+    }
+
   }
 
   async page(pageNum: string){
-    await axios.get(`/api/board/${pageNum}`).then((res)=> {
-      this.board = res.data.board;
-      this.currentPage = res.data.currentPage;
-      this.perPage = res.data.totalPage;
-    }).catch((err: any) => {
-      console.error(err);
-    })
+    const { data } = await Vue.axios.get(`/api/board/${pageNum}`);
+    let { result, board, totalPage, currentPage } = data;
+
+    if(result){
+      this.noContent = true;
+    } else {
+      this.board = board;
+      this.currentPage = currentPage;
+      this.perPage = totalPage;
+    }
+    throw new Error();
   }
 
 }
 </script>
 
 <style scoped>
-
 a{
   text-decoration: none;
 }

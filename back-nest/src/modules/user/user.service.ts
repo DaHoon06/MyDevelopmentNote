@@ -14,9 +14,11 @@ export class userService {
 
     async emailCheck(email){
         const data = await this.userModel.findOne({email: email.email}).exec();
-        console.log(data,'DATA CHECK ::::::');
-        if(!data){return {msg: 'ok'}}
-        return {result:!!data};
+
+        if(!data){
+            return { result: true}
+        }
+        return { result: false };
 
     }
 

@@ -13,7 +13,7 @@
           <input type="file" @change="onFileChange">
         </div>
         <div v-else>
-          <img width="500px" :src="image" />
+          <img width="500px" :src="image" alt="img" />
           <button @click="removeImage">취소</button>
         </div>
         <!-- 이미지 업로드 끝끝 -->
@@ -126,10 +126,10 @@ export default class WriterForm extends Vue{
   createImage(file: any) {
     let image = new Image();
     let reader = new FileReader();
-    let vm = this;
+    let vm = image;
 
     reader.onload = (e: any) => {
-      vm.image = e.target.result;
+      vm = e.target.result;
     };
     reader.readAsDataURL(file);
   }

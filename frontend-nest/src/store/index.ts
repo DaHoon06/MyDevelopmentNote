@@ -78,21 +78,18 @@ const store = new Vuex.Store({
 
 
         console.log('data 출력--------')
-
         console.log(data);
-        // alert(data);
-      //   const { result,...userData } = data;
-      //
-      //   if (result) {
-      //     let user = userData;
-      //     let jwt_token = userData.access_token;
-      //
-      //     await context.commit('login', { user, jwt_token });
-      //   }
-      // } catch (e) {
-      //   throw new Error();
-      }catch (e) {
-        console.log('ERROR',e.message)
+
+        const { result,...userData } = data;
+
+        if (result) {
+          const user = userData;
+          const jwt_token = userData.access_token;
+
+          await context.commit('login', { user, jwt_token });
+        }
+      } catch (e) {
+        throw new Error();
       }
     },
     async google_login(context, googleUser){
@@ -104,8 +101,8 @@ const store = new Vuex.Store({
 
         const { result , ...userInfo } = data;
         if(result){
-          let userData = userInfo;
-          let jwt_token = userInfo.access_token;
+          const userData = userInfo;
+          const jwt_token = userInfo.access_token;
           //state 저장
           await context.commit('google_login',{ userData,jwt_token });
         }

@@ -4,14 +4,14 @@
   <div id="nav_middle">
     <div class="nav_middle_section">
       <a href="/">
-        <img src="http://image.kyobobook.co.kr/ink/images/gnb/logo_kyobo.png">
+        <img src="http://image.kyobobook.co.kr/ink/images/gnb/logo_kyobo.png" alt="img" />
       </a>
     </div>
 
     <div class="nav_middle_section">
       <input type="text" v-model="search_keyword" v-on:click="check" placeholder="Search..." class="search_bar" />
       <a class="search_btn" type="button" @click="searching">
-        <img width="20px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0RGu5Iw07hx5Nfd7q8oq3Pa4Iln9MoPnlJw&usqp=CAU" />
+        <img width="20px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0RGu5Iw07hx5Nfd7q8oq3Pa4Iln9MoPnlJw&usqp=CAU" alt="img" />
       </a>
 
       <div id="recent_keyword" v-model="show_keyword" v-if="show_keyword">
@@ -34,7 +34,7 @@
     </div>
 
     <div class="nav_middle_section">
-      <img src="https://simage.kyobobook.co.kr/ink/images/prom/2021/banner/210203/bnH_02.jpg">
+      <img src="https://simage.kyobobook.co.kr/ink/images/prom/2021/banner/210203/bnH_02.jpg" alt="img" />
     </div>
   </div>
 
@@ -80,8 +80,8 @@ export default class NavMiddle extends Vue{
     this.board.title = '';
     this.board.content = '';
     this.board.writer = '';
-    this.board.created_at = '';
-    this.board.updated_at = '';
+    this.board.created_at = new Date();
+    this.board.updated_at = new Date();
   }
 
 
@@ -100,17 +100,13 @@ export default class NavMiddle extends Vue{
       return false;
     }
 
-    const res = await this.axios.get(`/board/search/${keyword}`);
+    const res = await Vue.axios.get(`/board/search/${keyword}`);
     this.search_keyword = '';
 
     this.data = res.data.data;
     this.board = res.data.board[0];
 
     this.$cookies.set('data_c',this.data);
-
-    let cookie = this.$cookies.get('data_c');
-
-    //중복 저장됨....
     this.keyword.push(this.data);
 
     if(this.board !== undefined){
@@ -134,13 +130,12 @@ export default class NavMiddle extends Vue{
   }
 
   deleteCookies(){
-    // this.$cookies.remove('data_c');
     this.keyword = [];
     this.data = '';
   }
 
   use_keyword(index: string){
-    document.getElementsByClassName('recent_use_keyword').item(parseInt(index))
+    //document.getElementsByClassName('recent_use_keyword').item(parseInt(index))
     this.search_keyword = this.data;
 
   }

@@ -43,14 +43,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
 import NaviBottom from './NavBottom.vue'
 import NaviMiddle from './NavMiddle.vue'
-import {ENV} from "../../../env.config";
+import { ENV } from "../../../env.config";
 
 @Component({
   components: {
-   NaviBottom,NaviMiddle
+    NaviBottom,
+    NaviMiddle
   }
 })
 export default class HeaderPage extends Vue{

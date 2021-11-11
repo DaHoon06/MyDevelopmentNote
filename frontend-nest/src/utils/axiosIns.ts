@@ -16,18 +16,20 @@ const instance :AxiosInstance = axios.create({
 
 instance.interceptors.request.use(config  => {
     if (Vue.$cookies) {
-        const token = Vuex.getters.getAccessToken;
-        config.headers['Authorization'] = `Bearer ${token}`;
+        const token = Vuex.getters.token;
+            config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
 })
 
 instance.interceptors.response.use(response => {
     const {data} = response
     const {result, error} = data
-
+    console.log('반환되었습니다 ^^.........')
     return response
 }, error => {
+    console.log('error---뭔데에러임')
     const {response} = error
     const {status, data} = response
 

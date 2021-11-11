@@ -31,7 +31,7 @@
             <!--  답변 시작  -->
             <div id="comment_wrapper">
               <form>
-                <b-form-textarea ref="regi_comment" rows="10" cols="10" v-model="c_content" id="commentArea"></b-form-textarea>
+                <b-form-textarea ref="textArea_comment" rows="10" cols="10" v-model="c_content" id="commentArea"></b-form-textarea>
               </form>
               <div>
                 <b-button id="commentData" variant="primary" @click="comment">답변</b-button>
@@ -50,7 +50,7 @@
                 <button @click="delete_comment(comment)">삭제</button>
               </div>
             </div>
-            <div class="comment-area2" v-if="comments == 0">
+            <div class="comment-area2" v-if="isComment">
               답변이 존재하지 않습니다.
             </div>
 
@@ -66,67 +66,66 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from "axios";
 import CategoryList from "@/components/board/CategoryList.vue";
 import MenuTitle from "@/components/board/MenuTItle.vue";
+import {IBoard} from "@/components/board/interface/IBoard";
+import {IComment} from "@/components/board/interface/IComment";
 
 
 @Component({
   components: {
-    CategoryList,MenuTitle
+    CategoryList,
+    MenuTitle
   },
 })
 export default class WriterForm extends Vue {
 
   c_content: string;
   newComment: string;
-
-  comments: {
-    c_content: string,
-    updated_at: string,
-    b_id: string,
-    _id: string
-  }[]
-
-  board: {
-    title: string,
-    writer: string,
-    content: string
-  }
+  isComment: boolean;
+  comments: IComment;
+  board: IBoard;
 
   constructor() {
     super();
-    this.board = {
-      title: '',
-      writer: '',
-      content: '',
-    }
+
+    this.board.title = '';
+    this.board.writer = '';
+    this.board.content = '';
+
+    this.comments._id = '';
+    this.comments.b_id = '';
+    this.comments.c_content = '';
+    this.comments.c_writer = '';
+    this.comments.created_at = new Date();
+    this.comments.updated_at = new Date();
+
     this.c_content = '';
     this.newComment = '';
-    this.comments = []
-
+    this.isComment = true;
   }
 
   async created() {
     const _id = this.$route.params.id;
-    const res = await axios.get(`/api/board/d/${_id}`);
-    const c_res = await axios(`/api/comment/${_id}`);
+    const { boardData } = await Vue.axios.get(`/api/board/d/${_id}`) as { boardData: IBoard };
+    const { result,commentData } = await Vue.axios(`/api/comment/${_id}`) as unknown as { result: boolean, commentData: IComment };
 
-    this.board = res.data.board;
-    this.comments = c_res.data.comments;
+    this.board = boardData;
+    this.comments = commentData;
+    this.isComment = result;
 
     throw new Error();
   }
 
-  updateBoard(board: any) {
-    this.$router.push({
+  async updateBoard(board: IBoard) {
+    await this.$router.push({
       path: `/board/write/${board._id}`
     })
   }
 
-  async deleteBoard(board: any) {
-    const res = await axios.delete(`/api/board/${board._id}`);
-    if(res){
+  async deleteBoard(board: IBoard) {
+    const { result } = await Vue.axios.delete(`/api/board/${board._id}`) as { result: boolean };
+    if(result){
       await this.$router.push({
         path: '/board'
       })
@@ -134,8 +133,8 @@ export default class WriterForm extends Vue {
     throw new Error();
   }
 
-  cancelWrite() {
-    this.$router.push({
+  async cancelWrite() {
+    await this.$router.push({
       path: '/board'
     })
   }
@@ -143,27 +142,30 @@ export default class WriterForm extends Vue {
   //--  댓글입력
   async comment(){
     const _id = this.$route.params.id;
-    const res = await axios.post('/api/comment',{
+    const { result } = await Vue.axios.post('/api/comment',{
         c_content: this.c_content,
         c_writer: this.$store.state.memberName,
         b_id: _id,
-    });
-    this.c_content = '';
-    location.reload();
-    this.$refs.regi_comment.focus();
+    }) as { result: boolean };
+
+    if(result){
+      this.c_content = '';
+      location.reload();
+    }
+
   }
 
   async delete_comment(comment: any){
     const _id = comment._id;
-    const res = await axios.delete(`/api/comment/${_id}`);
-    if(res.data.result === 1){
+    const { result } = await Vue.axios.delete(`/api/comment/${_id}`) as { result: boolean };
+    if(result){
       location.reload();
     } else {
       alert('삭제 실패');
     }
   }
   //수정 < - > 저장 버튼 전환
-  async toggleBtn(event: any,comment: any,index: string){
+  async toggleBtn(event: any,comment: any,index: number){
     const ele = event.target;
     ele.classList.toggle('isUpdate');
 
@@ -177,18 +179,16 @@ export default class WriterForm extends Vue {
     }
   }
 
-  async saveComment(comment,index){
+  async saveComment(comment: any ,index: number){
     const _id = comment._id;
     const data = document.getElementsByName('showComment')[index].value;
     comment.c_content = data as string;
 
-    const res = await axios.patch(`/api/comment/${_id}`,comment);
-    location.reload();
-    if(res.result === 1){
+    const { result } = await Vue.axios.patch(`/api/comment/${_id}`,comment) as { result: boolean };
+    if(result){
       location.reload();
     }
   }
-
 
 }// VUE END!!
 </script>

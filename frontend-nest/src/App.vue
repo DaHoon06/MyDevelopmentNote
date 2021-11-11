@@ -1,12 +1,10 @@
 <template>
   <div id="app">
-
     <header-page></header-page>
 
     <router-view />
 
     <footer-page></footer-page>
-
     </div>
 </template>
 
@@ -22,7 +20,6 @@ import FooterPage from '@/components/commons/FooterPage.vue';
   }
 })
 export default class App extends Vue {
-
 
 }
 </script>

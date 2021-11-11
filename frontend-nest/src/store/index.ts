@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
-Vue.$cookies.config('id');
+// Vue.$cookies.config('1d');
 
 const store = new Vuex.Store({
   // plugins: [createPersistedState()],

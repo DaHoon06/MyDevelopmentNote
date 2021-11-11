@@ -72,13 +72,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {BoardURI} from "@/utils/board.URI";
+import { BoardURI } from "@/utils/board.URI";
 import CategoryList from "@/components/board/CategoryList.vue";
 import MenuTitle from '@/components/board/MenuTItle.vue';
 
 @Component({
   components: {
-    CategoryList,MenuTitle
+    CategoryList,
+    MenuTitle
   },
 })
 export default class BoardIndex extends Vue{
@@ -134,10 +135,8 @@ export default class BoardIndex extends Vue{
         await this.$router.push({
           path : '/board/write',
         })
-
       }
     }
-
   }
 
   async page(pageNum: string){

@@ -15,7 +15,7 @@ boardController.get('/:page?',async(req, res) => {
 
    const page = req.query;
    console.log(page + ' : PAGE');
-   const $count = {$count:"allCount"}
+   const $count = { $count:"allCount" }
 
    if(page === undefined){
       page : 1;

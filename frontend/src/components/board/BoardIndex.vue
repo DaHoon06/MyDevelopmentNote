@@ -42,7 +42,7 @@
           </b-thead>
           <b-tbody>
             <tr>
-              <td colspan="4" v-if="test">게시글이 존재하지 않습니다.</td>
+              <td colspan="4" v-if="isBoard">게시글이 존재하지 않습니다.</td>
             </tr>
 
             <tr v-for="(board,index) in board" :key="index">
@@ -89,7 +89,7 @@ import MenuTitle from '@/components/board/MenuTItle.vue';
 })
 export default class BoardIndex extends Vue{
 
-  test: boolean;
+  isBoard: boolean;
   perPage: number;
   currentPage: number;
 
@@ -98,20 +98,6 @@ export default class BoardIndex extends Vue{
             board_title: string,
             board_writer: string,
             board_content: string };
-
-  async created(){
-
-    const res = await this.axios.get(TestURL.GetData);
-    alert(res.data.msg);
-    if(res.data.msg === 'noData'){
-      this.test = true;
-    }
-    this.board = res.data.board;
-    this.currentPage = res.data.currentPage;
-    this.perPage = res.data.totalPage;
-
-    throw new Error(res.status);
-  }
 
 
   constructor() {
@@ -122,11 +108,25 @@ export default class BoardIndex extends Vue{
       board_content : '',
       board_writer : '',
     };
-    this.test = false;
-    this.perPage = 3;
+    this.isBoard = false;
+    this.perPage = 1;
     this.currentPage = 1;
+
   }
 
+
+  async created(){
+
+    const res = await this.axios.get(TestURL.GetData);
+    if(res.data.msg === 'noData'){
+      this.isBoard = true;
+    }
+    this.board = res.data.board;
+    this.currentPage = res.data.currentPage;
+    this.perPage = res.data.totalPage;
+
+    throw new Error();
+  }
 
  async detailBoard(board : any) {
   await this.$router.push({
@@ -141,13 +141,13 @@ export default class BoardIndex extends Vue{
   }
 
   async page(pageNum){
-    await axios.get(`/api/board/?page=${pageNum}`).then((res)=> {
-      this.board = res.data.board;
-      this.currentPage = res.data.currentPage;
-      this.perPage = res.data.totalPage;
-    }).catch((err: any) => {
-      console.error(err);
-    })
+    const res = await axios.get(`/api/board/?page=${pageNum}`);
+
+    this.board = res.data.board;
+    this.currentPage = res.data.currentPage;
+    this.perPage = res.data.totalPage;
+
+    throw new Error();
   }
 
 }

@@ -17,7 +17,7 @@ userController.post('/login', function (req, res) {
             issuer: 'DAHOON'
         });
         console.log('구글 로그인 : ', req.body.info + '  토큰 생성   :  ' + token);
-        var check = jsonwebtoken_1.default.verify(token, env_config_1.ENV.KEY_JWT || '');
+        var check = jsonwebtoken_1.default.verify(token, '' + env_config_1.ENV.KEY_JWT);
         if (check) {
             console.log('검증됨', check, token);
             return res.status(200).json({

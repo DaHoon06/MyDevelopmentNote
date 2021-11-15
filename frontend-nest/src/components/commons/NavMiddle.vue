@@ -61,7 +61,8 @@ export default class NavMiddle extends Vue{
   data: string;
   keyword: string[];
 
-  board: IBoard;
+  //board: IBoard;
+  board: any;
 
   constructor() {
     super();
@@ -75,13 +76,13 @@ export default class NavMiddle extends Vue{
     this.show_keyword = false;
     this.data = '';
     this.keyword = [];
-
-    this.board._id = '';
-    this.board.title = '';
-    this.board.content = '';
-    this.board.writer = '';
-    this.board.created_at = new Date();
-    this.board.updated_at = new Date();
+    this.board = '';
+    // this.board._id = '';
+    // this.board.title = '';
+    // this.board.content = '';
+    // this.board.writer = '';
+    // this.board.created_at = new Date();
+    // this.board.updated_at = new Date();
   }
 
 
@@ -110,9 +111,10 @@ export default class NavMiddle extends Vue{
     this.keyword.push(this.data);
 
     if(this.board !== undefined){
+
       await this.$router.push({
-        path : `/board/detail/${this.board._id}`,
-      })
+        path : `/board/detail/${this.board._id}`
+      });
     } else {
       alert('값이 없음...');
     }

@@ -19,15 +19,18 @@ export class BoardController {
   ) {}
 
   @Get(':page?')
-   async getBoard(@Param('page') page: string, @Res() res) {
+  async getBoard(@Param('page') page: string) {
     console.log('Get Board page : ',page);
-    const boardData = await this.boardService.getBoard(page);
+    const { data } = await this.boardService.getBoard(page);
 
-    if (!boardData) {
+    if (!data.result) {
       console.log('게시글이 존재하지 않습니다.');
-      return res.status(500).send({ msg: 'noData' });
+      return {
+        data:{
+        result: false
+        }};
     }
-    return res.status(200).send(boardData);
+    return data  ;
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -40,11 +43,11 @@ export class BoardController {
     return { result: false }
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  //@UseGuards(AuthGuard('jwt'))
   @Get('/d/:id')
-  async getDetailBoard(@Param('id') id: string, @Res() res) {
-    const boardData = await this.boardService.getDetailBoard(id);
-    return { boardData };
+  async getDetailBoard(@Param('id') id: string) {
+    console.log(id)
+    return  await this.boardService.getDetailBoard(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -70,8 +73,6 @@ export class BoardController {
     }
     return { result: false }
   }
-
-
 
 
 }

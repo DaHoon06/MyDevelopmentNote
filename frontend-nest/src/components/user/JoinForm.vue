@@ -82,7 +82,7 @@ export default class JoinForm extends Vue{
 
   async join(){
     if(confirm('가입하시겠습니까?')){
-      const { result } = await Vue.axios.post('/api/user/signUp',{
+      const { result } = await Vue.axios.post('/user/signUp',{
         email: this.email,
         password: this.pw1,
         name: this.name,
@@ -107,7 +107,7 @@ export default class JoinForm extends Vue{
   async emailCheck(){
     const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     if(regExp.test(this.email)){
-      const { result } = await Vue.axios.post('/api/user/emailCheck',{email: this.email}) as { result: boolean};
+      const { result } = await Vue.axios.post('/user/emailCheck',{email: this.email}) as { result: boolean};
 
       if(result){
         this.alertEmail = '사용가능한 이메일 입니다.';

@@ -38,8 +38,6 @@
               </div>
             </div>
 
-            comments:{{comments}}
-
             <div v-if="!comments" v-for="(comment,index) in comments" :key="index">
               <textarea readonly class="comment-area" name="showComment">{{comment.c_content}}</textarea>
               <div class="data_wrapper">
@@ -83,22 +81,38 @@ export default class WriterForm extends Vue {
   c_content: string;
   newComment: string;
   isComment: boolean;
-  comments: IComment;
-  board: IBoard;
+
+  comments: [{ c_content: string; updated_at: Date }];
+
+  board: {
+    title: string,
+    content: string,
+    writer: string,
+  }
 
   constructor() {
     super();
+    this.board = {
+      title: '',
+      content: '',
+      writer: '',
+    }
+    this.comments = [
+        {
+      c_content: '',
+      updated_at: new Date(),}
+    ]
 
-    this.board.title = '';
-    this.board.writer = '';
-    this.board.content = '';
-
-    this.comments._id = '';
-    this.comments.b_id = '';
-    this.comments.c_content = '';
-    this.comments.c_writer = '';
-    this.comments.created_at = new Date();
-    this.comments.updated_at = new Date();
+    // this.board.title = '';
+    // this.board.writer = '';
+    // this.board.content = '';
+    //
+    // this.comments._id = '';
+    // this.comments.b_id = '';
+    // this.comments.c_content = '';
+    // this.comments.c_writer = '';
+    // this.comments.created_at = new Date();
+    // this.comments.updated_at = new Date();
 
     this.c_content = '';
     this.newComment = '';
@@ -107,13 +121,20 @@ export default class WriterForm extends Vue {
 
   async created() {
     const _id = this.$route.params.id;
-    const { boardData } = await Vue.axios.get(`/api/board/d/${_id}`) as { boardData: IBoard };
-    const { result,commentData } = await Vue.axios(`/api/comment/${_id}`) as unknown as { result: boolean, commentData: IComment };
+    let { data } = await Vue.axios.get(`/board/d/${_id}`) as { data: any };
+    this.board = data;
 
-    this.board = boardData;
-    this.comments = commentData;
-    this.isComment = result;
+    console.log('---------------------------')
 
+    let res = await Vue.axios.get(`/comment/${_id}`);
+    console.log(res.data);
+    if(!res.data){
+      this.isComment = true;
+    }
+    this.comments = res.data;
+    this.isComment = false;
+    console.log('-------------------');
+    console.log(this.comments);
     throw new Error();
   }
 
@@ -124,7 +145,7 @@ export default class WriterForm extends Vue {
   }
 
   async deleteBoard(board: IBoard) {
-    const { result } = await Vue.axios.delete(`/api/board/${board._id}`) as { result: boolean };
+    const { result } = await Vue.axios.delete(`/board/${board._id}`) as { result: boolean };
     if(result){
       await this.$router.push({
         path: '/board'
@@ -142,12 +163,12 @@ export default class WriterForm extends Vue {
   //--  댓글입력
   async comment(){
     const _id = this.$route.params.id;
-    const { result } = await Vue.axios.post('/api/comment',{
+    const { result } = await Vue.axios.post('/comment',{
         c_content: this.c_content,
         c_writer: this.$store.state.memberName,
         b_id: _id,
     }) as { result: boolean };
-
+    console.log(this.$store.state.memberName);
     if(result){
       this.c_content = '';
       location.reload();
@@ -157,7 +178,7 @@ export default class WriterForm extends Vue {
 
   async delete_comment(comment: any){
     const _id = comment._id;
-    const { result } = await Vue.axios.delete(`/api/comment/${_id}`) as { result: boolean };
+    const { result } = await Vue.axios.delete(`/comment/${_id}`) as { result: boolean };
     if(result){
       location.reload();
     } else {
@@ -185,7 +206,7 @@ export default class WriterForm extends Vue {
     //const data = document.getElementsByName('showComment')[index].value;
     comment.c_content = data as string;
 
-    const { result } = await Vue.axios.patch(`/api/comment/${_id}`,comment) as { result: boolean };
+    const { result } = await Vue.axios.patch(`/comment/${_id}`,comment) as { result: boolean };
     if(result){
       location.reload();
     }

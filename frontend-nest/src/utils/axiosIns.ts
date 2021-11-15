@@ -12,7 +12,7 @@ const instance :AxiosInstance = axios.create({
         'Content-Type': 'application/json'
     },
     timeout: 20000
-})
+});
 
 instance.interceptors.request.use(config  => {
     if (Vue.$cookies) {
@@ -20,12 +20,11 @@ instance.interceptors.request.use(config  => {
             config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-})
+});
 
 instance.interceptors.response.use(response => {
     const {data} = response
     const {result, error} = data
-    console.log('반환되었습니다 ^^.........')
     return response
 }, error => {
     console.log('error---뭔데에러임')
@@ -39,5 +38,4 @@ instance.interceptors.response.use(response => {
     }
     return response
 });
-
 export const ins = instance

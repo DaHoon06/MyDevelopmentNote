@@ -7,7 +7,7 @@ Vue.use(Vuex)
 // Vue.$cookies.config('1d');
 
 const store = new Vuex.Store({
-  // plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
   //컴포넌트간의 공통으로 사용될 데이터를 정의
   state: {
     token: null,
@@ -64,7 +64,6 @@ const store = new Vuex.Store({
     async login(context,info){
       try {
         console.log('login 시도')
-
         const user = {
           id: info.id,
           password: info.password,
@@ -75,7 +74,6 @@ const store = new Vuex.Store({
           method:'POST',
           data : user
         })
-
 
         console.log('data 출력--------')
         console.log(data);

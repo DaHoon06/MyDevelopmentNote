@@ -8,18 +8,11 @@ export class CommentController{
     constructor(private commentService: CommentService) {}
 
     @Get(':id')
-    async getComment(@Param('id')id: string,@Res() res){
-        console.log('GET Comment');
-        const commentData = await this.commentService.getComment(id);
-
-        if(!commentData){
-            console.log('no data');
-            return res.status(500).send({result: true});
-        }
-        return {
-            result: false,
-            commentData
-        };
+    async getComment(@Param('id') id: string){
+        console.log('GET Comment',id);
+        const data =  await this.commentService.getComment(id);
+        console.log(data)
+        return data;
     }
 /*
     @Get('/p/:id')

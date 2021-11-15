@@ -1,66 +1,52 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import MainHome from '../components/MainHome.vue'
-import BoardIndex from '../components/board/BoardIndex.vue';
-import WriterForm from "@/components/board/WriterForm.vue";
-import DetailBoard from '@/components/board/DetailBoard.vue';
-import JoinForm from  '@/components/user/JoinForm.vue';
-import chartIndex from '@/components/chart/chartIndex.vue';
-import IndexPage from "@/components/IndexPage.vue";
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'MainHome',
-    component: MainHome
+    component: () => import('@/components/MainHome.vue')
+  },
+  {
+    path: '*',
+    component: () => import('@components/common/NotFound.vue')
   },
   {
     path: '/board/write/:id?',
-    name: 'WriterForm',
-    component: WriterForm
+    component: () => import('@/components/board/WriterForm.vue')
   },
   {
     path: '/board/:page?',
-    name: 'BoardIndex',
-    component: BoardIndex
+    component: () => import('@/components/board/BoardIndex.vue')
   },
   {
     path: '/board/detail/:id',
-    name: 'DetailBoard',
-    component: DetailBoard
+    component: () => import('@/components/board/DetailBoard.vue')
   },
   {
     path: '/signIn',
-    name : 'JoinForm',
-    component: JoinForm
+    component: () => import('@/components/user/JoinForm.vue')
   },
   {
     path: '/chart',
-    name : 'chartIndex',
-    component: chartIndex
+    component: () => import('@/components/chart/chartIndex.vue')
   },
   {
     path: '/test',
-    name: 'IndexPage',
-    component: IndexPage
+    component: () => import("@/components/IndexPage.vue")
   },
   {
     path: '/sideBar',
     name: 'sideBar',
-    component: () => import('../components/sideBar.vue')
+    component: () => import('@/components/sideBar.vue')
   }
-
-
-
-
 
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 })
 export default router

@@ -91,7 +91,7 @@ export default class WriterForm extends Vue{
   async created(){
       if(this.$route.params.id != null){
         const _id = this.$route.params.id;
-        const { boardData } = await Vue.axios.get(`/api/board/d/${_id}`) as { boardData: IBoard };
+        const { boardData } = await Vue.axios.get(`/board/d/${_id}`) as { boardData: IBoard };
 
         this.board = boardData;
         this.title = this.board.title;
@@ -102,7 +102,7 @@ export default class WriterForm extends Vue{
   }
 
   async writeBoard(){
-    const { result } = await Vue.axios.post('/api/board',{
+    const { result } = await Vue.axios.post('/board',{
       title: this.title,
       content: this.content,
       writer: this.$store.state.memberName,
@@ -140,7 +140,7 @@ export default class WriterForm extends Vue{
 
   async updateBoard() {
     const _id = this.$route.params.id;
-    const { result } = await Vue.axios.patch(`/api/board/${_id}`,{
+    const { result } = await Vue.axios.patch(`/board/${_id}`,{
       title : this.title,
       content : this.content
     }) as { result: boolean };
@@ -157,7 +157,7 @@ export default class WriterForm extends Vue{
     formData.append('file', this.file);
 
     try {
-      const { data } = await Vue.axios.post('/api/fileUpload', formData, {
+      const { data } = await Vue.axios.post('/fileUpload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

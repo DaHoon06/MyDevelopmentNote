@@ -39,7 +39,7 @@
 
                 <b-tbody>
                   <tr>
-                    <td colspan="3" v-if="noContent" style="text-align: center">게시글이 존재하지 않습니다.</td>
+                    <td colspan="3" v-if="notContent" style="text-align: center">게시글이 존재하지 않습니다.</td>
                   </tr>
 
                   <tr v-for="(board,index) in board" :key="index">
@@ -84,7 +84,7 @@ import MenuTitle from '@/components/board/MenuTItle.vue';
 })
 export default class BoardIndex extends Vue{
 
-  noContent: boolean;
+  notContent: boolean;
   perPage: number;
   currentPage: number;
 
@@ -101,24 +101,24 @@ export default class BoardIndex extends Vue{
       writer : '',
     };
 
-    this.noContent = false;
-    this.perPage = 3;
+    this.notContent = false;
+    this.perPage = 1;
     this.currentPage = 1;
   }
 
-    async created(){
-      const { data } = await Vue.axios.get(BoardURI.GetData);
-      let { result, board, totalPage, currentPage } = data;
+  async created(){
+    const { data } = await Vue.axios.get(BoardURI.GetData) as { data: any };
+    let { result, board, totalPage, currentPage } = data;
 
-      if(result){
-        this.noContent = true;
-      } else {
-        this.board = board;
-        this.currentPage = currentPage;
-        this.perPage = totalPage;
-      }
-      throw new Error();
+    if(!result){
+      this.notContent = true;
+    } else {
+      this.board = board;
+      this.currentPage = currentPage;
+      this.perPage = totalPage;
     }
+    throw new Error();
+  }
 
  async detailBoard(board: any) {
   await this.$router.push({
@@ -130,7 +130,7 @@ export default class BoardIndex extends Vue{
     const token = this.$store.state.token;
     // 토큰 검사
     if(!token){
-      const res = await Vue.axios.get(`/api/board/check`);
+      const res = await Vue.axios.get(`/board/check`);
       if(res){
         await this.$router.push({
           path : '/board/write',
@@ -140,11 +140,11 @@ export default class BoardIndex extends Vue{
   }
 
   async page(pageNum: string){
-    const { data } = await Vue.axios.get(`/api/board/${pageNum}`);
+    const { data } = await Vue.axios.get(`/board/${pageNum}`);
     let { result, board, totalPage, currentPage } = data;
-
-    if(result){
-      this.noContent = true;
+    console.log(data);
+    if(!result){
+      this.notContent = true;
     } else {
       this.board = board;
       this.currentPage = currentPage;

@@ -5,7 +5,7 @@ export type CommentDocument = CommentDB & Document;
 
 @Schema()
 export class CommentDB {
-    @Prop({ type: mongoose.Schema.Types.ObjectId, default: null})
+    @Prop()
     b_id: string;
 
     @Prop({ type: String, required: true })

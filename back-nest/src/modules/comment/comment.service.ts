@@ -10,8 +10,8 @@ export class CommentService {
         @InjectModel(CommentDB.name)
         private commentModel: Model<CommentDocument>) {}
 
-    async getComment(id): Promise<CommentDB[]>{
-        return this.commentModel.find({b_id: id}).sort({'_id': -1}).exec();
+    async getComment(id){
+        return await this.commentModel.find({b_id: id}).sort({'_id': -1}).exec();
     };
 
     async insertComment(commentData: CommentDTO): Promise<CommentDB>{

@@ -1,0 +1,54 @@
+<template>
+  <section id="MainBody">
+    <div id="MainBody-wrap">
+
+      <!-- ToDoList 진행 상황 -->
+      <div>
+        <div id="chart-area">
+          <chart-index />
+        </div>
+      </div>
+
+      <!-- ToDOList 시작 -->
+      <to-do />
+
+    </div>
+  </section>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import ChartIndex from "@/components/chart/chartIndex.vue";
+import ToDo from '@/components/toDoList/ToDo.vue';
+
+@Component({
+  components: {
+    ChartIndex,
+    ToDo
+  }
+})
+export default class MainHome extends Vue {
+
+}
+</script>
+
+
+<style scoped>
+#MainBody{
+  height: 850px;
+  margin-left: 260px;
+}
+
+#chart-area {
+  border: 1px solid gray;
+  width: 500px;
+}
+
+@media screen and (max-width: 1024px){
+  #MainBody{
+    height: 850px;
+    margin-left: 0;
+  }
+}
+
+</style>

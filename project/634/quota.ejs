@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%-include('../../header') %>
+    <link rel="stylesheet" href="/include/css/login.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            width: 95%;
+            height: 900px;
+            border: 1px solid gray;
+            border-radius: 20px;
+            box-shadow: 10px 5px 5px gray;
+            margin: auto;
+            margin-top: 20px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+        }
+
+        #data_wrap{
+            width: 600px;
+            border: 2px solid gray;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px gray;
+        }
+
+        #data_wrap table {
+            width: 500px;
+            margin: auto;
+        }
+
+        #data_wrap table th {
+            text-align: center;
+        }
+
+        #section_container{
+            display: flex;
+            flex-direction: column
+        }
+
+        .chart_wrapper{
+            width: 900px;
+            height: 300px;
+        }
+
+        #Q1, #Q2, #Q3 {
+            margin-left: 250px;
+            margin-top: 10px;
+            width: 600px;
+            border: 2px solid gray;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px gray;
+        }
+
+        #nav{
+            color: #ffffff;
+            border-right: 1px solid gray;
+            border-radius: 20px 0 0 20px;
+            background: #0e0e59;
+            width: 200px;
+            height: 900px;
+        }
+
+        #nav_title{
+            text-align: left;
+            margin-top: 30px;
+            padding-left: 10px;
+            border-bottom: 2px solid #ffffff;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<script>
+    const genderData = [<%=data.gender%>];
+    console.log(genderData[0]);
+</script>
+<!-- 전체 -->
+<div id="container">
+    <nav id="nav">
+        <div id="nav_title">
+            <h3>DashBoard</h3>
+        </div>
+    </nav>
+    <!--  TABLE  -->
+    <section id="data_section">
+        <div id="data_wrap">
+            <table class="table table-bordered caption-top">
+                <caption>Hiroshima</caption>
+                <thead >
+                    <tr >
+                        <th scope="col" rowspan="2"></th>
+                        <th scope="col" colspan="2">Male</th>
+                        <th scope="col" colspan="2">Female</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Quota</th>
+                        <th scope="col">N(%)</th>
+                        <th scope="col">Quota</th>
+                        <th scope="col">N(%)</th>
+                    </tr>
+                </thead>
+                <!-- ejs 코드 삽입 -->
+                <tbody>
+                    <tr>
+                        <th scope="row">20's</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">30's</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">40's</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">50's and over</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </section>
+    <!--  Chart.JS  -->
+    <div id="section_container">
+        <section class="chart_wrapper">
+            <div id="Q1">
+                <canvas id="myChart1" width="550" height="250" ></canvas>
+            </div>
+        </section>
+
+        <section class="chart_wrapper">
+            <div id="Q2">
+                <canvas id="myChart2" width="550" height="250"></canvas>
+            </div>
+        </section>
+
+        <section class="chart_wrapper">
+            <div id="Q3">
+                <canvas id="myChart3" width="550" height="250"></canvas>
+            </div>
+        </section>
+    </div>
+</div>
+<%-JSON.stringify(data)%>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+
+<script>
+    const testData1 = [<%= data.test %>]
+    console.log(testData1)
+   // <!--const { data } = '';-->
+    // data['0']
+
+
+    //------ Label  ------
+    const Q1_labels = [
+        'Extremely unhappy',
+        '',
+        '',
+        'Neutral',
+        '',
+        '',
+        'Extremely happy',
+    ];
+
+    const Q2_labels = [
+        'Q2-1',
+        'Q2-2',
+        'Q2-3',
+        'Q2-4',
+        'Q2-5',
+        'Q2-6',
+        'Q2-7',
+        'Q2-8',
+    ];
+
+    const Q3_labels = [
+        'Q3-1',
+        'Q3-2',
+        'Q3-3',
+        'Q3-4',
+        'Q3-5',
+        'Q3-6',
+        'Q3-7',
+        'Q3-8',
+        'Q3-9',
+        'Q3-10',
+        'Q3-11',
+    ];
+
+    //--------  DATA    --------
+    const Q1_data = {
+        labels: Q1_labels,
+        datasets: [
+            {
+                barThickness: 25,
+                label: 'Q1-1',
+                backgroundColor: 'rgb(126,101,171)',
+                borderColor: 'rgb(126,101,171)',
+                data: [10,39.1,1.5,1.8,1.5,6,3],
+            },
+            {
+                barThickness: 25,
+                label: 'Q1-2',
+                backgroundColor: 'rgb(57,190,179)',
+                borderColor: 'rgb(57,190,179)',
+                data: [12,36.4,2.8,1.7,1.3,5,4],
+            },
+        ],
+        options: {
+            responsive: false,
+
+        },
+
+    };
+
+    const Q2_data = {
+        labels: Q2_labels,
+        datasets: [{
+            barThickness: 20,
+            label: 'Q2',
+            backgroundColor: 'rgb(126,101,171)',
+            borderColor: 'rgb(126,101,171)',
+            data: [3.45, 6.24, 4.35, 2.84, 8.20, 6.84, 5.32,4.93],
+        }],
+        options: {
+            responsive: false,
+        },
+    };
+
+    const Q3_data = {
+        labels: Q3_labels,
+        datasets: [{
+            barThickness: 20,
+            label: 'Q3',
+            backgroundColor: 'rgb(126,101,171)',
+            borderColor: 'rgb(126,101,171)',
+            data: [3.45, 6.24, 4.35, 2.84, 8.20, 6.84, 5.32,4.93,2.44,4.32,5.43],
+        }],
+        options: {
+            responsive: false,
+        }
+    };
+
+    //------    Config  --------
+    const Q1_config = {
+        type: 'bar',
+        data: Q1_data,
+        options: {}
+    };
+
+    const Q2_config = {
+        type: 'bar',
+        data: Q2_data,
+        options: {}
+    };
+
+    const Q3_config = {
+        type: 'bar',
+        data: Q3_data,
+        options: {}
+    };
+
+    const Q1_myChart = new Chart(
+        document.getElementById('myChart1'),
+        Q1_config
+    );
+
+    const Q2_myChart = new Chart(
+        document.getElementById('myChart2'),
+        Q2_config
+    );
+
+    const Q3_myChart = new Chart(
+        document.getElementById('myChart3'),
+        Q3_config
+    );
+
+</script>
+
+</html>

@@ -46,27 +46,32 @@
 
 <%if(data.error){%><pre style="width: 400px;white-space: pre-wrap;"><%-data.error%></pre><%}%>
 <%
+
 var quotaGenderData = data.quotaGenderData
 var quotaAgeData = {
     label : ["20's","30's","40's","50's and \n over"],
     age : data.quotaAgeData.age,
     successData : data.quotaAgeData.successData
 }
+
 var qDataQ1_1 = data.qDataQ1_1;
 var qDataQ1_2 = data.qDataQ1_2;
 var qDataQ2 = data.qDataQ2;
 var qDataQ3 = data.qDataQ3;
+
 %>
 
+
+<% var test = 'a' %>
 <% for(var i=0; i<=0; i++){%>
 <div class=".container display-flex justify-center mt-3" style="min-width: 1750px;">
     <div class="card text-center p-5 w-25" style="min-width: 600px;" >
         <div class="display-flex" style="justify-content: space-between">
             <h3 class="pt-4">
-                <a style="color:gray" href="/static/634/i-dash-board">ICN</a>
+                <a style="color:gray" href="/static/634/b-dash-board">BMC</a>
             </h3>
             <h1 class="card-title">
-                BUSAN
+                INCHEON
             </h1>
             <h3 class="pt-4">
                 <a style="color:gray" href="/static/652/j-dash-board">JPN</a>
@@ -75,7 +80,7 @@ var qDataQ3 = data.qDataQ3;
         <hr>
         <h3>QUOTA</h3>
         <div class="card-body">
-            <h5 class="card-title">BUSAN GENDER</h5>
+            <h5 class="card-title">INCHEON GENDER</h5>
         </div>
 
         <table class="table table-striped pure-table-bordered">
@@ -108,7 +113,7 @@ var qDataQ3 = data.qDataQ3;
         </table>
         <hr>
         <div class="card-body">
-            <h5 class="card-title">BUSAN QUOTA</h5>
+            <h5 class="card-title">INCHEON QUOTA</h5>
         </div>
         <table class="table table-striped pure-table-bordered">
             <thead style="border-bottom:3px solid">
@@ -160,7 +165,6 @@ var qDataQ3 = data.qDataQ3;
                 <canvas id="myChart1" width="700" height="260"></canvas>
             </div>
         </div>
-
         <div class="card display-flex text-center chart-card"  style="flex-direction:row">
             <div class="chartDiv_left  pt-3" >
                 <p class="h3 mt-3">
@@ -172,7 +176,6 @@ var qDataQ3 = data.qDataQ3;
                 <canvas id="myChart2" width="700" height="260"></canvas>
             </div>
         </div>
-
         <div class="card display-flex text-center chart-card"  style="flex-direction:row">
             <div class="chartDiv_left  pt-3" >
                 <p class="h3 mt-3">
@@ -184,11 +187,19 @@ var qDataQ3 = data.qDataQ3;
                 <canvas id="myChart3" width="700" height="260"></canvas>
             </div>
         </div>
+
     </div>
+
+
 </div>
 <% } %>
+
 </body>
 <script>
+    var projectId = '<%=data.projectId%>';
+    <!--var list = JSON.parse('<%-JSON.stringify(data.list)%>');-->
+    var surveyTitle = '<%=data.surveyTitle%>';
+    <!--var endDate = '<%=data.endDate%>';-->
     $(function(){
         var q1_1_data = [<%= qDataQ1_1 %>]
         var q1_2_data = [<%= qDataQ1_2 %>]
@@ -310,6 +321,8 @@ var qDataQ3 = data.qDataQ3;
         drawChart(ctx1,Q1_DATA,defaultOption);
         drawChart(ctx2,Q2_DATA,customOption);
         drawChart(ctx3,Q3_DATA,customOption);
+
+
 
 
 

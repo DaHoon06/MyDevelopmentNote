@@ -1,8 +1,8 @@
 module.exports = async({ req, res, next, mongo, projectId }) => {
     try {
 
-        console.log('--BUSAN--')
-        const LOCAL_NUM = '2'; // 지역 2= 부산
+        console.log('--INCHEON--')
+        const LOCAL_NUM = '3'; // 지역 3 = 부산
 
         const sendData = {
             completeUserCnt:0,
@@ -22,6 +22,7 @@ module.exports = async({ req, res, next, mongo, projectId }) => {
 
         const questions = await mongo.db('getData').collection('QUESTION').find({_id:+projectId}).toArray();
 
+        // AGE QUOTA
         const ageQuotaData = await getAgeQuota(mongo,LOCAL_NUM);
         await setQAgeQuotaData(ageQuotaData,sendData);
 
@@ -29,17 +30,19 @@ module.exports = async({ req, res, next, mongo, projectId }) => {
         const genderQuotaData = await getGenderQuota(mongo,LOCAL_NUM);
         await setGenderQuota(genderQuotaData,sendData);
 
+        // chart data - q1_1,2
         const q1_1Data = await getQ1_1Data(mongo,LOCAL_NUM);
         await setQ1_1Data(q1_1Data,sendData);
 
         const q1_2Data = await getQ1_2Data(mongo,LOCAL_NUM);
         await setQ1_2Data(q1_2Data,sendData);
 
-        // Q2 DATA
+
+        // chart data - q2
         const [q2Data] = await getQ2Data(mongo,LOCAL_NUM);
         await setQ2Data(q2Data,sendData);
 
-        // Q3 DATA
+        // chart data - q3
         const [q3Data] = await getQ3Data(mongo,LOCAL_NUM);
         await setQ3Data(q3Data,sendData);
 
@@ -79,6 +82,8 @@ async function getAgeQuota(mongo,LOCAL_NUM){
         {$sort:{_id:1}}
     ]).toArray()
 }
+
+
 
 //COMPLETE
 async function getQ1_1Data(mongo,LOCAL_NUM){
@@ -151,7 +156,7 @@ async function getQ3Data(mongo,LOCAL_NUM){
     ]).toArray()
 }
 
-//COMPLETE
+
 async function setQAgeQuotaData(result,sendData){
     for(let i=0; i<=3; i++){
         if(result[i]?._id) {

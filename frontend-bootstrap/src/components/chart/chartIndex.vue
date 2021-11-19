@@ -49,9 +49,12 @@ export default class ChartIndex extends Vue {
     };
 
     const config: any = {
-      type: 'line',
+      type: 'bar',
       data: data,
       options: {
+        y: {
+          max: 20
+        }
       }
     };
     const chart = await new Chart(ctx,config)

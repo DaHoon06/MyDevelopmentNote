@@ -37,6 +37,7 @@ export default class MainHome extends Vue {
 #MainBody{
   height: 850px;
   margin-left: 260px;
+  background: #faf9f7;
 }
 
 #chart-area {
@@ -48,6 +49,19 @@ export default class MainHome extends Vue {
   #MainBody{
     height: 850px;
     margin-left: 0;
+  }
+
+  #chart-area {
+    margin: auto;
+    margin-top: 30px;
+  }
+}
+
+@media screen and (max-width: 340px){
+  #chart-area {
+    margin-top: 30px;
+    width: 100%;
+    margin: auto;
   }
 }
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"DataController.js","sourceRoot":"","sources":["../../../routes/data/DataController.ts"],"names":[],"mappings":";;;;;AAAA,oDAA8B;AAC9B,IAAM,cAAc,GAAyB,IAAA,iBAAO,GAAE,CAAC;AAEvD,cAAc,CAAC,GAAG,CAAC,YAAY,EAAC,UAAC,GAAG,EAAE,GAAG;IACrC,OAAO,CAAC,GAAG,CAAC,eAAe,CAAC,CAAC;AACjC,CAAC,CAAC,CAAA;AAEF,kBAAe,cAAc,CAAC"}

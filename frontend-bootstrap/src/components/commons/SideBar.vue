@@ -66,7 +66,6 @@ export default class SideBar extends Vue{
 <style scoped>
 
 #sideBar {
-  border: 1px solid black;
   position: fixed;
   width: 260px;
   height: 1000px;

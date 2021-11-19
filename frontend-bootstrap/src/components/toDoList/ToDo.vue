@@ -1,7 +1,7 @@
 <template>
 <div>
 
-  <div id="toDoList">
+    <div id="toDoList">
     <section class="toDoList">
       <b-card-group deck>
         <b-card header="해야할 일">
@@ -49,7 +49,7 @@
             </b-list-group-item>
           </b-list-group>
           <div>
-            <button>추가</button>
+            <b-button v-b-modal.modal-center>추가</b-button>
             <button>삭제</button>
           </div>
         </b-card>
@@ -65,7 +65,7 @@
 
 <script>
 import {Component, Vue} from "vue-property-decorator";
-import todoModal from './todoModal.vue';
+import todoModal from './TodoModal.vue';
 
 @Component({
   components:{
@@ -75,16 +75,13 @@ import todoModal from './todoModal.vue';
 export default class ToDo extends Vue{
 
 
-  todo(){
 
-  }
 
 
 }
 </script>
 
 <style scoped>
-
 
 #toDoList {
   display: flex;

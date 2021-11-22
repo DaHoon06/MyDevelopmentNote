@@ -13,8 +13,8 @@
             </b-list-group-item>
           </b-list-group>
           <div>
-            <b-button v-b-modal.modal-center>추가</b-button>
-            <button>삭제</button>
+            <b-button v-b-modal.modal-center>+</b-button>
+            <button>x</button>
           </div>
         </b-card>
       </b-card-group>
@@ -31,8 +31,8 @@
             </b-list-group-item>
           </b-list-group>
           <div>
-            <b-button v-b-modal.modal-center>추가</b-button>
-            <button>삭제</button>
+            <b-button v-b-modal.modal-center>+</b-button>
+            <button>x</button>
           </div>
         </b-card>
       </b-card-group>
@@ -49,8 +49,8 @@
             </b-list-group-item>
           </b-list-group>
           <div>
-            <b-button v-b-modal.modal-center>추가</b-button>
-            <button>삭제</button>
+            <b-button v-b-modal.modal-center>+</b-button>
+            <button>x</button>
           </div>
         </b-card>
       </b-card-group>
@@ -73,7 +73,6 @@ import todoModal from './TodoModal.vue';
   }
 })
 export default class ToDo extends Vue{
-
 
 
 

@@ -21,8 +21,9 @@ export namespace DB {
 
                 this.db = new MongoClient(this.connection);
                 console.warn('CONNECTED !!');
+
                 return await this.db.connect();
-            } catch (e) {
+            } catch (e: any) {
                 throw new Error(e);
             }
         }

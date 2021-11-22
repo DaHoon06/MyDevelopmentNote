@@ -12,6 +12,7 @@
       <!-- ToDOList 시작 -->
       <to-do />
 
+
     </div>
   </section>
 </template>
@@ -28,6 +29,8 @@ import ToDo from '@/components/toDoList/ToDo.vue';
   }
 })
 export default class MainHome extends Vue {
+
+
 
 }
 </script>

@@ -85,10 +85,10 @@ var TodoController = /** @class */ (function () {
                             })];
                     case 2:
                         exists = _a.sent();
-                        if (exists === null) {
-                            throw new Error('실패..');
+                        if (exists) {
+                            return [2 /*return*/, { result: true }];
                         }
-                        return [2 /*return*/, { result: true }];
+                        throw new Error('실패..');
                 }
             });
         });

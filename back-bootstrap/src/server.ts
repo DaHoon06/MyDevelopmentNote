@@ -30,7 +30,7 @@ io.on('connection',(socket: any) => {
         socketList.splice(socketList.indexof(socket), 1);
     });
 });
-console.log('socket TEST');
+
 export default {
     server,
     io

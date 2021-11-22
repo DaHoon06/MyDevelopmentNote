@@ -37,16 +37,16 @@ export default class TodoModal extends Vue{
   }
 
   async handleSubmit(){
+    setTimeout(() => {
+      this.$bvModal.hide('modal-center');
+    }, 200);
 
-    const data = await Vue.axios.post('/todoList/insert',{
-      toDoData: {
-        content:  this.todo_content,
-      }
+    const {result} = await Vue.axios.post('/todoList/insert',{
+      todo_content:  this.todo_content,
     });
-    if(data){
-      return '';
+    if(result){
+      alert('등록 되었습니다.');
     }
-
     throw new Error('입력 실패..');
   }
 

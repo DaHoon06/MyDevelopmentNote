@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+//import cors from 'cors';
 var api_1 = __importDefault(require("../routes/api"));
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -14,8 +15,10 @@ app.use(express_1.default.json({ limit: '50mb' }));
 app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
 app.use(express_1.default.static(path.join(__dirname, '../public')));
 app.use(cookieParser());
+//app.use(cors());
 //--------- ROUTING ----------
 app.get('/', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
     return res.status(200).send({});
 });
 app.use('/api', api_1.default);

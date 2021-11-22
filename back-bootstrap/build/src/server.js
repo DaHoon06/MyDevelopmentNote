@@ -28,7 +28,6 @@ io.on('connection', function (socket) {
         socketList.splice(socketList.indexof(socket), 1);
     });
 });
-console.log('socket TEST');
 exports.default = {
     server: server,
     io: io

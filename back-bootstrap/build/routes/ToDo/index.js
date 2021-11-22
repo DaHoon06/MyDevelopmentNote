@@ -46,23 +46,31 @@ router.post('/insert', function (req, res, next) { return __awaiter(void 0, void
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                data = req.body.data.data;
-                console.log('POST');
-                return [4 /*yield*/, tc.insertData_ToDo(data)];
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, req.body];
             case 1:
-                result = (_a.sent()).result;
-                return [3 /*break*/, 3];
+                data = _a.sent();
+                return [4 /*yield*/, tc.insertData_ToDo(data)];
             case 2:
+                result = (_a.sent()).result;
+                if (result) {
+                    return [2 /*return*/, { result: true }];
+                }
+                return [2 /*return*/, { result: false }];
+            case 3:
                 e_1 = _a.sent();
                 throw new Error(e_1);
-            case 3: return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
 router.get('/', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        console.log('TEST');
+        try {
+        }
+        catch (e) {
+            throw new Error(e);
+        }
         return [2 /*return*/];
     });
 }); });

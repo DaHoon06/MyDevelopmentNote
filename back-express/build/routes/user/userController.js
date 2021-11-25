@@ -7,7 +7,7 @@ var express_1 = __importDefault(require("express"));
 var UserModel_1 = require("../../src/db/model/UserModel");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var env_config_1 = require("../../src/env.config");
-var userController = (0, express_1.default)();
+var userController = express_1.default();
 userController.post('/login', function (req, res) {
     try {
         //토큰 생성

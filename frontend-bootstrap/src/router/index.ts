@@ -8,6 +8,10 @@ const routes: Array<RouteConfig> = [
     path: '/',
     component: () => import('@/components/MainHome.vue')
   },
+  {
+    path: '/board',
+    component: () => import('@/components/board/BoardIndex.vue')
+  },
 
 
 ]

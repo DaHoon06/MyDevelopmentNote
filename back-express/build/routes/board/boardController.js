@@ -39,19 +39,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
+var express_1 = require("express");
 var BoardModel_1 = require("../../src/db/model/BoardModel");
 var paging_1 = __importDefault(require("./paging"));
 var commentController_1 = __importDefault(require("./commentController"));
-var boardController = (0, express_1.default)();
+var boardController = express_1.Router();
 //답변
 boardController.use('/comment', commentController_1.default);
 //GET
-boardController.get('/:page?', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var page, $count, allCount, _a, startPage, endPage, hidePost, maxPost, totalPage, currentPage;
+boardController.get('/:page?', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var page, $count, allCount, _a, startPage_1, endPage, hidePost, maxPost, totalPage_1, currentPage_1, e_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                _b.trys.push([0, 2, , 3]);
                 console.log('Board GET !!!');
                 page = req.query;
                 console.log(page + ' : PAGE');
@@ -64,20 +65,21 @@ boardController.get('/:page?', function (req, res) { return __awaiter(void 0, vo
                     ]).exec()];
             case 1:
                 allCount = (_b.sent())[0].allCount;
-                _a = (0, paging_1.default)(page, allCount), startPage = _a.startPage, endPage = _a.endPage, hidePost = _a.hidePost, maxPost = _a.maxPost, totalPage = _a.totalPage, currentPage = _a.currentPage;
-                console.log(currentPage + ' : ' + endPage + ' : ' + totalPage + ' : ' + startPage + ' maxPost');
-                BoardModel_1.Board.find((function (err, boards) {
-                    if (err) {
-                        return res.status(500).send({ err: 'DB Failure' });
-                    }
+                _a = paging_1.default(page, allCount), startPage_1 = _a.startPage, endPage = _a.endPage, hidePost = _a.hidePost, maxPost = _a.maxPost, totalPage_1 = _a.totalPage, currentPage_1 = _a.currentPage;
+                console.log(currentPage_1 + ' : ' + endPage + ' : ' + totalPage_1 + ' : ' + startPage_1 + ' maxPost');
+                BoardModel_1.Board.find((function (boards) {
                     res.json({
                         board: boards,
-                        totalPage: totalPage,
-                        startPage: startPage,
-                        currentPage: currentPage,
+                        totalPage: totalPage_1,
+                        startPage: startPage_1,
+                        currentPage: currentPage_1,
                     });
                 })).sort({ "_id": -1 }).skip(hidePost).limit(maxPost);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                e_1 = _b.sent();
+                throw new Error();
+            case 3: return [2 /*return*/];
         }
     });
 }); });

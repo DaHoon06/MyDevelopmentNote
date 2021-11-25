@@ -1,5 +1,5 @@
 import { DB } from '../db/db';
-import  { INTERFACES } from "../src/interfaces/IToDo";
+import { INTERFACES } from "../src/interfaces/InterFaces";
 import IToDo = INTERFACES.IToDo;
 
 export class TodoController {
@@ -10,20 +10,29 @@ export class TodoController {
     async getTodoList(){
         const client = await DB.MongoConn.getInstance.connect();
         const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.ToDo).aggregate([
-            {$match: { deleteCheck: 1}},
-            { $group: {
+            {$match: { deleteCheck: '1'}},
+            {$group: {
                     _id: {
-                        totalData: {
-                            $cond: { if: { $eq: ["$doing", '1']}, then: '해야할일', else: {
-                                    if: { $eq: ["$doing", '2']}, then: '진행중' ,else: '완료'}}
-                        }
+                        doing: {
+                            $switch: {
+                                branches: [
+                                    { case: { $eq: ['$doing', '2']}, then: '진행중'},
+                                    { case: { $eq: ['$doing', '3']}, then: '완료'},
+                                ],
+                                default: '해야할일'
+                            }
+                        },
+                        todo_content: '$todo_content',
+                        updated_at: '$updated_at',
                     },
                 }},
-            { $sort: { updated_at : -1 }}
-        ]);
-
+            //{$sort: { '_id.doing' : 1 }},
+        ]).toArray();
         if(exists){
-            return { result: true }
+            return {
+                result: true,
+                exists
+            }
         }
         throw new Error('조회 실패');
     }
@@ -42,5 +51,18 @@ export class TodoController {
             return { result: true }
         }
         throw new Error('실패..');
+    }
+
+    async complete_ToDo(){
+        const client = await DB.MongoConn.getInstance.connect();
+        const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.ToDo).aggregate([
+            {$match: { deleteCheck: '1'}},
+            {$group: {
+                    _id: {$eq : ['$doing','3']},
+                    sum: {$sum: 1}
+                }}
+        ]).toArray();
+
+
     }
 }

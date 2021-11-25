@@ -38,7 +38,7 @@ export default class MainHome extends Vue {
 
 <style scoped>
 #MainBody{
-  height: 850px;
+  height: 100%;
   margin-left: 260px;
   background: #faf9f7;
 }
@@ -50,13 +50,13 @@ export default class MainHome extends Vue {
 
 @media screen and (max-width: 1024px){
   #MainBody{
-    height: 850px;
+    height: 100%;
     margin-left: 0;
   }
 
   #chart-area {
     margin: auto;
-    margin-top: 30px;
+
   }
 }
 

@@ -50,20 +50,33 @@ var TodoController = /** @class */ (function () {
                     case 1:
                         client = _a.sent();
                         return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.ToDo).aggregate([
-                            /*{ $group: {
-                                    _id: {
-                                        totalData: {
-                                            $cond: { if: { $eq: ["$doing", '1']}, then: '해야할일', else: {
-                                                    if: { $eq: ["$doing", '2']}, then: '진행중' ,else: '완료'}}
-                                        }
-                                    },
-                                }},
-                            { $sort: {'$updated_at' : 1}}
-                         */
-                            ])];
+                                { $match: { deleteCheck: '1' } },
+                                { $group: {
+                                        _id: {
+                                            doing: {
+                                                $switch: {
+                                                    branches: [
+                                                        { case: { $eq: ['$doing', '2'] }, then: '진행중' },
+                                                        { case: { $eq: ['$doing', '3'] }, then: '완료' },
+                                                    ],
+                                                    default: '해야할일'
+                                                }
+                                            },
+                                            todo_content: '$todo_content',
+                                            updated_at: '$updated_at',
+                                        },
+                                    } },
+                                //{$sort: { '_id.doing' : 1 }},
+                            ]).toArray()];
                     case 2:
                         exists = _a.sent();
-                        return [2 /*return*/];
+                        if (exists) {
+                            return [2 /*return*/, {
+                                    result: true,
+                                    exists: exists
+                                }];
+                        }
+                        throw new Error('조회 실패');
                 }
             });
         });
@@ -89,6 +102,28 @@ var TodoController = /** @class */ (function () {
                             return [2 /*return*/, { result: true }];
                         }
                         throw new Error('실패..');
+                }
+            });
+        });
+    };
+    TodoController.prototype.complete_ToDo = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var client, exists;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
+                    case 1:
+                        client = _a.sent();
+                        return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.ToDo).aggregate([
+                                { $match: { deleteCheck: '1' } },
+                                { $group: {
+                                        _id: { $eq: ['$doing', '3'] },
+                                        sum: { $sum: 1 }
+                                    } }
+                            ]).toArray()];
+                    case 2:
+                        exists = _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });

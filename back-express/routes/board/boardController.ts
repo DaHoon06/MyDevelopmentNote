@@ -1,56 +1,56 @@
-import express from "express";
+import { NextFunction, Request, Response, Router } from 'express';
 import { Board } from '../../src/db/model/BoardModel';
-import {CallbackError} from "mongoose";
-import {IBoard} from "../../src/db/model/IBoard";
+import { CallbackError } from "mongoose";
+import { IBoard } from "../../src/db/model/IBoard";
 import paging from "./paging";
 import commentController from "./commentController";
-const boardController : express.Application = express();
+const boardController = Router();
 
 //답변
 boardController.use('/comment',commentController);
 
 //GET
-boardController.get('/:page?',async(req, res) => {
-   console.log('Board GET !!!');
+boardController.get('/:page?',async(req: Request, res: Response, next: NextFunction) => {
+   try{
+      console.log('Board GET !!!');
 
-   const page = req.query;
-   console.log(page + ' : PAGE');
-   const $count = { $count:"allCount" }
+      const page = req.query;
+      console.log(page + ' : PAGE');
+      const $count = { $count: "allCount" }
 
-   if(page === undefined){
-      page : 1;
-   }
-   const [{allCount}] = await Board.aggregate([
-       $count
-   ]).exec();
-
-   let {
-      startPage,
-      endPage,
-      hidePost,
-      maxPost,
-      totalPage,
-      currentPage
-   } = paging(page, allCount);
-
-   console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
-   Board.find(((err: CallbackError, boards: IBoard) => {
-      if(err){
-         return res.status(500).send({err: 'DB Failure'});
+      if(page === undefined){
+         page : 1;
       }
-      res.json({
-         board : boards,
-         totalPage : totalPage,
-         startPage : startPage,
-         currentPage : currentPage,
-      });
-   })).sort({"_id": -1}).skip(hidePost).limit(maxPost)
-});
+      const [{allCount}] = await Board.aggregate([
+         $count
+      ]).exec();
 
+      let {
+         startPage,
+         endPage,
+         hidePost,
+         maxPost,
+         totalPage,
+         currentPage
+      } = paging(page, allCount);
+
+      console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
+      Board.find(((err: CallbackError, boards: IBoard) => {
+         res.json({
+            board : boards,
+            totalPage : totalPage,
+            startPage : startPage,
+            currentPage : currentPage,
+         });
+      })).sort({"_id": -1}).skip(hidePost).limit(maxPost);
+
+   } catch (e) {
+      throw new Error();
+   }
+});
 
 //DETAIL
 boardController.get('/b/:id',(req, res) => {
-
    console.log('Board GET :ID !!!'+req.params.id);
 
    Board.findOne({_id: req.params.id}, (err: CallbackError, boards: IBoard) => {

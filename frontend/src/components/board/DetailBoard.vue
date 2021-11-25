@@ -5,7 +5,7 @@
       <section class="board-section"></section>
 
       <section class="board_main">
-        <MenuTitle></MenuTitle>
+<!--        <MenuTitle></MenuTitle>-->
 
         <div class="board_section_wrap">
           <CategoryList></CategoryList>

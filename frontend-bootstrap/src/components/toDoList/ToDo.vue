@@ -9,34 +9,15 @@
             <button v-b-modal.modal-center class="insertBtn">+</button>
             <b-list-group>
               <draggable>
-                <b-list-group-item href="#" variant="light">Item1 <input type="checkbox" />
+                <div v-for="(todoList,index) in todoList" :key="index">
+                  <b-list-group-item href="#" variant="light" >
+                    {{todoList._id.todo_content}}
+                  </b-list-group-item>
                   <div>
-                    <button v-b-modal.modal-center class="insertBtn">+</button>
+                    <input type="checkbox" class="todoCheck" />
                     <button class="deleteBtn">-</button>
                   </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item2 <input type="checkbox" />
-                  <div>
-                    <button v-b-modal.modal-center class="insertBtn">+</button>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item3 <input type="checkbox" />
-                  <div>
-                    <button v-b-modal.modal-center class="insertBtn">+</button>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item4 <input type="checkbox" />
-                  <div>
-                    <button v-b-modal.modal-center class="insertBtn">+</button>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
+                </div>
               </draggable>
             </b-list-group>
 
@@ -49,30 +30,15 @@
           <b-card header="진행중인 일">
             <b-list-group>
               <draggable>
-                <b-list-group-item href="#" variant="light">Item1 <input type="checkbox" />
+                <div v-for="(todoList,index) in doingList" :key="index">
+                  <b-list-group-item href="#" variant="light" >
+                    {{todoList._id.todo_content}}
+                  </b-list-group-item>
                   <div>
+                    <input type="checkbox" class="todoCheck" />
                     <button class="deleteBtn">-</button>
                   </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item2 <input type="checkbox" />
-                  <div>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item3 <input type="checkbox" />
-                  <div>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item4 <input type="checkbox" />
-                  <div>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
+                </div>
               </draggable>
             </b-list-group>
           </b-card>
@@ -84,30 +50,15 @@
           <b-card header="완료된 일">
             <b-list-group>
               <draggable>
-                <b-list-group-item href="#" variant="light">Item1 <input type="checkbox" />
+                <div v-for="(todoList,index) in completeList" :key="index">
+                  <b-list-group-item href="#" variant="light" >
+                    {{todoList._id.todo_content}}
+                  </b-list-group-item>
                   <div>
+                    <input type="checkbox" class="todoCheck" />
                     <button class="deleteBtn">-</button>
                   </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item2 <input type="checkbox" />
-                  <div>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item3 <input type="checkbox" />
-                  <div>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
-                <b-list-group-item href="#" variant="light">Item4 <input type="checkbox" />
-                  <div>
-                    <button class="deleteBtn">-</button>
-                  </div>
-                </b-list-group-item>
-
+                </div>
               </draggable>
             </b-list-group>
           </b-card>
@@ -142,7 +93,6 @@ interface  TODO_DETAIL {
 })
 export default class ToDo extends Vue{
 
-
   todoList: TODO_DETAIL[];
   doingList : TODO_DETAIL[];
   completeList: TODO_DETAIL[];
@@ -161,13 +111,13 @@ export default class ToDo extends Vue{
     for(let i of data){
       switch (i._id.doing){
         case '해야할일':
-          this.todoList.push(i._id);
+          this.todoList.push(i);
           break;
         case '진행중':
-          this.doingList.push(i._id);
+          this.doingList.push(i);
           break;
         case '완료':
-          this.completeList.push(i._id);
+          this.completeList.push(i);
           break;
       }
     }
@@ -198,6 +148,10 @@ export default class ToDo extends Vue{
   border-radius: 30px;
   background: #94b49f;
   outline: none;
+}
+
+.todoCheck{
+  float: right;
 }
 
 @media screen and (max-width: 1024px){

@@ -58,9 +58,9 @@ footer {
   }
 }
 
-@media screen and (max-width: 340px){
+@media screen and (max-width: 350px){
   #footer {
-    width: 100%;
+    width: 350px;
     margin: auto;
   }
 }

@@ -162,6 +162,8 @@ a{
   margin-left: 260px;
   display: flex;
   justify-content: center;
+  height: 700px;
+  background: #faf9f7;
 }
 
 .page:hover {
@@ -194,4 +196,20 @@ a{
   text-align: center;
 }
 
+@media screen and (max-width: 1024px){
+  #boardList {
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 350px){
+  #boardList {
+    display: block;
+    width: 324px;
+  }
+
+  .board_section2{
+    width: 324px;
+  }
+}
 </style>

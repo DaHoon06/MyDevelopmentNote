@@ -64,7 +64,7 @@ var TodoController = /** @class */ (function () {
                                                 }
                                             },
                                             todo_content: '$todo_content',
-                                            updated_at: '$updated_at',
+                                            updatedAt: '$updatedAt',
                                             obId: '$_id'
                                         },
                                     } },
@@ -171,6 +171,33 @@ var TodoController = /** @class */ (function () {
                         exists = _a.sent();
                         if (exists) {
                             return [2 /*return*/, { result: true }];
+                        }
+                        return [2 /*return*/, { result: false }];
+                }
+            });
+        });
+    };
+    TodoController.prototype.chartData = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var client, exists;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
+                    case 1:
+                        client = _a.sent();
+                        return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.ToDo).aggregate([
+                                { $match: { deleteCheck: '1', doing: '3' } },
+                                { $group: {
+                                        _id: { updatedAt: '$updatedAt' }
+                                    } }
+                            ]).toArray()];
+                    case 2:
+                        exists = _a.sent();
+                        if (exists) {
+                            return [2 /*return*/, {
+                                    result: true,
+                                    exists: exists
+                                }];
                         }
                         return [2 /*return*/, { result: false }];
                 }

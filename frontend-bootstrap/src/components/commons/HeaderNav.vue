@@ -38,4 +38,11 @@ export default class HeaderNav extends Vue{
   }
 }
 
+@media screen and (max-width: 350px){
+  #header{
+    width: 350px;
+    height: 100px;
+  }
+}
+
 </style>

@@ -24,7 +24,7 @@ export class TodoController {
                             }
                         },
                         todo_content: '$todo_content',
-                        updated_at: '$updated_at',
+                        updatedAt: '$updatedAt',
                         obId: '$_id'
                     },
                 }},
@@ -90,5 +90,23 @@ export class TodoController {
             return {result: true}
         }
         return {result: false}
+    }
+
+    async chartData(){
+        const client = await DB.MongoConn.getInstance.connect();
+        const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.ToDo).aggregate([
+            {$match: {deleteCheck: '1', doing: '3'}},
+            {$group: {
+                _id:{updatedAt: '$updatedAt'}
+                }}
+        ]).toArray();
+        if(exists){
+            return {
+                result: true,
+                exists
+            }
+        }
+        return {result: false}
+
     }
 }

@@ -65,16 +65,12 @@ var BoardController = /** @class */ (function () {
                         return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).aggregate([
                                 { $match: { isDelete: 1 } },
                                 { $sort: { '_id': -1 } },
-                                // {$skip: `${hidePost}`},
-                                // {$limit: `${maxPost}`},
-                                { $skip: 0 },
-                                { $limit: 10 },
-                            ]).toArray().catch(function (err) {
-                                console.log('test', err);
-                            })];
+                                { $skip: hidePost },
+                                { $limit: maxPost },
+                            ]).toArray()];
                     case 3:
                         boardData = _b.sent();
-                        console.log(totalPage, currentPage + ' 총 페이지 : 현재 페이지');
+                        console.log(hidePost, maxPost + ' 총 페이지 : 현재 페이지');
                         return [2 /*return*/, {
                                 result: true,
                                 boardData: boardData,
@@ -83,7 +79,7 @@ var BoardController = /** @class */ (function () {
                             }];
                     case 4:
                         e_1 = _b.sent();
-                        throw new Error('ERROR!');
+                        throw new Error(e_1);
                     case 5: return [2 /*return*/];
                 }
             });

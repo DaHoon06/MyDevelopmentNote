@@ -9,8 +9,16 @@
 import {Chart, registerables} from 'chart.js';
 import {Component, Vue} from "vue-property-decorator";
 
+
+
+
+
 @Component
 export default class ChartIndex extends Vue {
+
+  chartData: {
+    _id: {updated:string}
+  }[];
 
   option: any
   $refs: any;
@@ -18,21 +26,36 @@ export default class ChartIndex extends Vue {
   constructor() {
     super();
     Chart.register(...registerables);
+    this.chartData = [{
+      _id: {
+        updated: ''
+      }
+    }]
+  }
+  async created(){
+    await this.chartData_num();
+  }
+
+  async chartData_num() {
+    const data = await this.getData();
+
+    return '';
+  }
+
+  async getData(){
+    const { data } = await Vue.axios.get('/todoList/chartData') as {data: any};
+    return data;
   }
 
   async mounted(){
     const ctx = this.$refs['lineChart'].getContext("2d");
     const option  = this.option;
 
-    const labels: any =  [
-      '월요일',
-      '화요일',
-      '수요일',
-      '목요일',
-      '금요일',
-      '토요일',
-      '일요일'
-    ]
+    const labels: any =  [];
+    for(let i = 1; i <= 31; i++){
+      labels.push(i);
+    }
+
     const data: any = {
       labels: labels,
       datasets: [{
@@ -47,6 +70,7 @@ export default class ChartIndex extends Vue {
         ]
       }]
     };
+
 
     const config: any = {
       type: 'bar',

@@ -1,18 +1,23 @@
 <template>
-<div>
-  <b-modal ref="modal" id="modal-center" centered title="입력" @ok="submitBtn">
-    <b-form @submit.stop.prevent="handleSubmit">
-      <b-form-textarea no-resize v-model="todo_content" required  rows="10"></b-form-textarea>
-    </b-form>
-  </b-modal>
-</div>
+  <div>
+
+
+    <b-modal ref="modal" id="modal-center" centered title="입력" @ok="submitBtn">
+      <b-form @submit.stop.prevent="handleSubmit">
+        <b-form-textarea no-resize v-model="todo_content" required  rows="10"></b-form-textarea>
+      </b-form>
+    {{updateIndex}}
+    </b-modal>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 
 @Component
 export default class TodoModal extends Vue{
+  @Prop()
+  updateIndex: string;
 
   todo_content: string;
 
@@ -20,6 +25,11 @@ export default class TodoModal extends Vue{
     super();
     this.todo_content = '';
 
+  }
+  create(){
+    if(this.updateIndex){
+      this.todo_content = this.updateIndex;
+    }
   }
 
   submitBtn(bvModalEvt: any){

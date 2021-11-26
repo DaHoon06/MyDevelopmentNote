@@ -1,6 +1,7 @@
 import { DB } from '../db/db';
 import { INTERFACES } from "../src/interfaces/InterFaces";
 import IToDo = INTERFACES.IToDo;
+import { ObjectId } from "mongodb";
 
 export class TodoController {
 
@@ -24,9 +25,10 @@ export class TodoController {
                         },
                         todo_content: '$todo_content',
                         updated_at: '$updated_at',
+                        obId: '$_id'
                     },
                 }},
-            //{$sort: { '_id.doing' : 1 }},
+            {$sort: { '_id': -1 }},
         ]).toArray();
         if(exists){
             return {
@@ -43,8 +45,8 @@ export class TodoController {
             todo_content: toDo.todo_content,
             doing: '1',
             deleteCheck: '1',
-            created_at: new Date(),
-            updated_at: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
         });
 
         if(exists) {
@@ -53,16 +55,28 @@ export class TodoController {
         throw new Error('실패..');
     }
 
-    async complete_ToDo(){
+    async doing(id: string){
+        const do_id = new ObjectId(id);
         const client = await DB.MongoConn.getInstance.connect();
-        const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.ToDo).aggregate([
-            {$match: { deleteCheck: '1'}},
-            {$group: {
-                    _id: {$eq : ['$doing','3']},
-                    sum: {$sum: 1}
-                }}
-        ]).toArray();
+        const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.ToDo).updateOne({'_id': do_id},{
+            '$set': {'doing': '2','updatedAt': new Date},
+        });
+        if(exists){
+            return {result: true}
+        }
+        return {result: false}
+    }
 
+    async deleteData(id: string) {
+        const delete_id = new ObjectId(id);
+        const client = await DB.MongoConn.getInstance.connect();
+        const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.ToDo).updateOne({'_id': delete_id},{
+            '$set': {'deleteCheck': '2','updatedAt': new Date},
+        });
 
+        if(exists){
+            return {result: true}
+        }
+        return {result: false}
     }
 }

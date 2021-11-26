@@ -98,8 +98,8 @@ export default class BoardIndex extends Vue{
         this.isBoard = true;
       }
       this.board = boardData;
-
-
+      this.currentPage = data.currentPage;
+      this.perPage = data.totalPage;
     }
 
 
@@ -111,8 +111,14 @@ export default class BoardIndex extends Vue{
 
    }
 
-   async page(pageNum: any){
+   async page(pageNum){
+     const { data } = await Vue.axios.get(`/board/?page=${pageNum}`) as {data: any};
 
+     this.board = data.boardData;
+     this.currentPage = data.currentPage;
+     this.perPage = data.totalPage;
+
+     throw new Error();
    }
 
 
@@ -141,15 +147,7 @@ export default class BoardIndex extends Vue{
  //    }).catch((err)=> {console.error(err)});
  //  }
  //
- //  async page(pageNum){
- //    const res = await axios.get(`/api/board/?page=${pageNum}`);
- //
- //    this.board = res.data.board;
- //    this.currentPage = res.data.currentPage;
- //    this.perPage = res.data.totalPage;
- //
- //    throw new Error();
- //  }
+
 
 }
 </script>

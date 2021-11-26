@@ -10,12 +10,15 @@
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in todoList" :key="index">
-                  <b-list-group-item href="#" variant="light" >
+                  <b-list-group-item variant="light" v-if="!isTodo">
+                    등록된 일정이 없습니다.
+                  </b-list-group-item>
+                  <b-list-group-item variant="light" v-else>
                     {{todoList._id.todo_content}}
                   </b-list-group-item>
                   <div>
-                    <input type="checkbox" class="todoCheck" />
-                    <button class="deleteBtn">-</button>
+                    <input type="checkbox" class="todoCheck" :value="isChecked" @input="isChecked = $event.target.value" @change="doing(todoList._id.obId)" />
+                    <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
                   </div>
                 </div>
               </draggable>
@@ -31,12 +34,15 @@
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in doingList" :key="index">
-                  <b-list-group-item href="#" variant="light" >
+                  <b-list-group-item variant="light" v-if="!isDoing">
+                    등록된 일정이 없습니다.
+                  </b-list-group-item>
+                  <b-list-group-item variant="light" v-else>
                     {{todoList._id.todo_content}}
                   </b-list-group-item>
                   <div>
-                    <input type="checkbox" class="todoCheck" />
-                    <button class="deleteBtn">-</button>
+                    <input type="checkbox" :key="index" class="todoCheck" />
+                    <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
                   </div>
                 </div>
               </draggable>
@@ -51,12 +57,15 @@
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in completeList" :key="index">
-                  <b-list-group-item href="#" variant="light" >
+                  <b-list-group-item variant="light" v-if="!isComplete">
+                    등록된 일정이 없습니다.
+                  </b-list-group-item>
+                  <b-list-group-item variant="light" v-else>
                     {{todoList._id.todo_content}}
                   </b-list-group-item>
                   <div>
-                    <input type="checkbox" class="todoCheck" />
-                    <button class="deleteBtn">-</button>
+                    <input type="checkbox" :key="index" class="todoCheck" />
+                    <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
                   </div>
                 </div>
               </draggable>
@@ -67,7 +76,7 @@
 
     </div>
 
-  <todo-modal name="title" />
+  <todo-modal @success_todoList="getTODOList" />
 
 </div>
 </template>
@@ -79,9 +88,10 @@ import draggable from "vuedraggable";
 
 interface  TODO_DETAIL {
   _id: {
-    doing:string,
-    todo_content:string,
-    updated_at:string
+    doing: string,
+    todo_content: string,
+    updatedAt: string,
+    obId: string,
   }
 }
 
@@ -89,6 +99,7 @@ interface  TODO_DETAIL {
   components:{
     todoModal,
     draggable,
+
   }
 })
 export default class ToDo extends Vue{
@@ -97,31 +108,94 @@ export default class ToDo extends Vue{
   doingList : TODO_DETAIL[];
   completeList: TODO_DETAIL[];
 
+  isChecked: boolean;
+  isTodo: boolean;
+  isDoing: boolean;
+  isComplete: boolean;
+
   constructor() {
     super();
-    this.todoList = [{_id: {doing:'', todo_content:'', updated_at:''}}];
-    this.doingList = [{_id: {doing:'', todo_content:'', updated_at:''}}];
-    this.completeList = [{_id: {doing:'', todo_content:'', updated_at:''}}];
+    this.todoList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+    this.doingList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+    this.completeList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+
+    this.isTodo = false;
+    this.isDoing = false;
+    this.isComplete = false;
+    this.isChecked = false;
   }
 
   async created(){
-    // const { data } = await Vue.axios.get('/todoList') as { data: { _id:{doing:string, todo_content:string, updated_at : string }}[] };
+    await this.getTODOList();
+  }
+
+  async todoListInit(){
+    this.todoList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+    this.doingList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+    this.completeList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+
+  }
+
+  async getTODOList(){
     const { data } = await Vue.axios.get('/todoList') as { data: TODO_DETAIL[] };
+    await this.todoListInit();
 
     for(let i of data){
       switch (i._id.doing){
         case '해야할일':
           this.todoList.push(i);
+          this.isTodo = true;
           break;
         case '진행중':
           this.doingList.push(i);
+          this.isDoing = true;
           break;
         case '완료':
           this.completeList.push(i);
+          this.isComplete = true;
           break;
       }
     }
 
+    if(this.isTodo){
+      this.todoList.shift()
+    }
+    if(this.isDoing){
+      this.doingList.shift();
+    }
+    if(this.isComplete){
+      this.completeList.shift();
+    }
+
+  }
+
+  async doing(id: string) {
+    const  result  = await this.changeState(id);
+    if(result){
+      await this.getTODOList();
+      this.isChecked = false;
+    } else {
+      alert('ERROR')
+    }
+  }
+
+  async deleteData(id: string){
+    const result = await this.deleteBtn(id);
+    if(result){
+      await this.getTODOList();
+    } else {
+      alert('ERROR');
+    }
+  }
+  // 해야할일 -> 진행중
+  async changeState(id: string){
+    const { data } = await Vue.axios.patch(`/todoList/do/${id}`);
+    return data;
+  }
+  // 삭제 버튼
+  async deleteBtn(id: string){
+    const { data } = await Vue.axios.patch(`/todoList/delete/${id}`);
+    return data;
   }
 
 
@@ -135,11 +209,12 @@ export default class ToDo extends Vue{
   flex-direction: row;
   justify-content: space-around;
   margin-top: 30px;
+
 }
 
 .toDoList{
   width: 500px;
-  height: 600px;
+  height: auto;
 }
 
 .deleteBtn, .insertBtn{

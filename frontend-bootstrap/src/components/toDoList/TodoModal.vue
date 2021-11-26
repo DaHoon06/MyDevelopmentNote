@@ -37,7 +37,8 @@ export default class TodoModal extends Vue{
     });
 
     if(result){
-      alert('등록 되었습니다.');
+      this.$emit('success_todoList',true);
+      this.todo_content = '';
     } else {
       throw new Error('입력 실패..');
     }

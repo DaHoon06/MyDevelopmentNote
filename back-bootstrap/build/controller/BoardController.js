@@ -58,6 +58,9 @@ var BoardController = /** @class */ (function () {
                             ]).toArray()];
                     case 2:
                         allCount = (_b.sent())[0].allCount;
+                        if (isNaN(page)) {
+                            page = 1;
+                        }
                         _a = (0, config_1.paging)(page, allCount), startPage = _a.startPage, endPage = _a.endPage, hidePost = _a.hidePost, maxPost = _a.maxPost, totalPage = _a.totalPage, currentPage = _a.currentPage;
                         return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).aggregate([
                                 { $match: { isDelete: 1 } },
@@ -71,10 +74,12 @@ var BoardController = /** @class */ (function () {
                             })];
                     case 3:
                         boardData = _b.sent();
-                        console.log(boardData, allCount);
+                        console.log(totalPage, currentPage + ' 총 페이지 : 현재 페이지');
                         return [2 /*return*/, {
                                 result: true,
-                                boardData: boardData
+                                boardData: boardData,
+                                currentPage: currentPage,
+                                totalPage: totalPage,
                             }];
                     case 4:
                         e_1 = _b.sent();

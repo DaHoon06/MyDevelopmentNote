@@ -23,7 +23,34 @@ router.post('/insert',async (req: Request, res: Response, next: NextFunction) =>
       const { result } = await tc.insertData_ToDo(data);
 
       if(result){
-         return res.status(201).send({ result: true })
+         return res.status(201).send({result: true})
+      }
+      return {result: false}
+   } catch (e: any) {
+      throw new Error(e);
+   }
+});
+
+router.patch('/do/:id',async (req: Request, res: Response, next: NextFunction) => {
+   try {
+      const id = req.params.id;
+      const { result } = await tc.doing(id);
+
+      if(result){
+         return res.status(201).send({result: true})
+      }
+      return {result: false}
+   } catch (e: any) {
+      throw new Error(e);
+   }
+});
+
+router.patch('/delete/:id',async (req: Request, res: Response, next: NextFunction) => {
+   try {
+      const id = req.params.id;
+      const { result } = await tc.deleteData(id);
+      if(result){
+         return res.status(201).send({result: true})
       }
       return {result: false}
    } catch (e: any) {

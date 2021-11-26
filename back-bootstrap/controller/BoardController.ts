@@ -15,6 +15,11 @@ export class BoardController {
                 {$match: { isDelete: 1}},
                 {$count: 'allCount'},
             ]).toArray();
+
+            if(isNaN(page)){
+                page = 1
+            }
+
             let {
                 startPage,
                 endPage,
@@ -35,11 +40,12 @@ export class BoardController {
             ]).toArray().catch((err: any) => {
                 console.log('test',err);
             });
-            console.log(boardData,allCount);
-
+            console.log(totalPage,currentPage +' 총 페이지 : 현재 페이지')
             return {
                 result: true,
-                boardData
+                boardData,
+                currentPage,
+                totalPage,
             };
         } catch (e) {
             throw new Error('ERROR!');

@@ -92,7 +92,7 @@
 
     </div>
 
-  <todo-modal @success_todoList="getTODOList" :updateIndex="indexTEST"/>
+  <todo-modal @success_todoList="getTODOList" :updateIndex="obID"/>
 
 </div>
 </template>
@@ -119,7 +119,9 @@ interface TODO_DETAIL {
 
 })
 export default class ToDo extends Vue{
-  indexTEST: string;
+
+  //PROP DATA
+  obID: string = '';
 
   todoList: TODO_DETAIL[];
   doingList : TODO_DETAIL[];
@@ -141,7 +143,7 @@ export default class ToDo extends Vue{
     this.isComplete = false;
     this.isChecked = false;
 
-    this.indexTEST = '';
+
   }
 
   async created(){
@@ -237,7 +239,8 @@ export default class ToDo extends Vue{
   }
   async editTodo(id: string,index: number){
     console.log(id,index);
-    this.indexTEST = 'TEST_MESSAGE';
+    this.obID = id;
+
   }
 
   async updateData(id: string){

@@ -67,6 +67,18 @@ export class TodoController {
         return {result: false}
     }
 
+    async complete(id: string){
+        const complete_id = new ObjectId(id);
+        const client = await DB.MongoConn.getInstance.connect();
+        const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.ToDo).updateOne({'_id': complete_id},{
+            '$set': {'doing': '3','updatedAt': new Date},
+        });
+        if(exists){
+            return {result: true}
+        }
+        return {result: false}
+    }
+
     async deleteData(id: string) {
         const delete_id = new ObjectId(id);
         const client = await DB.MongoConn.getInstance.connect();

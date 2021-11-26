@@ -126,6 +126,27 @@ router.patch('/delete/:id', function (req, res, next) { return __awaiter(void 0,
         }
     });
 }); });
+router.patch('/complete/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, result, e_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, tc.complete(id)];
+            case 1:
+                result = (_a.sent()).result;
+                if (result) {
+                    return [2 /*return*/, res.status(201).send({ result: true })];
+                }
+                return [2 /*return*/, { result: false }];
+            case 2:
+                e_5 = _a.sent();
+                throw new Error(e_5);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 router.get('/chartData', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {

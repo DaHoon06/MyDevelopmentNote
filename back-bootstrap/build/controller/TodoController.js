@@ -95,8 +95,8 @@ var TodoController = /** @class */ (function () {
                                 todo_content: toDo.todo_content,
                                 doing: '1',
                                 deleteCheck: '1',
-                                created_at: new Date(),
-                                updated_at: new Date(),
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
                             })];
                     case 2:
                         exists = _a.sent();
@@ -120,6 +120,29 @@ var TodoController = /** @class */ (function () {
                         client = _a.sent();
                         return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.ToDo).updateOne({ '_id': do_id }, {
                                 '$set': { 'doing': '2', 'updatedAt': new Date },
+                            })];
+                    case 2:
+                        exists = _a.sent();
+                        if (exists) {
+                            return [2 /*return*/, { result: true }];
+                        }
+                        return [2 /*return*/, { result: false }];
+                }
+            });
+        });
+    };
+    TodoController.prototype.complete = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var complete_id, client, exists;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        complete_id = new mongodb_1.ObjectId(id);
+                        return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
+                    case 1:
+                        client = _a.sent();
+                        return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.ToDo).updateOne({ '_id': complete_id }, {
+                                '$set': { 'doing': '3', 'updatedAt': new Date },
                             })];
                     case 2:
                         exists = _a.sent();

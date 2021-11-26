@@ -10,15 +10,19 @@
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in todoList" :key="index">
-                  <b-list-group-item variant="light" v-if="!isTodo">
-                    등록된 일정이 없습니다.
-                  </b-list-group-item>
-                  <b-list-group-item variant="light" v-else>
-                    {{todoList._id.todo_content}}
-                  </b-list-group-item>
-                  <div>
-                    <input type="checkbox" class="todoCheck" :value="isChecked" @input="isChecked = $event.target.value" @change="doing(todoList._id.obId)" />
-                    <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                  <div  v-if="!isTodo">
+                    <b-list-group-item variant="light">
+                      등록된 일정이 없습니다.
+                    </b-list-group-item>
+                  </div>
+                  <div v-else>
+                    <b-list-group-item variant="light" >
+                      {{todoList._id.todo_content}}
+                    </b-list-group-item>
+                    <div>
+                      <input type="checkbox" class="todoCheck" :value="isChecked" @input="isChecked = $event.target.value" @change="doing(todoList._id.obId)" />
+                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                    </div>
                   </div>
                 </div>
               </draggable>
@@ -34,15 +38,19 @@
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in doingList" :key="index">
-                  <b-list-group-item variant="light" v-if="!isDoing">
-                    등록된 일정이 없습니다.
-                  </b-list-group-item>
-                  <b-list-group-item variant="light" v-else>
-                    {{todoList._id.todo_content}}
-                  </b-list-group-item>
-                  <div>
-                    <input type="checkbox" :key="index" class="todoCheck" />
-                    <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                  <div v-if="!isDoing">
+                    <b-list-group-item variant="light" >
+                      등록된 일정이 없습니다.
+                    </b-list-group-item>
+                  </div>
+                  <div v-else>
+                    <b-list-group-item variant="light" >
+                      {{todoList._id.todo_content}}
+                    </b-list-group-item>
+                    <div>
+                      <input type="checkbox" :key="index" class="todoCheck" :value="isChecked" @input="isChecked = $event.target.value" @change="complete(todoList._id.obId)" />
+                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                    </div>
                   </div>
                 </div>
               </draggable>
@@ -57,15 +65,18 @@
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in completeList" :key="index">
-                  <b-list-group-item variant="light" v-if="!isComplete">
-                    등록된 일정이 없습니다.
-                  </b-list-group-item>
-                  <b-list-group-item variant="light" v-else>
-                    {{todoList._id.todo_content}}
-                  </b-list-group-item>
-                  <div>
-                    <input type="checkbox" :key="index" class="todoCheck" />
-                    <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                  <div  v-if="!isComplete">
+                    <b-list-group-item variant="light">
+                      등록된 일정이 없습니다.
+                    </b-list-group-item>
+                  </div>
+                  <div  v-else>
+                    <b-list-group-item variant="light">
+                      {{todoList._id.todo_content}}
+                    </b-list-group-item>
+                    <div>
+                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                    </div>
                   </div>
                 </div>
               </draggable>
@@ -170,7 +181,17 @@ export default class ToDo extends Vue{
   }
 
   async doing(id: string) {
-    const  result  = await this.changeState(id);
+    const  result  = await this.changeStateTodo(id);
+    if(result){
+      await this.getTODOList();
+      this.isChecked = false;
+    } else {
+      alert('ERROR')
+    }
+  }
+
+  async complete(id: string){
+    const  result  = await this.changeStateComplete(id);
     if(result){
       await this.getTODOList();
       this.isChecked = false;
@@ -188,8 +209,13 @@ export default class ToDo extends Vue{
     }
   }
   // 해야할일 -> 진행중
-  async changeState(id: string){
+  async changeStateTodo(id: string){
     const { data } = await Vue.axios.patch(`/todoList/do/${id}`);
+    return data;
+  }
+
+  async changeStateComplete(id: string){
+    const { data } = await Vue.axios.patch(`/todoList/complete/${id}`);
     return data;
   }
   // 삭제 버튼

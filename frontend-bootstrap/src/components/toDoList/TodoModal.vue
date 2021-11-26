@@ -4,22 +4,23 @@
     <b-form @submit.stop.prevent="handleSubmit">
       <b-form-textarea no-resize v-model="todo_content" required  rows="10"></b-form-textarea>
     </b-form>
+    {{updateIndex}}
   </b-modal>
 </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 
 @Component
 export default class TodoModal extends Vue{
+  @Prop() updateIndex ?: string;
 
   todo_content: string;
 
   constructor() {
     super();
     this.todo_content = '';
-
   }
 
   submitBtn(bvModalEvt: any){

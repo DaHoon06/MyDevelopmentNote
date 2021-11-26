@@ -41,7 +41,7 @@ export default {
 footer {
   background-color: rgb(62,63,68);
   clear: both;
-  width: 1900px;
+  width: 100%;
   height: 150px;
 }
 

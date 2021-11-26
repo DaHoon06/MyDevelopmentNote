@@ -28,7 +28,7 @@ instance.interceptors.response.use(response => {
     const {result, error} = data
     return response
 }, error => {
-    console.log('error---뭔데에러임')
+    console.log('ERROR...  -_-')
     const {response} = error
     const {status, data} = response
 

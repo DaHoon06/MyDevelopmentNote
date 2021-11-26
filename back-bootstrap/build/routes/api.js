@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var ToDo_1 = __importDefault(require("./ToDo"));
+var index_1 = __importDefault(require("./Board/index"));
 var router = (0, express_1.Router)();
 router.get('/', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -48,5 +49,6 @@ router.get('/', function (req, res, next) { return __awaiter(void 0, void 0, voi
     });
 }); });
 router.use('/todoList', ToDo_1.default);
+router.use('/board', index_1.default);
 exports.default = router;
 //# sourceMappingURL=api.js.map

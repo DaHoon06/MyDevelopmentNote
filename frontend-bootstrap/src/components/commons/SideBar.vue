@@ -3,11 +3,10 @@
   <section id="sideBar">
     <div id="sideBar-wrap">
       <div id="sidBar-title">
-        <h3>HOME</h3>
+        <h3><a href="/">HOME</a></h3>
       </div>
       <div class="sideBar_list">
         <b-list-group>
-          <b-list-group-item href="#" variant="light">Item1</b-list-group-item>
           <b-list-group-item href="#">Item2</b-list-group-item>
           <b-list-group-item href="#">Item3</b-list-group-item>
           <b-list-group-item href="#">Item4</b-list-group-item>
@@ -19,7 +18,7 @@
 
       <div class="sideBar_list">
         <b-list-group>
-          <b-list-group-item href="#" variant="light">Item6</b-list-group-item>
+          <b-list-group-item href="/board" variant="light">전체글</b-list-group-item>
           <b-list-group-item href="#">Item7</b-list-group-item>
           <b-list-group-item href="#">Item8</b-list-group-item>
           <b-list-group-item href="#">Item9</b-list-group-item>
@@ -32,7 +31,7 @@
   <section id="sub_side">
     <div >
       <b-navbar toggleable >
-        <b-navbar-brand href="#">HOME</b-navbar-brand>
+        <b-navbar-brand href="/">HOME</b-navbar-brand>
 
         <b-navbar-toggle target="navbar-toggle-collapse">
           <template #default="{ expanded }">
@@ -43,9 +42,11 @@
 
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#">item1</b-nav-item>
+            <b-nav-item href="/board">전체글</b-nav-item>
             <b-nav-item href="#">item2</b-nav-item>
-            <b-nav-item href="#" disabled>item3</b-nav-item>
+            <b-nav-item href="#">item3</b-nav-item>
+            <b-nav-item href="#">item4</b-nav-item>
+            <b-nav-item href="#" disabled>item5</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -64,7 +65,10 @@ export default class SideBar extends Vue{
 </script>
 
 <style scoped>
-
+a {
+  text-decoration: none;
+  color: black;
+}
 #sideBar {
   position: fixed;
   width: 260px;

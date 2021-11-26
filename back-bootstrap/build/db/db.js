@@ -46,6 +46,7 @@ var DB;
     var COLLECTIONS;
     (function (COLLECTIONS) {
         COLLECTIONS["ToDo"] = "ToDo";
+        COLLECTIONS["Board"] = "Board";
     })(COLLECTIONS = DB.COLLECTIONS || (DB.COLLECTIONS = {}));
     var MongoConn = /** @class */ (function () {
         function MongoConn() {

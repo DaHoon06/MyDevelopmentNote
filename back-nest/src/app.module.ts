@@ -8,14 +8,13 @@ import { CommentModule } from "./modules/comment/comment.module";
 import { UserModule } from "./modules/user/user.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { jwtTokenCheck } from "./jwt/jwt.token.check";
-import {ConfigModule} from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
   imports: [
       ConfigModule.forRoot({
           envFilePath: '.env',
           isGlobal: true,
-
       }),
       BoardModule,
       mongoConn,

@@ -3,6 +3,7 @@
     <side-bar />
     <header-nav />
     <router-view/>
+    <footer-page />
   </div>
 </template>
 
@@ -10,10 +11,12 @@
 import {Component,Vue} from "vue-property-decorator";
 import SideBar from "@/components/commons/SideBar.vue";
 import HeaderNav from "@/components/commons/HeaderNav.vue";
+import FooterPage from '@/components/commons/FooterPage.vue';
 @Component({
   components: {
     SideBar,
-    HeaderNav
+    HeaderNav,
+    FooterPage
   }
 })
 export default class App extends Vue{}
@@ -24,6 +27,7 @@ export default class App extends Vue{}
   margin: 0;
   padding: 0;
 }
+
 
 
 

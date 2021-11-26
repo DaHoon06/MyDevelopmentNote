@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var app_1 = __importDefault(require("./app"));
 var http_1 = require("http");
 var port = Number(process.env.PORT) || 3000;
-var server = (0, http_1.createServer)(app_1.default);
+var server = http_1.createServer(app_1.default);
 server.listen(port, function () {
     console.log(port + "\uD3EC\uD2B8\uB85C \uC2E4\uD589\uB428");
 });

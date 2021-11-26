@@ -3,13 +3,12 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+import ToDoStore from '@/store/modules/ToDoStore.js';
+
+const store = new Vuex.Store({
   modules: {
-  }
-})
+    ToDoStore: ToDoStore
+  },
+});
+
+export default store;

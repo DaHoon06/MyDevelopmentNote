@@ -41,8 +41,28 @@ var TodoController_1 = require("../../controller/TodoController");
 var router = (0, express_1.Router)();
 var tc = new TodoController_1.TodoController();
 // router.get('*', AUTH).post('*', AUTH).put('*', AUTH).patch('*', AUTH).delete('*', AUTH);
+router.get('/', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, result, exists, e_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, tc.getTodoList()];
+            case 1:
+                _a = _b.sent(), result = _a.result, exists = _a.exists;
+                if (result) {
+                    return [2 /*return*/, res.status(200).send(exists)];
+                }
+                return [3 /*break*/, 3];
+            case 2:
+                e_1 = _b.sent();
+                throw new Error(e_1);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 router.post('/insert', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, result, e_1;
+    var data, result, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -54,17 +74,59 @@ router.post('/insert', function (req, res, next) { return __awaiter(void 0, void
             case 2:
                 result = (_a.sent()).result;
                 if (result) {
-                    return [2 /*return*/, { result: true }];
+                    return [2 /*return*/, res.status(201).send({ result: true })];
                 }
                 return [2 /*return*/, { result: false }];
             case 3:
-                e_1 = _a.sent();
-                throw new Error(e_1);
+                e_2 = _a.sent();
+                throw new Error(e_2);
             case 4: return [2 /*return*/];
         }
     });
 }); });
-router.get('/', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.patch('/do/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, result, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, tc.doing(id)];
+            case 1:
+                result = (_a.sent()).result;
+                if (result) {
+                    return [2 /*return*/, res.status(201).send({ result: true })];
+                }
+                return [2 /*return*/, { result: false }];
+            case 2:
+                e_3 = _a.sent();
+                throw new Error(e_3);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.patch('/delete/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, result, e_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, tc.deleteData(id)];
+            case 1:
+                result = (_a.sent()).result;
+                if (result) {
+                    return [2 /*return*/, res.status(201).send({ result: true })];
+                }
+                return [2 /*return*/, { result: false }];
+            case 2:
+                e_4 = _a.sent();
+                throw new Error(e_4);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.get('/chartData', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {
         }

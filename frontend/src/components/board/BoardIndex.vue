@@ -9,7 +9,7 @@
 
       <div class="board_section_wrap">
 
-        <CategoryList></CategoryList>
+<!--        <CategoryList></CategoryList>-->
 
         <section id="board_area">
         <div class="search_FAQ">
@@ -188,7 +188,7 @@ a{
 
 .board_wrapper{
   display: flex;
-  width: 1500px;
+  width: 100%;
   justify-content: space-around;
   margin: auto;
 }

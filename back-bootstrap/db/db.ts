@@ -7,6 +7,7 @@ export namespace DB {
     //COLLECTION
     export enum COLLECTIONS {
         ToDo = 'ToDo',
+        Board = 'Board',
     }
 
     export class MongoConn {

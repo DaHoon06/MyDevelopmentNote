@@ -71,9 +71,22 @@ router.patch('/complete/:id',async (req: Request, res: Response, next: NextFunct
    }
 });
 
-router.get('/chartData',async (req: Request, res: Response, next: NextFunction) => {
+router.patch('/update/:id',async (req: Request, res: Response, next: NextFunction) => {
    try {
 
+   } catch (e: any) {
+
+   }
+});
+
+
+router.get('/chartData',async (req: Request, res: Response, next: NextFunction) => {
+   try {
+      const { result, exists } = await tc.chartData();
+      if(result){
+         return res.status(201).send(exists);
+      }
+      return {result: false}
    } catch (e: any) {
       throw new Error(e);
    }

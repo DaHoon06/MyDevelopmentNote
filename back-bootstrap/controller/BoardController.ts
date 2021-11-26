@@ -33,22 +33,19 @@ export class BoardController {
             const boardData = await  client.db(DB.NAME).collection(DB.COLLECTIONS.Board).aggregate([
                 {$match: { isDelete: 1}},
                 {$sort: {'_id': -1}},
-                // {$skip: `${hidePost}`},
-                // {$limit: `${maxPost}`},
-                {$skip: 0},
-                {$limit: 10},
-            ]).toArray().catch((err: any) => {
-                console.log('test',err);
-            });
-            console.log(totalPage,currentPage +' 총 페이지 : 현재 페이지')
+                {$skip: hidePost},
+                {$limit: maxPost},
+            ]).toArray();
+
+            console.log(hidePost,maxPost +' 총 페이지 : 현재 페이지')
             return {
                 result: true,
                 boardData,
                 currentPage,
                 totalPage,
             };
-        } catch (e) {
-            throw new Error('ERROR!');
+        } catch (e: any) {
+            throw new Error(e);
         }
 
     }

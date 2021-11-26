@@ -1,11 +1,12 @@
 <template>
-<div>
+<div id="toDo_wrap">
 
     <div id="toDoList">
 
       <section class="toDoList">
         <b-card-group deck>
-          <b-card header="해야할 일">
+          <b-card header="DOING">
+
             <button v-b-modal.modal-center class="insertBtn">+</button>
             <b-list-group>
               <draggable>
@@ -19,9 +20,11 @@
                     <b-list-group-item variant="light" >
                       {{todoList._id.todo_content}}
                     </b-list-group-item>
+                    <input type="checkbox" class="todoCheck" :key="index" :checked="isChecked" @change="doing(todoList._id.obId,$event.target)" />
                     <div>
-                      <input type="checkbox" class="todoCheck" :value="isChecked" @input="isChecked = $event.target.value" @change="doing(todoList._id.obId)" />
-                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                      <button v-b-modal.modal-center class="updateBtn" @click="editTodo(todoList._id.obId,index)">edit</button>
+                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">ㅡ</button>
+
                     </div>
                   </div>
                 </div>
@@ -34,7 +37,7 @@
 
       <section class="toDoList">
         <b-card-group deck>
-          <b-card header="진행중인 일">
+          <b-card header="DOING">
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in doingList" :key="index">
@@ -47,9 +50,11 @@
                     <b-list-group-item variant="light" >
                       {{todoList._id.todo_content}}
                     </b-list-group-item>
+                    <input type="checkbox" class="todoCheck" :checked="isChecked" @change="complete(todoList._id.obId,$event.target)" />
                     <div>
-                      <input type="checkbox" :key="index" class="todoCheck" :value="isChecked" @input="isChecked = $event.target.value" @change="complete(todoList._id.obId)" />
-                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                      <button v-b-modal.modal-center class="updateBtn" @click="editTodo(todoList._id.obId,index)">edit</button>
+                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">ㅡ</button>
+
                     </div>
                   </div>
                 </div>
@@ -61,7 +66,7 @@
 
       <section class="toDoList">
         <b-card-group deck>
-          <b-card header="완료된 일">
+          <b-card header="DONE">
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in completeList" :key="index">
@@ -75,7 +80,7 @@
                       {{todoList._id.todo_content}}
                     </b-list-group-item>
                     <div>
-                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">-</button>
+                      <button class="deleteBtn" @click="deleteData(todoList._id.obId)">ㅡ</button>
                     </div>
                   </div>
                 </div>
@@ -87,17 +92,17 @@
 
     </div>
 
-  <todo-modal @success_todoList="getTODOList" />
+  <todo-modal @success_todoList="getTODOList" :updateIndex="indexTEST"/>
 
 </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 import todoModal from './TodoModal.vue';
 import draggable from "vuedraggable";
 
-interface  TODO_DETAIL {
+interface TODO_DETAIL {
   _id: {
     doing: string,
     todo_content: string,
@@ -110,10 +115,11 @@ interface  TODO_DETAIL {
   components:{
     todoModal,
     draggable,
+  },
 
-  }
 })
 export default class ToDo extends Vue{
+  indexTEST: string;
 
   todoList: TODO_DETAIL[];
   doingList : TODO_DETAIL[];
@@ -134,6 +140,8 @@ export default class ToDo extends Vue{
     this.isDoing = false;
     this.isComplete = false;
     this.isChecked = false;
+
+    this.indexTEST = '';
   }
 
   async created(){
@@ -169,34 +177,53 @@ export default class ToDo extends Vue{
     }
 
     if(this.isTodo){
-      this.todoList.shift()
+      this.todoList.shift();
+      const isToDo = this.todoList.length;
+      if(!isToDo){
+        this.todoList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+        this.isTodo = false;
+      }
     }
+
     if(this.isDoing){
       this.doingList.shift();
+      const isOne = this.doingList.length;
+      if(!isOne){
+        this.doingList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+        this.isDoing = false;
+      }
     }
+
     if(this.isComplete){
       this.completeList.shift();
+      const isCom = this.completeList.length;
+      if(!isCom){
+        this.completeList = [{_id: {doing: '', todo_content: '', updatedAt: '',obId: ''}}];
+        this.isComplete = false;
+      }
     }
 
   }
 
-  async doing(id: string) {
+  async doing(id: string, ele: any) {
     const  result  = await this.changeStateTodo(id);
     if(result){
       await this.getTODOList();
-      this.isChecked = false;
+      ele.checked=false;
     } else {
-      alert('ERROR')
+      alert('ERROR');
+      ele.checked=false;
     }
   }
 
-  async complete(id: string){
+  async complete(id: string, ele: any){
     const  result  = await this.changeStateComplete(id);
     if(result){
       await this.getTODOList();
-      this.isChecked = false;
+      ele.checked=false;
     } else {
-      alert('ERROR')
+      alert('ERROR');
+      ele.checked=false;
     }
   }
 
@@ -208,6 +235,20 @@ export default class ToDo extends Vue{
       alert('ERROR');
     }
   }
+  async editTodo(id: string,index: number){
+    console.log(id,index);
+    this.indexTEST = 'TEST_MESSAGE';
+  }
+
+  async updateData(id: string){
+    let data;
+    for(let i of this.todoList){data = i}
+    console.log(data._id);
+    const result = await this.updateTodo(id,data);
+
+  }
+
+  //--------- BACKEND ---------
   // 해야할일 -> 진행중
   async changeStateTodo(id: string){
     const { data } = await Vue.axios.patch(`/todoList/do/${id}`);
@@ -224,6 +265,15 @@ export default class ToDo extends Vue{
     return data;
   }
 
+  async updateTodo(id: string, toDoData: any){
+    const { data } = await Vue.axios.patch(`/todoList/update/${id}`,{
+      toDoData
+    });
+    return data;
+  }
+
+
+
 
 }
 </script>
@@ -237,22 +287,81 @@ export default class ToDo extends Vue{
   margin-top: 30px;
 
 }
-
+#toDo_wrap {
+  height: 700px;
+}
 .toDoList{
   width: 500px;
   height: auto;
 }
 
-.deleteBtn, .insertBtn{
+.insertBtn{
   width: 18px;
-  border: 1px solid #e5e0e0;
-  border-radius: 30px;
-  background: #94b49f;
+  font-weight: bold;
+  color: #fff9e7;
+  border: none;
+  border-radius: 100%;
+  background: rgb(21, 21, 20);
   outline: none;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 3px;
+  margin-bottom: 10px;
+}
+.insertBtn:hover{
+  background: rgba(9, 155, 77, 0.6);
 }
 
-.todoCheck{
+.deleteBtn{
+  margin: 10px 5px 10px 0px;
+  width: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  border: none;
+  border-radius: 100%;
+  background: rgb(161, 33, 33);
+  outline: none;
+  padding: 0;
+}
+
+.deleteBtn:hover{
+  background: rgb(236, 76, 76);
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  height: 16px;
+  width: 16px;
+  border: 1px solid black;
+  border-radius: 100%;
+  position: relative;
+  top: -30px;
   float: right;
+}
+
+
+input[type="checkbox"]:hover {
+  filter: brightness(90%);
+}
+
+
+.updateBtn {
+  color: #fcfdfd;
+  background: rgb(21, 21, 20);
+  border: none;
+  border-radius: 10px;
+  width: 37px;
+  outline: none;
+  margin: 10px 5px 10px 0px;
+}
+
+.updateBtn:hover {
+  color: #fcfdfd;
+  background: linear-gradient(17deg, rgba(17, 178, 92, 0.6) 40%, rgba(16, 182, 165, 0.6) 60%);
 }
 
 @media screen and (max-width: 1024px){

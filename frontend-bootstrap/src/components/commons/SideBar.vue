@@ -107,4 +107,10 @@ ul {
     display: block;
   }
 }
+
+@media screen and (max-width: 350px){
+  #sub_side{
+    width: 350px;
+  }
+}
 </style>

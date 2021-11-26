@@ -147,14 +147,33 @@ router.patch('/complete/:id', function (req, res, next) { return __awaiter(void 
         }
     });
 }); });
-router.get('/chartData', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.patch('/update/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {
         }
         catch (e) {
-            throw new Error(e);
         }
         return [2 /*return*/];
+    });
+}); });
+router.get('/chartData', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, result, exists, e_6;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, tc.chartData()];
+            case 1:
+                _a = _b.sent(), result = _a.result, exists = _a.exists;
+                if (result) {
+                    return [2 /*return*/, res.status(201).send(exists)];
+                }
+                return [2 /*return*/, { result: false }];
+            case 2:
+                e_6 = _b.sent();
+                throw new Error(e_6);
+            case 3: return [2 /*return*/];
+        }
     });
 }); });
 exports.default = router;

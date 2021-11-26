@@ -4,8 +4,8 @@ export namespace INTERFACES {
         todo_content: string,
         doing: string,
         deleteCheck: string,
-        created_at: Date,
-        updated_at: Date,
+        createdAt: Date,
+        updatedAt: Date,
     }
 
     export interface IBoard{

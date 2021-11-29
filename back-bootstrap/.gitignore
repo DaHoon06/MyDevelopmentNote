@@ -2,4 +2,5 @@ node_modules
 .env
 .config.json
 .userInfo.json
+env/env.ts
 

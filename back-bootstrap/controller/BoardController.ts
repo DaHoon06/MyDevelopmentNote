@@ -10,7 +10,6 @@ export class BoardController {
     async getBoardList(page: any){
         try{
             const client = await DB.MongoConn.getInstance.connect();
-            //게시글 토탈 개수를 굳이 2개로 나눌 필요가 있을까
             const [{allCount}] = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).aggregate([
                 {$match: { isDelete: 1}},
                 {$count: 'allCount'},

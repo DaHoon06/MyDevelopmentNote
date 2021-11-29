@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 //import cors from 'cors';
 var api_1 = __importDefault(require("../routes/api"));
+var dotenv_1 = __importDefault(require("dotenv"));
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var app = (0, express_1.default)();
@@ -16,6 +17,7 @@ app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
 app.use(express_1.default.static(path.join(__dirname, '../public')));
 app.use(cookieParser());
 //app.use(cors());
+dotenv_1.default.config();
 //--------- ROUTING ----------
 app.get('/', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');

@@ -41,7 +41,7 @@ var mongodb_1 = require("mongodb");
 var DB;
 (function (DB) {
     //DB
-    DB.NAME = 'localDB';
+    DB.NAME = 'DATA';
     //COLLECTION
     var COLLECTIONS;
     (function (COLLECTIONS) {
@@ -50,7 +50,8 @@ var DB;
     })(COLLECTIONS = DB.COLLECTIONS || (DB.COLLECTIONS = {}));
     var MongoConn = /** @class */ (function () {
         function MongoConn() {
-            this.connection = process.env.NODE_ENV ? 'mongodb://localhost:27017/localDB' : 'mongodb://localhost:27017/localDB'; //주소
+            // private connection: string = process.env.NODE_ENV ? 'mongodb://localhost:27017/localDB' : 'mongodb://localhost:27017/localDB';
+            this.connection = process.env.NODE_ENV !== 'development' ? "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/test" : "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/test";
         }
         MongoConn.prototype.connect = function () {
             return __awaiter(this, void 0, void 0, function () {
@@ -59,10 +60,13 @@ var DB;
                     switch (_a.label) {
                         case 0:
                             _a.trys.push([0, 2, , 3]);
-                            if (this.db)
-                                return [2 /*return*/, this.db]; // && this.db.isConnected()
+                            if (this.db && this.db.isConnected())
+                                return [2 /*return*/, this.db];
                             console.warn(this.connection);
-                            this.db = new mongodb_1.MongoClient(this.connection);
+                            this.db = new mongodb_1.MongoClient(this.connection, {
+                                useNewUrlParser: true,
+                                useUnifiedTopology: true,
+                            });
                             console.warn('CONNECTED !!');
                             return [4 /*yield*/, this.db.connect()];
                         case 1: return [2 /*return*/, _a.sent()];

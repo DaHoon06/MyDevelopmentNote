@@ -57,11 +57,12 @@ var BoardController = /** @class */ (function () {
                                 { $count: 'allCount' },
                             ]).toArray()];
                     case 2:
-                        allCount = (_b.sent())[0];
+                        allCount = (_b.sent())[0].allCount;
                         if (isNaN(page)) {
                             page = 1;
                         }
                         _a = (0, config_1.paging)(page, allCount), startPage = _a.startPage, endPage = _a.endPage, hidePost = _a.hidePost, maxPost = _a.maxPost, totalPage = _a.totalPage, currentPage = _a.currentPage;
+                        console.log(startPage, endPage, hidePost, maxPost, totalPage, currentPage);
                         return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).aggregate([
                                 { $match: { isDelete: 1 } },
                                 { $sort: { '_id': -1 } },
@@ -70,13 +71,15 @@ var BoardController = /** @class */ (function () {
                             ]).toArray()];
                     case 3:
                         boardData = _b.sent();
-                        console.log(hidePost, maxPost + ' skip : limit');
-                        return [2 /*return*/, {
-                                result: true,
-                                boardData: boardData,
-                                currentPage: currentPage,
-                                totalPage: totalPage,
-                            }];
+                        if (boardData.length !== 0) {
+                            return [2 /*return*/, {
+                                    result: true,
+                                    boardData: boardData,
+                                    currentPage: currentPage,
+                                    totalPage: totalPage,
+                                }];
+                        }
+                        return [2 /*return*/, { result: false }];
                     case 4:
                         e_1 = _b.sent();
                         throw new Error(e_1);
@@ -87,10 +90,12 @@ var BoardController = /** @class */ (function () {
     };
     BoardController.prototype.insertData = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var client, exists;
+            var client, exists, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
                     case 1:
                         client = _a.sent();
                         return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).insertOne({
@@ -108,7 +113,11 @@ var BoardController = /** @class */ (function () {
                         if (exists) {
                             return [2 /*return*/, { result: true }];
                         }
-                        throw new Error('실패..');
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_2 = _a.sent();
+                        throw new Error(e_2);
+                    case 4: return [2 /*return*/];
                 }
             });
         });

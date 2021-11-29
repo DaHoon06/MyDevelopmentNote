@@ -10,7 +10,7 @@ export class BoardController {
     async getBoardList(page: any){
         try{
             const client = await DB.MongoConn.getInstance.connect();
-            const [allCount] = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).aggregate([
+            const [{allCount}] = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).aggregate([
                 {$match: { isDelete: 1}},
                 {$count: 'allCount'},
             ]).toArray();
@@ -27,7 +27,7 @@ export class BoardController {
                 totalPage,
                 currentPage
             } = paging(page, allCount);
-
+            console.log(startPage,endPage,hidePost,maxPost,totalPage,currentPage);
             //전체 게시글과 게시글의 총합이 필요
             const boardData = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).aggregate([
                 {$match: { isDelete: 1}},
@@ -36,13 +36,16 @@ export class BoardController {
                 {$limit: maxPost},
             ]).toArray();
 
-            console.log(hidePost,maxPost +' skip : limit')
-            return {
-                result: true,
-                boardData,
-                currentPage,
-                totalPage,
-            };
+            if(boardData.length !== 0){
+                return {
+                    result: true,
+                    boardData,
+                    currentPage,
+                    totalPage,
+                };
+            }
+            return {result: false};
+
         } catch (e: any) {
             throw new Error(e);
         }
@@ -50,21 +53,24 @@ export class BoardController {
     }
 
     async insertData(data: IBoard){
-        const client = await DB.MongoConn.getInstance.connect();
-        const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).insertOne({
-            title: data.title,
-            content: data.content,
-            writer: data.writer,
-            createData: new Date(),
-            updatedDate: new Date(),
-            isComment: 1,
-            isDelete: 1,
-            hit: 0,
-        });
+        try {
+            const client = await DB.MongoConn.getInstance.connect();
+            const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).insertOne({
+                title: data.title,
+                content: data.content,
+                writer: data.writer,
+                createData: new Date(),
+                updatedDate: new Date(),
+                isComment: 1,
+                isDelete: 1,
+                hit: 0,
+            });
 
-        if(exists) {
-            return { result: true }
+            if(exists) {
+                return { result: true }
+            }
+        } catch (e: any) {
+            throw new Error(e);
         }
-        throw new Error('실패..');
     }
 }

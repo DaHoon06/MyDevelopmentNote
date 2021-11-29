@@ -46,13 +46,10 @@ router.get('/:page?', function (req, res, next) { return __awaiter(void 0, void 
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                page = req.query;
+                page = req.query.page;
                 return [4 /*yield*/, bc.getBoardList(page)];
             case 1:
                 _a = _b.sent(), result = _a.result, boardData = _a.boardData, currentPage = _a.currentPage, totalPage = _a.totalPage;
-                if (currentPage === 1) {
-                    totalPage = 1;
-                }
                 data = {
                     result: true,
                     boardData: boardData,
@@ -89,8 +86,8 @@ router.post('/insert', function (req, res, next) { return __awaiter(void 0, void
             case 1:
                 result = (_b.sent()).result;
                 if (result)
-                    return [2 /*return*/, res.status(201).send({ result: true })];
-                return [3 /*break*/, 3];
+                    return [2 /*return*/, res.status(200).send({ result: true })];
+                return [2 /*return*/, res.status(500).send({ result: false })];
             case 2:
                 e_2 = _b.sent();
                 throw new Error(e_2);

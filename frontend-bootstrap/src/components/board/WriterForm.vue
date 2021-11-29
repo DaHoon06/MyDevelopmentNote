@@ -16,9 +16,9 @@
                   id="textarea" v-model="board_content" rows="3"
                   max-rows="6"></b-form-textarea>
             </div>
-              <button v-if="btn" v-on:click="insertData" variant="primary">작성하기</button>
-              <button v-else v-on:click="updateBoard" variant="primary">수정하기</button>
-              <button variant="danger" v-on:click="cancelWrite">취소</button>
+              <button v-if="btn" v-on:click="insertData" >작성하기</button>
+              <button v-else v-on:click="updateBoard" >수정하기</button>
+              <button v-on:click="cancelWrite">취소</button>
           </b-form>
         </div>
       </div>
@@ -59,23 +59,22 @@ export default class WriterForm extends Vue{
 
 
   async insertData(){
-    const data = await Vue.axios.post('/board/insert',{
+    console.log('----------------------');
+    const result = await Vue.axios.post('/board/insert',{
         title: this.board_title,
         writer: '전다훈',
         content: this.board_content,
     });
-    console.log(data);
-    // if(result){
-    //   await this.$router.push({
-    //     path:'/board'
-    //   });
-    // }
+    console.log(result);
+    if(result){
+      await this.$router.replace('/board');
+    } else {
+      alert('작성 실패...')
+    }
   }
 
   cancelWrite(){
-    this.$router.push({
-      path: '/board'
-    })
+    this.$router.replace('/board');
   }
 
 
@@ -117,20 +116,40 @@ export default class WriterForm extends Vue{
   display: flex;
 }
 
+button {
+  background: none;
+  border: none;
+  outline: none;
+}
+
 .board_main{
-  width: 90%;
-  margin: auto;
+  width: 70%;
+  margin-left: 260px;
   height: auto;
 }
 
 .board_section2{
   width: 100%;
-  margin: auto;
+  margin-left: 50px;
 }
+@media screen and (max-width: 1024px){
+  .board_main{
+    margin: auto;
+    width: 100%;
+  }
 
-@media screen and (max-width: 350px){
   .board_section2 {
-    width: 350px;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 350px){
+  .board_main{
+    margin: auto;
+    width: 340px;
+  }
+  .board_section2 {
+    width: 340px;
+
   }
 }
 

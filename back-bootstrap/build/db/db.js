@@ -62,12 +62,11 @@ var DB;
                             _a.trys.push([0, 2, , 3]);
                             if (this.db && this.db.isConnected())
                                 return [2 /*return*/, this.db];
-                            console.warn(this.connection);
                             this.db = new mongodb_1.MongoClient(this.connection, {
                                 useNewUrlParser: true,
                                 useUnifiedTopology: true,
                             });
-                            console.warn('CONNECTED !!');
+                            console.warn('DB CONNECTED');
                             return [4 /*yield*/, this.db.connect()];
                         case 1: return [2 /*return*/, _a.sent()];
                         case 2:

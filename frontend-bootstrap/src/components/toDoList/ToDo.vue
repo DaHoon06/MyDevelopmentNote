@@ -237,10 +237,10 @@ export default class ToDo extends Vue{
       alert('ERROR');
     }
   }
+
   async editTodo(id: string,index: number){
     console.log(id,index);
     this.obID = id;
-
   }
 
   async updateData(id: string){
@@ -248,7 +248,6 @@ export default class ToDo extends Vue{
     for(let i of this.todoList){data = i}
     console.log(data._id);
     const result = await this.updateTodo(id,data);
-
   }
 
   //--------- BACKEND ---------

@@ -14,7 +14,7 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 
 @Component
 export default class TodoModal extends Vue{
-  @Prop() updateIndex ?: string;
+  @Prop() updateIndex ?: string = '';
 
   todo_content: string;
 
@@ -38,7 +38,7 @@ export default class TodoModal extends Vue{
     });
 
     if(result){
-      this.$emit('success_todoList',true);
+      this.$emit('success-todoList',true);
       this.todo_content = '';
     } else {
       throw new Error('입력 실패..');

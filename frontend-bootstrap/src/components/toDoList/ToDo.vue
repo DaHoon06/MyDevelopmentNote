@@ -92,13 +92,13 @@
 
     </div>
 
-  <todo-modal @success_todoList="getTODOList" :updateIndex="obID"/>
+  <todo-modal @success_todoList="getTODOList" :updateIndex="ob"/>
 
 </div>
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
+import {Component, Vue} from "vue-property-decorator";
 import todoModal from './TodoModal.vue';
 import draggable from "vuedraggable";
 
@@ -121,7 +121,7 @@ interface TODO_DETAIL {
 export default class ToDo extends Vue{
 
   //PROP DATA
-  obID: string = '';
+  ob: string;
 
   todoList: TODO_DETAIL[];
   doingList : TODO_DETAIL[];
@@ -143,7 +143,7 @@ export default class ToDo extends Vue{
     this.isComplete = false;
     this.isChecked = false;
 
-
+    this.ob = '';
   }
 
   async created(){
@@ -238,9 +238,10 @@ export default class ToDo extends Vue{
     }
   }
 
-  async editTodo(id: string,index: number){
-    console.log(id,index);
-    this.obID = id;
+  async editTodo(id: string,index: number,updateData: string){
+    console.log(id,index,updateData);
+    this.ob = id;
+    //return this.ob;
   }
 
   async updateData(id: string){

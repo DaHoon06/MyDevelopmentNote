@@ -57,7 +57,7 @@ var BoardController = /** @class */ (function () {
                                 { $count: 'allCount' },
                             ]).toArray()];
                     case 2:
-                        allCount = (_b.sent())[0].allCount;
+                        allCount = (_b.sent())[0];
                         if (isNaN(page)) {
                             page = 1;
                         }
@@ -70,7 +70,7 @@ var BoardController = /** @class */ (function () {
                             ]).toArray()];
                     case 3:
                         boardData = _b.sent();
-                        console.log(hidePost, maxPost + ' 총 페이지 : 현재 페이지');
+                        console.log(hidePost, maxPost + ' skip : limit');
                         return [2 /*return*/, {
                                 result: true,
                                 boardData: boardData,
@@ -81,6 +81,34 @@ var BoardController = /** @class */ (function () {
                         e_1 = _b.sent();
                         throw new Error(e_1);
                     case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    BoardController.prototype.insertData = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var client, exists;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
+                    case 1:
+                        client = _a.sent();
+                        return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).insertOne({
+                                title: data.title,
+                                content: data.content,
+                                writer: data.writer,
+                                createData: new Date(),
+                                updatedDate: new Date(),
+                                isComment: 1,
+                                isDelete: 1,
+                                hit: 0,
+                            })];
+                    case 2:
+                        exists = _a.sent();
+                        if (exists) {
+                            return [2 /*return*/, { result: true }];
+                        }
+                        throw new Error('실패..');
                 }
             });
         });

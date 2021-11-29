@@ -51,7 +51,7 @@ var DB;
     var MongoConn = /** @class */ (function () {
         function MongoConn() {
             // private connection: string = process.env.NODE_ENV ? 'mongodb://localhost:27017/localDB' : 'mongodb://localhost:27017/localDB';
-            this.connection = process.env.NODE_ENV !== 'development' ? "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/test" : "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/test";
+            this.connection = process.env.NODE_ENV !== 'development' ? "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" : "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/test";
         }
         MongoConn.prototype.connect = function () {
             return __awaiter(this, void 0, void 0, function () {

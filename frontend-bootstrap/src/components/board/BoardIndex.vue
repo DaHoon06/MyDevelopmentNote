@@ -92,12 +92,11 @@ export default class BoardIndex extends Vue{
   }
     async created(){
       const { data } = await Vue.axios.get('/board') as {data: any};
-      const boardData = data.boardData;
-
       if(!data.result){
         this.isBoard = true;
       }
-      this.board = boardData;
+
+      this.board = data.boardData;
       this.currentPage = data.currentPage;
       this.perPage = data.totalPage;
     }
@@ -108,7 +107,9 @@ export default class BoardIndex extends Vue{
    }
 
    async writeForm(){
-
+     const result = await this.$router.push({
+       path : '/board/write',
+     });
    }
 
    async page(pageNum){
@@ -205,11 +206,12 @@ a{
 @media screen and (max-width: 350px){
   #boardList {
     display: block;
-    width: 324px;
+    width: 350px;
   }
 
   .board_section2{
-    width: 324px;
+    width: 340px;
+    margin-left: 5px;
   }
 }
 </style>

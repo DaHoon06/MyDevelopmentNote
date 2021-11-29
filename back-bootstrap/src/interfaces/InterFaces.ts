@@ -9,7 +9,6 @@ export namespace INTERFACES {
     }
 
     export interface IBoard{
-        bNum: number,
         title: string,
         content: string,
         writer: string,

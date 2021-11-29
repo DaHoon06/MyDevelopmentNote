@@ -88,11 +88,8 @@ router.post('/insert', function (req, res, next) { return __awaiter(void 0, void
                 return [4 /*yield*/, bc.insertData(boardData)];
             case 1:
                 result = (_b.sent()).result;
-                console.log(result);
                 if (result)
                     return [2 /*return*/, res.status(201).send({ result: true })];
-                else
-                    return [2 /*return*/, { result: false }];
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _b.sent();

@@ -92,7 +92,7 @@ export default class BoardIndex extends Vue{
   }
     async created(){
       const { data } = await Vue.axios.get('/board') as {data: any};
-      if(!data.result){
+      if(data.result){
         this.isBoard = true;
       }
 

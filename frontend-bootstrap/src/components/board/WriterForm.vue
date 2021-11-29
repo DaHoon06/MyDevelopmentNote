@@ -118,13 +118,20 @@ export default class WriterForm extends Vue{
 }
 
 .board_main{
-  width: 70%;
+  width: 90%;
+  margin: auto;
   height: auto;
 }
 
 .board_section2{
-  width: 700px;
+  width: 100%;
   margin: auto;
+}
+
+@media screen and (max-width: 350px){
+  .board_section2 {
+    width: 350px;
+  }
 }
 
 

@@ -12,6 +12,10 @@ const routes: Array<RouteConfig> = [
     path: '/board',
     component: () => import('@/components/board/BoardIndex.vue')
   },
+  {
+    path: '/board/write',
+    component: () => import('@/components/board/WriterForm.vue')
+  }
 
 
 ]

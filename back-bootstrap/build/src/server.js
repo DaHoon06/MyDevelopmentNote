@@ -10,7 +10,7 @@ var port = Number(process.env.PORT) || 3000;
 var server = (0, http_1.createServer)(app_1.default);
 var io = socket(server);
 server.listen(port, function () {
-    console.log(port + "\uD3EC\uD2B8\uB85C \uC2E4\uD589\uB428");
+    console.log(port + " \uD3EC\uD2B8\uB85C \uC2E4\uD589\uB428");
 });
 var socketList = [];
 io.on('connection', function (socket) {

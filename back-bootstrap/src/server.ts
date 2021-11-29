@@ -8,7 +8,7 @@ const server = createServer(app);
 const io = socket(server);
 
 server.listen(port, () => {
-    console.log(`${port}포트로 실행됨`);
+    console.log(`${port} 포트로 실행됨`);
 });
 
 let socketList = [] as any;

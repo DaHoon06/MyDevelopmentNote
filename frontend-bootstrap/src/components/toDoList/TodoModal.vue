@@ -1,14 +1,12 @@
 <template>
-  <div>
-
-
-    <b-modal ref="modal" id="modal-center" centered title="입력" @ok="submitBtn">
-      <b-form @submit.stop.prevent="handleSubmit">
-        <b-form-textarea no-resize v-model="todo_content" required  rows="10"></b-form-textarea>
-      </b-form>
+<div>
+  <b-modal ref="modal" id="modal-center" centered title="입력" @ok="submitBtn">
+    <b-form @submit.stop.prevent="handleSubmit">
+      <b-form-textarea no-resize v-model="todo_content" required  rows="10"></b-form-textarea>
+    </b-form>
     {{updateIndex}}
-    </b-modal>
-  </div>
+  </b-modal>
+</div>
 </template>
 
 <script lang="ts">
@@ -16,20 +14,13 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 
 @Component
 export default class TodoModal extends Vue{
-  @Prop()
-  updateIndex: string;
+  @Prop() updateIndex ?: string = '';
 
   todo_content: string;
 
   constructor() {
     super();
     this.todo_content = '';
-
-  }
-  create(){
-    if(this.updateIndex){
-      this.todo_content = this.updateIndex;
-    }
   }
 
   submitBtn(bvModalEvt: any){
@@ -47,7 +38,7 @@ export default class TodoModal extends Vue{
     });
 
     if(result){
-      this.$emit('success_todoList',true);
+      this.$emit('success-todoList',true);
       this.todo_content = '';
     } else {
       throw new Error('입력 실패..');

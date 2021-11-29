@@ -41,19 +41,62 @@ var BoardController_1 = require("../../controller/BoardController");
 var router = (0, express_1.Router)();
 var bc = new BoardController_1.BoardController();
 router.get('/:page?', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var page, data, e_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var page, _a, result, boardData, currentPage, totalPage, data, e_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _b.trys.push([0, 2, , 3]);
                 page = req.query;
                 return [4 /*yield*/, bc.getBoardList(page)];
             case 1:
-                data = _a.sent();
-                return [2 /*return*/, res.status(200).send(data)];
+                _a = _b.sent(), result = _a.result, boardData = _a.boardData, currentPage = _a.currentPage, totalPage = _a.totalPage;
+                if (currentPage === 1) {
+                    totalPage = 1;
+                }
+                data = {
+                    result: true,
+                    boardData: boardData,
+                    currentPage: currentPage,
+                    totalPage: totalPage,
+                };
+                if (result) {
+                    return [2 /*return*/, res.status(200).send(data)];
+                }
+                else {
+                    return [2 /*return*/, res.status(500).send({ result: false })];
+                }
+                return [3 /*break*/, 3];
             case 2:
-                e_1 = _a.sent();
+                e_1 = _b.sent();
                 throw new Error(e_1);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.post('/insert', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, title, writer, content, boardData, result, e_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, title = _a.title, writer = _a.writer, content = _a.content;
+                boardData = {
+                    title: title,
+                    writer: writer,
+                    content: content
+                };
+                return [4 /*yield*/, bc.insertData(boardData)];
+            case 1:
+                result = (_b.sent()).result;
+                console.log(result);
+                if (result)
+                    return [2 /*return*/, res.status(201).send({ result: true })];
+                else
+                    return [2 /*return*/, { result: false }];
+                return [3 /*break*/, 3];
+            case 2:
+                e_2 = _b.sent();
+                throw new Error(e_2);
             case 3: return [2 /*return*/];
         }
     });

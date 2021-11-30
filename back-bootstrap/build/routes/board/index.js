@@ -35,9 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var BoardController_1 = require("../../controller/BoardController");
+var index_1 = __importDefault(require("./comment/index"));
 var router = (0, express_1.Router)();
 var bc = new BoardController_1.BoardController();
 router.get('/:page?', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
@@ -57,7 +61,7 @@ router.get('/:page?', function (req, res, next) { return __awaiter(void 0, void 
                     totalPage: totalPage,
                 };
                 if (result) {
-                    return [2 /*return*/, res.status(200).send(data)];
+                    return [2 /*return*/, res.status(201).send(data)];
                 }
                 else {
                     return [2 /*return*/, res.status(500).send({ result: false })];
@@ -86,7 +90,7 @@ router.post('/insert', function (req, res, next) { return __awaiter(void 0, void
             case 1:
                 result = (_b.sent()).result;
                 if (result)
-                    return [2 /*return*/, res.status(200).send({ result: true })];
+                    return [2 /*return*/, res.status(201).send({ result: true })];
                 return [2 /*return*/, res.status(500).send({ result: false })];
             case 2:
                 e_2 = _b.sent();
@@ -95,5 +99,46 @@ router.post('/insert', function (req, res, next) { return __awaiter(void 0, void
         }
     });
 }); });
+router.get('/b/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, data, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, bc.detailData(id)];
+            case 1:
+                data = (_a.sent()).data;
+                if (data)
+                    return [2 /*return*/, res.status(200).send(data)];
+                return [2 /*return*/, res.status(500).send({ result: false })];
+            case 2:
+                e_3 = _a.sent();
+                throw new Error(e_3);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.patch('/delete/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, result, e_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = req.params.id;
+                return [4 /*yield*/, bc.deleteData(id)];
+            case 1:
+                result = (_a.sent()).result;
+                if (result)
+                    return [2 /*return*/, res.status(200).send(result)];
+                return [2 /*return*/, res.status(500).send(result)];
+            case 2:
+                e_4 = _a.sent();
+                throw new Error(e_4);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.use('/comment', index_1.default);
 exports.default = router;
 //# sourceMappingURL=index.js.map

@@ -3,7 +3,9 @@
   <header id="header">
     <div id="header-wrap">
 
-
+        <button class="googleBtn">
+          <img class="google_logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbAeoW6pgRV5d6lrao5OZ3JTiAxUHC18nxMd5FnwwMX-Wgz-qFlkYrB0uo6AZM_Bz1OTk&usqp=CAU" />
+        </button>
 
     </div>
   </header>
@@ -20,6 +22,22 @@ export default class HeaderNav extends Vue{
 </script>
 
 <style scoped>
+.googleBtn{
+  background: none;
+  outline: none;
+  border: none;
+  border-radius: 100%;
+}
+
+.google_logo{
+  border-radius: 36px;
+  width: 27px;
+}
+
+#header-wrap {
+
+
+}
 
 #header{
   width: calc(100% - 260px);

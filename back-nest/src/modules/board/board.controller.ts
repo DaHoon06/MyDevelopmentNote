@@ -33,6 +33,8 @@ export class BoardController {
     return data  ;
   }
 
+
+
   @UseGuards(AuthGuard('jwt'))
   @Post()
   async insertData(@Body() boardDTO: boardDTO) {

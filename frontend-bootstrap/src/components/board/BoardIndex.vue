@@ -35,9 +35,9 @@
         <button class="board-write_btn" v-on:click="writeForm">
           <span>글작성</span>
         </button>
-
       </div>
-      </section>
+
+    </section>
 
   </div>
 </template>
@@ -60,11 +60,7 @@ import { Component, Vue } from 'vue-property-decorator';
 //   }
 // }
 
-@Component({
-  components: {
-
-  },
-})
+@Component
 export default class BoardIndex extends Vue{
 
   isBoard: boolean;
@@ -91,24 +87,26 @@ export default class BoardIndex extends Vue{
     this.currentPage = 1;
   }
     async created(){
+      console.log('test')
       const { data } = await Vue.axios.get('/board') as {data: any};
       if(!data.result){
         this.isBoard = true;
       }
-      console.log(data)
+
       this.board = data.boardData;
       this.currentPage = data.currentPage;
       this.perPage = data.totalPage;
     }
 
-
    async detailBoard(board : any) {
-
-   }
+    await this.$router.push({
+       path : `/board/detail/${board._id}`,
+     })
+    }
 
    async writeForm(){
-     const result = await this.$router.push({
-       path : '/board/write',
+     await this.$router.push({
+       path: '/board/write'
      });
    }
 
@@ -120,37 +118,11 @@ export default class BoardIndex extends Vue{
      this.perPage = data.totalPage;
 
      throw new Error();
-   }
-
-
- //  async created(){
- //
- //    const res = await this.axios.get(TestURL.GetData);
- //    if(res.data.msg === 'noData'){
- //      this.isBoard = true;
- //    }
- //    this.board = res.data.board;
- //    this.currentPage = res.data.currentPage;
- //    this.perPage = res.data.totalPage;
- //
- //    throw new Error();
- //  }
- //
- // async detailBoard(board : any) {
- //  await this.$router.push({
- //      path : `/board/detail/${board._id}`,
- //    })
- //  }
- //
- //  async writeForm(){
- //    await this.$router.push({
- //      path : '/board/write',
- //    }).catch((err)=> {console.error(err)});
- //  }
- //
+  }
 
 
 }
+
 </script>
 
 <style scoped>
@@ -195,6 +167,11 @@ a{
 
 .isBoard {
   text-align: center;
+}
+
+.boardDetail:hover {
+  cursor: pointer;
+  color: #bebebf;
 }
 
 @media screen and (max-width: 1024px){

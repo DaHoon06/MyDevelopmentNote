@@ -2,9 +2,7 @@
   <div class="board_wrapper">
 
     <section class="board_main">
-
       <div class="board_section_wrap">
-
         <div class="board_section2">
           <b-form>
             <div>
@@ -31,7 +29,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class WriterForm extends Vue{
+export default class WriteForm extends Vue{
 
   btn: boolean;
 
@@ -39,8 +37,8 @@ export default class WriterForm extends Vue{
   board_content: string;
 
   board: {
+    _id: string,
     board_title: string,
-    board_writer: string,
     board_content: string
   };
 
@@ -50,62 +48,64 @@ export default class WriterForm extends Vue{
     this.board_content = '';
 
     this.board = {
+      _id: '',
       board_title : '',
-      board_writer : '',
       board_content : '',
     }
     this.btn = true;
   }
 
+  async created(){
+    if(this.$route.params.id){
+
+      const id = this.$route.params.id;
+      const boardData = await Vue.axios.get(`/board/b/${id}`);
+
+      this.board_title = boardData.data["title"];
+      this.board_content = boardData.data["content"];
+      this.btn = false;
+    }
+  }
 
   async insertData(){
-    console.log('----------------------');
-    const result = await Vue.axios.post('/board/insert',{
+    const { data } = await Vue.axios.post('/board/insert',{
         title: this.board_title,
         writer: '전다훈',
         content: this.board_content,
     });
-    console.log(result);
-    if(result){
-      await this.$router.replace('/board');
-    } else {
+
+    await this.$router.push({
+      path: '/board'
+    });
+
+    console.log(data)
+    if(!data){
       alert('작성 실패...')
+      await this.$router.push({
+        path: '/board'
+      });
     }
   }
 
-  cancelWrite(){
-    this.$router.replace('/board');
+  async cancelWrite(){
+     await this.$router.push({
+       path: '/board'
+     });
+  }
+
+  async updateBoard(){
+      const _id = this.$route.params.id;
+      const result = await Vue.axios.patch(`/board/${_id}`,{
+
+      });
+      if(result) {
+        await this.$router.push({
+          path: '/board'
+        });
+      }
   }
 
 
-  //
-  // writeBoard(){
-  //   axios.post('/api/board',{
-  //     board_title : this.board_title,
-  //     board_content : this.board_content,
-  //   }).then((res) => {
-  //     this.$router.push({
-  //       path : '/board'
-  //     })
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   })
-  // }
-  //
-  // updateBoard() {
-  //   const _id = this.$route.params.id;
-  //   axios.put(`/api/board/${_id}`,{
-  //     board_title : this.board_title,
-  //     board_content : this.board_content
-  //   }).then((res) => {
-  //     this.$router.push({
-  //       path : '/board'
-  //     })
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   })
-  // }
-  //
 
 
 }

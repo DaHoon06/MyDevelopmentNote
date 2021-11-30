@@ -5,7 +5,6 @@ auto.initialize(mongoose.connection);
 * model은 데이터베이스에서 데이터를 읽고, 생성하고, 수정하는프로그래밍 인터페이스를 정의
 */
 
-
 const schema = mongoose.Schema;
 
 const boardSchema = new schema({
@@ -15,8 +14,8 @@ const boardSchema = new schema({
     board_title: String,
     board_content: String,
     board_writer: String,
-    created_at: Date,
-    updated_at: Date
+    created_at: {type: Date, default: new Date()},
+    updated_at: {type: Date, default: new Date()},
 })
 
 boardSchema.plugin(auto.plugin,{
@@ -28,5 +27,4 @@ boardSchema.plugin(auto.plugin,{
 
 const Board = mongoose.model('Board',boardSchema);
 
-
-export {Board}
+export { Board }

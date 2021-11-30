@@ -36,58 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DB = void 0;
-var mongodb_1 = require("mongodb");
-var DB;
-(function (DB) {
-    //DB
-    DB.NAME = 'DATA';
-    //COLLECTION
-    var COLLECTIONS;
-    (function (COLLECTIONS) {
-        COLLECTIONS["ToDo"] = "ToDo";
-        COLLECTIONS["Board"] = "Board";
-    })(COLLECTIONS = DB.COLLECTIONS || (DB.COLLECTIONS = {}));
-    var MongoConn = /** @class */ (function () {
-        function MongoConn() {
-            // private connection: string = process.env.NODE_ENV ? 'mongodb://localhost:27017/localDB' : 'mongodb://localhost:27017/localDB';
-            this.connection = process.env.NODE_ENV !== 'development' ? "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" : "mongodb+srv://" + process.env.atlasID + ":" + process.env.atlasPW + "@cluster.qjven.mongodb.net/test";
-        }
-        MongoConn.prototype.connect = function () {
-            return __awaiter(this, void 0, void 0, function () {
-                var e_1;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            _a.trys.push([0, 2, , 3]);
-                            if (this.db && this.db.isConnected())
-                                return [2 /*return*/, this.db];
-                            this.db = new mongodb_1.MongoClient(this.connection, {
-                                useNewUrlParser: true,
-                                useUnifiedTopology: true,
-                            });
-                            console.warn('DB CONNECTED');
-                            return [4 /*yield*/, this.db.connect()];
-                        case 1: return [2 /*return*/, _a.sent()];
-                        case 2:
-                            e_1 = _a.sent();
-                            throw new Error(e_1);
-                        case 3: return [2 /*return*/];
-                    }
-                });
-            });
-        };
-        Object.defineProperty(MongoConn, "getInstance", {
-            get: function () {
-                if (!MongoConn.instance)
-                    MongoConn.instance = new MongoConn();
-                return MongoConn.instance;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        return MongoConn;
-    }());
-    DB.MongoConn = MongoConn;
-})(DB = exports.DB || (exports.DB = {}));
-//# sourceMappingURL=db.js.map
+var express_1 = require("express");
+var router = (0, express_1.Router)();
+router.get('/b/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        return [2 /*return*/];
+    });
+}); });
+exports.default = router;
+//# sourceMappingURL=index.js.map

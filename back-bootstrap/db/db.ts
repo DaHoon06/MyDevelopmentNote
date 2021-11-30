@@ -1,4 +1,4 @@
-import {MongoClient} from "mongodb";
+import { MongoClient } from "mongodb";
 
 export namespace DB {
     //DB
@@ -19,12 +19,11 @@ export namespace DB {
         async connect(): Promise<MongoClient> {
             try {
                 if(this.db && this.db.isConnected()) return this.db;
-                console.warn(this.connection);
                 this.db = new MongoClient(this.connection,{
                     useNewUrlParser: true,
                     useUnifiedTopology: true,
                 });
-                console.warn('CONNECTED !!');
+                console.warn('DB CONNECTED');
                 return await this.db.connect();
             } catch (e: any) {
                 throw new Error(e);

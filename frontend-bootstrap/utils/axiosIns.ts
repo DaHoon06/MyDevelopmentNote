@@ -24,13 +24,13 @@ instance.interceptors.request.use(config  => {
 });
 
 instance.interceptors.response.use(response => {
-    const {data} = response
-    const {result, error} = data
+    const { data } = response
+    const { result, error } = data
     return response
 }, error => {
     console.log('ERROR...  -_-')
-    const {response} = error
-    const {status, data} = response
+    const { response } = error
+    const { status, data } = response
 
     if (status === 401) {
         console.log('error시 401에러')

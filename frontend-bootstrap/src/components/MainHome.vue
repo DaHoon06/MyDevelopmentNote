@@ -8,10 +8,8 @@
           <chart-index />
         </div>
       </div>
-
       <!-- ToDOList 시작 -->
       <to-do />
-
 
     </div>
   </section>

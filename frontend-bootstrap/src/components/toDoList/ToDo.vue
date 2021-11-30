@@ -5,9 +5,10 @@
 
       <section class="toDoList">
         <b-card-group deck>
-          <b-card header="DOING">
-
-            <button v-b-modal.modal-center class="insertBtn">+</button>
+          <b-card header="ToDo">
+            <div class="todoBtn_group">
+              <button v-b-modal.modal-center class="insertBtn">+</button>
+            </div>
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in todoList" :key="index">
@@ -21,7 +22,7 @@
                       {{todoList._id.todo_content}}
                     </b-list-group-item>
                     <input type="checkbox" class="todoCheck" :key="index" :checked="isChecked" @change="doing(todoList._id.obId,$event.target)" />
-                    <div>
+                    <div class="todoBtn_group">
                       <button v-b-modal.modal-center class="updateBtn" @click="editTodo(todoList._id.obId,index)">edit</button>
                       <button class="deleteBtn" @click="deleteData(todoList._id.obId)">ㅡ</button>
 
@@ -37,7 +38,7 @@
 
       <section class="toDoList">
         <b-card-group deck>
-          <b-card header="DOING">
+          <b-card header="Working">
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in doingList" :key="index">
@@ -51,7 +52,7 @@
                       {{todoList._id.todo_content}}
                     </b-list-group-item>
                     <input type="checkbox" class="todoCheck" :checked="isChecked" @change="complete(todoList._id.obId,$event.target)" />
-                    <div>
+                    <div class="todoBtn_group">
                       <button v-b-modal.modal-center class="updateBtn" @click="editTodo(todoList._id.obId,index)">edit</button>
                       <button class="deleteBtn" @click="deleteData(todoList._id.obId)">ㅡ</button>
 
@@ -66,7 +67,7 @@
 
       <section class="toDoList">
         <b-card-group deck>
-          <b-card header="DONE">
+          <b-card header="Done">
             <b-list-group>
               <draggable>
                 <div v-for="(todoList,index) in completeList" :key="index">
@@ -79,7 +80,7 @@
                     <b-list-group-item variant="light">
                       {{todoList._id.todo_content}}
                     </b-list-group-item>
-                    <div>
+                    <div class="todoBtn_group">
                       <button class="deleteBtn" @click="deleteData(todoList._id.obId)">ㅡ</button>
                     </div>
                   </div>
@@ -92,7 +93,7 @@
 
     </div>
 
-  <todo-modal @success_todoList="getTODOList" :updateIndex="ob"/>
+  <todo-modal @success-todoList="getTODOList" :updateIndex="ob"/>
 
 </div>
 </template>
@@ -275,9 +276,6 @@ export default class ToDo extends Vue{
     return data;
   }
 
-
-
-
 }
 </script>
 
@@ -346,11 +344,14 @@ input[type="checkbox"] {
   float: right;
 }
 
-
 input[type="checkbox"]:hover {
   filter: brightness(90%);
 }
 
+.todoBtn_group{
+  display: flex;
+  justify-content: flex-end;
+}
 
 .updateBtn {
   color: #fcfdfd;

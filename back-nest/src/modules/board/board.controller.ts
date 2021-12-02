@@ -19,7 +19,7 @@ export class BoardController {
   ) {}
 
   @Get(':page?')
-  async getBoard(@Param('page') page: string) {
+  async getBoard(@Param('page') page: number) {
     console.log('Get Board page : ',page);
     const { data } = await this.boardService.getBoard(page);
 
@@ -32,7 +32,6 @@ export class BoardController {
     }
     return data  ;
   }
-
 
 
   @UseGuards(AuthGuard('jwt'))

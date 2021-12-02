@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header-page></header-page>
+    <side-bar></side-bar>
 
     <router-view />
 
@@ -10,12 +10,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HeaderPage from '@/components/commons/HeaderPage.vue';
+import SideBar from '@/components/commons/SideBar.vue';
 import FooterPage from '@/components/commons/FooterPage.vue';
 
 @Component({
   components: {
-    HeaderPage,
+    SideBar,
     FooterPage,
   }
 })

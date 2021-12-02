@@ -220,6 +220,9 @@ export default class ToDo extends Vue{
   }
 
   async complete(id: string, ele: any){
+    if(this.ob !== undefined){
+      this.ob = '';
+    }
     const  result  = await this.changeStateComplete(id);
     if(result){
       await this.getTODOList();
@@ -246,6 +249,9 @@ export default class ToDo extends Vue{
   }
 
   async updateData(id: string){
+    if(this.ob !== undefined){
+      this.ob = '';
+    }
     let data;
     for(let i of this.todoList){data = i}
     console.log(data._id);

@@ -1,0 +1,17 @@
+@media screen and (max-width: 1350px) {
+    .header_section{
+        width: 200px;
+    }
+
+    .nav_middle_section{
+        width: 820px;
+    }
+    #nav_middle{
+        width: 820px;
+    }
+
+    .dp_main{
+        width: 800px;
+        display: block;
+    }
+}

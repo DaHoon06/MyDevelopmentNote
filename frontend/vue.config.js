@@ -11,5 +11,5 @@ proxy: {
         }
     }
 },
-outputDir: '../backend/public',
+outputDir: '../backend/docs',
 }

@@ -14,7 +14,7 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 
 @Component
 export default class TodoModal extends Vue{
-  @Prop() updateIndex ?: string = '';
+  @Prop() updateIndex ?: string;
 
   todo_content: string;
 
@@ -33,6 +33,8 @@ export default class TodoModal extends Vue{
       this.$bvModal.hide('modal-center');
     }, 200);
 
+    console.log('test');
+
     const result = await Vue.axios.post('/todoList/insert',{
       todo_content:  this.todo_content,
     });
@@ -43,6 +45,10 @@ export default class TodoModal extends Vue{
     } else {
       throw new Error('입력 실패..');
     }
+
+
+
+
   }
 
 

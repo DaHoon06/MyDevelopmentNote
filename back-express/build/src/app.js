@@ -57,7 +57,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express_1.default.json({ limit: '100mb' }));
 app.use(express_1.default.urlencoded({ limit: '100mb', extended: true }));
-app.use(express_1.default.static(path.join(__dirname, '../public')));
+app.use(express_1.default.static(path.join(__dirname, '../docs')));
 app.use(cookieParser());
 /*
 app.use(session({

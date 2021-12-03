@@ -56,8 +56,19 @@
                 </p>
               </a>
             </li>
+            <li>
+              <p>
+                <img class="mail" src="https://cdn.pixabay.com/photo/2013/04/01/21/31/mail-99217_640.png" />
+                dahoon226@naver.com
+              </p>
+            </li>
           </ul>
         </div>
+
+        <div id="desc">
+          GitHub Blog
+        </div>
+
       </nav>
     </div>
   </div>
@@ -101,13 +112,15 @@
         </section>
       </div>
 
-      <nav>
+    </nav>
+
+    <nav id="myInfo">
         <div class="menu">
           <ul>
             <li>
               <a href="https://github.com/DaHoon06">
                 <p>
-                  <img class="git" src="https://icons-for-free.com/iconfiles/png/512/part+1+github-1320568339880199515.png" />
+                  <img class="git" src="https://key0.cc/images/small/1624_ff0201a47d8da7e9de462d6de33561f3.png" />
                   DaHoon06
                 </p>
               </a>
@@ -115,15 +128,19 @@
             <li>
               <a href="https://june-17.tistory.com/">
                 <p>
-                  <img class="t-story" src="https://blog.kakaocdn.net/dn/bqj7t0/btqNIFHj9aC/KYgripn7jVg8QTJk8qM9hk/img.png" />
+                  <img class="t-story" src="https://t1.kakaocdn.net/kakaocorp/kakaocorp/admin/5a539919017800001.png" />
                   june-17
                 </p>
               </a>
             </li>
+            <li>
+              <p>
+                <img class="mail" src="https://cdn.pixabay.com/photo/2013/04/01/21/31/mail-99217_640.png" />
+                dahoon226@naver.com
+              </p>
+            </li>
           </ul>
         </div>
-      </nav>
-
     </nav>
 
   </div>
@@ -220,18 +237,44 @@ a:hover {
   border-radius: 8px;
 }
 
+.mail {
+  background: none;
+  outline: none;
+  border: none;
+  width: 30px;
+  border-radius: 30px;
+}
+
 #profile_section {
   margin-bottom: 50px;
 }
 
-@media screen and (max-width: 1280px){
+#myInfo {
+  width: 100%;
+  background: #0e0e59;
+  color: #ffffff;
+}
+
+#desc {
+  border: 1px solid #ffffff;
+  background: #fff3e0;
+  border-radius: 5px;
+  width: 90%;
+  height: 200px;
+  margin: auto;
+  color: black;
+  padding: 10px;
+  line-height: normal;
+}
+
+@media screen and (max-width: 1279px){
   a {
     text-decoration: none;
-    color: black;
+    color: #ffffff;
   }
 
   a:hover {
-    color: #0f0f57;
+    color: #ffffff;
   }
 
   #navBar_web{
@@ -270,20 +313,27 @@ a:hover {
   }
 
   .profile{
-    margin-top: 35px;
+    margin: 30px auto 30px;
   }
 
   .side_wrapper {
     border: none;
     border-radius: 0;
   }
+
+  .menu ul li {
+    margin-top: 10px;
+    padding: 0;
+  }
+
+
 }
 
 /* 테블릿 */
 @media screen and (max-width: 1023px) {
   a {
     text-decoration: none;
-    color: black;
+    color: #ffffff;
   }
 
   a:hover {
@@ -316,7 +366,7 @@ a:hover {
   }
 
   .profile{
-    margin-top: 35px;
+    margin: 30px auto 30px;
   }
 
   .side_wrapper {
@@ -330,7 +380,7 @@ a:hover {
 @media screen and (max-width: 767px) {
   a {
     text-decoration: none;
-    color: black;
+    color: #ffffff;
   }
 
   a:hover {
@@ -368,7 +418,7 @@ a:hover {
   }
 
   .profile{
-    margin-top: 35px;
+    margin: 30px auto 30px;
   }
 
   .side_wrapper {

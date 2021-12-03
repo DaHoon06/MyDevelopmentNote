@@ -10,14 +10,17 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/node',
+    name: 'node',
     component: () => import('@/components/node/IndexPage.vue')
   },
   {
     path: '/nest',
+    name: 'nest',
     component: () => import('@/components/nest/IndexPage.vue')
   },
   {
     path: '/vue',
+    name: 'vue',
     component: () => import('@/components/vue/IndexPage.vue')
   }
 

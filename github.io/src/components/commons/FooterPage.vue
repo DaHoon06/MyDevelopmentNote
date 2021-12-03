@@ -63,18 +63,43 @@ footer {
   width: 100%;
 }
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 1279px){
+  footer {
+    margin: 0;
+  }
+
+  #footer {
+    width: 100%;
+    margin: auto;
+  }
+
+}
+
+/* 테블릿 */
+@media screen and (max-width: 1023px) {
+  footer {
+    margin: 0;
+  }
+
+  #footer {
+    width: 100%;
+    margin: auto;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  footer {
+    margin: 0;
+  }
+
   #footer {
     width: 100%;
     margin: auto;
   }
 }
 
-@media screen and (max-width: 350px){
-  #footer {
-    width: 350px;
-    margin: auto;
-  }
-}
+
+
 
 </style>

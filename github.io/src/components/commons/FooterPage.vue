@@ -66,6 +66,7 @@ footer {
 @media screen and (max-width: 1279px){
   footer {
     margin: 0;
+    height: 50px;
   }
 
   #footer {
@@ -79,6 +80,7 @@ footer {
 @media screen and (max-width: 1023px) {
   footer {
     margin: 0;
+    height: 50px;
   }
 
   #footer {
@@ -91,6 +93,7 @@ footer {
 @media screen and (max-width: 767px) {
   footer {
     margin: 0;
+    height: 50px;
   }
 
   #footer {

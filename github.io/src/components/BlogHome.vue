@@ -159,6 +159,7 @@ ul {
     min-height: 500px;
     height: 100%;
   }
+
   #main_m {
     display: flex;
     flex-direction: column;
@@ -166,7 +167,6 @@ ul {
     flex-wrap: nowrap;
     margin: auto;
     width: 100%;
-
   }
 
   #main_web {

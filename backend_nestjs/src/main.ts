@@ -1,16 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {ValidationPipe} from "@nestjs/common";
+import { ValidationPipe } from "@nestjs/common";
+import { LoggingInterceptor } from "./custom/interceptor/Logging.Interceptor";
+import { TransformInterceptor } from "./custom/interceptor/TransformInterceptor";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  //app.use(logger) => 미들웨어를 모든 경로에 등록 use() 사용
+
   app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
         transform: true,
       }),);
+  //전역으로 인터셉터 사용
+    app.useGlobalInterceptors(new LoggingInterceptor(), new TransformInterceptor());
+
   app.setGlobalPrefix('/api');
   await app.listen(3000);
 }

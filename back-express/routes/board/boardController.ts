@@ -12,7 +12,7 @@ boardController.use('/comment',commentController);
 //GET
 boardController.get('/:page?',async(req: Request, res: Response, next: NextFunction) => {
    try{
-      console.log('Board GET !!!');
+      console.log('Posts GET !!!');
 
       const page = req.query;
       console.log(page + ' : PAGE');
@@ -51,7 +51,7 @@ boardController.get('/:page?',async(req: Request, res: Response, next: NextFunct
 
 //DETAIL
 boardController.get('/b/:id',(req, res) => {
-   console.log('Board GET :ID !!!'+req.params.id);
+   console.log('Posts GET :ID !!!'+req.params.id);
 
    Board.findOne({_id: req.params.id}, (err: CallbackError, boards: IBoard) => {
       if(err){return res.status(500).json({err: err})}
@@ -67,7 +67,7 @@ boardController.get('/b/:id',(req, res) => {
 
 //INSERT
 boardController.post('/',(req, res) => {
-   console.log('Board POST !!!');
+   console.log('Posts POST !!!');
    console.log(req.body);
    let body = req.body;
 
@@ -93,7 +93,7 @@ boardController.put('/:id',((req, res) => {
 
    Board.findById(req.params.id,function(err:CallbackError,boards:any){
       let body = req.body;
-      console.log('Board PUT !!!');
+      console.log('Posts PUT !!!');
       if(err){return res.status(500).json({err: 'database failure'})}
       if(!boards){return res.status(404).json({err:'board not found...'})}
 

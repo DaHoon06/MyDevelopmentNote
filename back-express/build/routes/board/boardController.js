@@ -53,7 +53,7 @@ boardController.get('/:page?', function (req, res, next) { return __awaiter(void
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                console.log('Board GET !!!');
+                console.log('Posts GET !!!');
                 page = req.query;
                 console.log(page + ' : PAGE');
                 $count = { $count: "allCount" };
@@ -85,7 +85,7 @@ boardController.get('/:page?', function (req, res, next) { return __awaiter(void
 }); });
 //DETAIL
 boardController.get('/b/:id', function (req, res) {
-    console.log('Board GET :ID !!!' + req.params.id);
+    console.log('Posts GET :ID !!!' + req.params.id);
     BoardModel_1.Board.findOne({ _id: req.params.id }, function (err, boards) {
         if (err) {
             return res.status(500).json({ err: err });
@@ -101,7 +101,7 @@ boardController.get('/b/:id', function (req, res) {
 });
 //INSERT
 boardController.post('/', function (req, res) {
-    console.log('Board POST !!!');
+    console.log('Posts POST !!!');
     console.log(req.body);
     var body = req.body;
     var insertBoard = new BoardModel_1.Board();
@@ -123,7 +123,7 @@ boardController.post('/', function (req, res) {
 boardController.put('/:id', (function (req, res) {
     BoardModel_1.Board.findById(req.params.id, function (err, boards) {
         var body = req.body;
-        console.log('Board PUT !!!');
+        console.log('Posts PUT !!!');
         if (err) {
             return res.status(500).json({ err: 'database failure' });
         }

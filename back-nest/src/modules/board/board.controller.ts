@@ -20,7 +20,7 @@ export class BoardController {
 
   @Get(':page?')
   async getBoard(@Param('page') page: number) {
-    console.log('Get Board page : ',page);
+    console.log('Get Posts page : ',page);
     const { data } = await this.boardService.getBoard(page);
 
     if (!data.result) {

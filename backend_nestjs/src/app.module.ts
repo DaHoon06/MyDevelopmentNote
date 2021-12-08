@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 
 import { ConfigModule } from "@nestjs/config";
 import {UsersModule} from "./modules/Users/users.module";
+import {TypeOrmModule} from "@nestjs/typeorm";
+import {User} from "./custom/decorator/User/User";
+import {UserEntity} from "./db/repository/User/user.entity";
 
 
 @Module({
@@ -12,6 +15,10 @@ import {UsersModule} from "./modules/Users/users.module";
           envFilePath: '.env',
           isGlobal: true,
       }),
+      TypeOrmModule.forFeature(
+          [UserEntity],
+
+      ),
       //PostModule,
       //BatchModule,
       UsersModule

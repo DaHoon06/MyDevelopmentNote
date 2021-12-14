@@ -2,6 +2,7 @@ import { DB } from '../db/db';
 import { INTERFACES } from "../src/interfaces/InterFaces";
 import IBoard = INTERFACES.IBoard;
 import { paging } from "./pagination/config";
+import { ObjectId } from "mongodb";
 
 export class BoardController {
     constructor() {
@@ -27,7 +28,7 @@ export class BoardController {
                 totalPage,
                 currentPage
             } = paging(page, allCount);
-            console.log(startPage,endPage,hidePost,maxPost,totalPage,currentPage);
+
             //전체 게시글과 게시글의 총합이 필요
             const boardData = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).aggregate([
                 {$match: { isDelete: 1}},
@@ -70,6 +71,44 @@ export class BoardController {
                 return { result: true }
             }
         } catch (e: any) {
+            throw new Error(e);
+        }
+    }
+
+    async detailData(id: string){
+        try {
+            const obID = new ObjectId(id);
+            const client = await DB.MongoConn.getInstance.connect();
+            const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).findOne({_id: obID});
+
+            const data = {
+                result: true,
+                ...exists
+            }
+
+            if(exists.length !== 0){
+                return {
+                    data
+                }
+            }
+            return { result: false }
+        } catch (e: any) {
+            throw new Error(e);
+        }
+    }
+
+    async deleteData(id: string){
+        try {
+            const obID = new ObjectId(id);
+            const client = await DB.MongoConn.getInstance.connect();
+            const exists = await client.db(DB.NAME).collection(DB.COLLECTIONS.Board).findOneAndUpdate({_id: obID}, {
+                        $set: {isDelete: 2}
+            });
+
+            if(exists) return { result: true }
+            return { result: false }
+        }
+         catch (e: any) {
             throw new Error(e);
         }
     }

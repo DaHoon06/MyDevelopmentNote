@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import { BoardDB, BoardDocument } from '../DB/schemas/board/board.schema';
-import {CallbackError, Model} from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { boardDTO } from './board.dto';
 import paging from '../../config/paging';
@@ -12,14 +12,15 @@ export class BoardService {
     private boardModel: Model<BoardDocument>
   ) {}
 
-  async getBoard(page: string) {
-    const $count = {$count: 'allCount'};
-    const [{allCount}] = await this.boardModel.aggregate([
-        $count
+  async getBoard(page: number) {
+    console.log('------------------')
+    let [total] = await this.boardModel.aggregate([
+      { $count: 'total'}
     ]).exec();
+    console.log(total)
 
-    if(page === undefined){
-      page = '1';
+    if(isNaN(page)){
+      page = 1;
     }
 
     let {
@@ -29,8 +30,8 @@ export class BoardService {
       maxPost,
       totalPage,
       currentPage
-    } = paging(page, allCount);
-    console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage + ' maxPost');
+    } = paging(page, total);
+    console.log(currentPage + ' : ' + endPage + ' : ' + totalPage +' : ' + startPage);
 
     const board = await this.boardModel.find().sort({"_id": -1}).skip(hidePost).limit(maxPost).exec();
 

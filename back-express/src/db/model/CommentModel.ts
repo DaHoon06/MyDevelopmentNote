@@ -6,8 +6,8 @@ const commentSchema = new schema({
    board_id: String,
    comment_content: String,
    comment_writer: String,
-   created_at: Date,
-   updated_at: Date,
+   created_at: {type: Date, default: new Date()},
+   updated_at: {type: Date, default: new Date()},
 });
 
 const Comment = mongoose.model('Comment',commentSchema);

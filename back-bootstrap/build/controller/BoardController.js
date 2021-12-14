@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,6 +50,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardController = void 0;
 var db_1 = require("../db/db");
 var config_1 = require("./pagination/config");
+var mongodb_1 = require("mongodb");
 var BoardController = /** @class */ (function () {
     function BoardController() {
     }
@@ -62,7 +74,6 @@ var BoardController = /** @class */ (function () {
                             page = 1;
                         }
                         _a = (0, config_1.paging)(page, allCount), startPage = _a.startPage, endPage = _a.endPage, hidePost = _a.hidePost, maxPost = _a.maxPost, totalPage = _a.totalPage, currentPage = _a.currentPage;
-                        console.log(startPage, endPage, hidePost, maxPost, totalPage, currentPage);
                         return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).aggregate([
                                 { $match: { isDelete: 1 } },
                                 { $sort: { '_id': -1 } },
@@ -117,6 +128,62 @@ var BoardController = /** @class */ (function () {
                     case 3:
                         e_2 = _a.sent();
                         throw new Error(e_2);
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    BoardController.prototype.detailData = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var obID, client, exists, data, e_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        obID = new mongodb_1.ObjectId(id);
+                        return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
+                    case 1:
+                        client = _a.sent();
+                        return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).findOne({ _id: obID })];
+                    case 2:
+                        exists = _a.sent();
+                        data = __assign({ result: true }, exists);
+                        if (exists.length !== 0) {
+                            return [2 /*return*/, {
+                                    data: data
+                                }];
+                        }
+                        return [2 /*return*/, { result: false }];
+                    case 3:
+                        e_3 = _a.sent();
+                        throw new Error(e_3);
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    BoardController.prototype.deleteData = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var obID, client, exists, e_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        obID = new mongodb_1.ObjectId(id);
+                        return [4 /*yield*/, db_1.DB.MongoConn.getInstance.connect()];
+                    case 1:
+                        client = _a.sent();
+                        return [4 /*yield*/, client.db(db_1.DB.NAME).collection(db_1.DB.COLLECTIONS.Board).findOneAndUpdate({ _id: obID }, {
+                                $set: { isDelete: 2 }
+                            })];
+                    case 2:
+                        exists = _a.sent();
+                        if (exists)
+                            return [2 /*return*/, { result: true }];
+                        return [2 /*return*/, { result: false }];
+                    case 3:
+                        e_4 = _a.sent();
+                        throw new Error(e_4);
                     case 4: return [2 /*return*/];
                 }
             });

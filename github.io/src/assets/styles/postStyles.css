@@ -1,0 +1,26 @@
+@media screen and (max-width: 1280px){
+    #blogHome{
+        margin: auto;
+        min-height: 1000px;
+        height: 100%;
+    }
+}
+
+/* 테블릿 */
+@media screen and (max-width: 1023px) {
+    #blogHome{
+        margin: auto;
+        min-height: 1000px;
+        height: 100%;
+    }
+
+}
+
+/* 모바일 */
+@media screen and (max-width: 767px) {
+    #blogHome {
+        margin: auto;
+        min-height: 1000px;
+        height: 100%;
+    }
+}

@@ -12,9 +12,9 @@ import { BootstrapVue, IconsPlugin,PaginationNavPlugin } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-// @ts-ignore
-import GSignInButton from 'vue-google-signin-button'
-Vue.use(GSignInButton)
+//
+// import GSignInButton from 'vue-google-signin-button'
+// Vue.use(GSignInButton)
 
 import { ins as axios} from './utils/axiosIns';
 Vue.use(VueMoment);

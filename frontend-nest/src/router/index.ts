@@ -6,12 +6,9 @@ Vue.use(VueRouter)
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    component: () => import('@/components/MainHome.vue')
+    component: () => import('@/components/BlogHome.vue')
   },
-  {
-    path: '*',
-    component: () => import('@components/common/NotFound.vue')
-  },
+
   {
     path: '/board/write/:id?',
     component: () => import('@/components/board/WriterForm.vue')
@@ -36,11 +33,7 @@ const routes: Array<RouteConfig> = [
     path: '/test',
     component: () => import("@/components/IndexPage.vue")
   },
-  {
-    path: '/sideBar',
-    name: 'sideBar',
-    component: () => import('@/components/sideBar.vue')
-  }
+
 
 ]
 

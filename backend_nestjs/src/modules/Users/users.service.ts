@@ -1,10 +1,8 @@
 import {Injectable, NotFoundException, UnprocessableEntityException} from "@nestjs/common";
 import {EmailService} from "../email/email.service";
-import uuid from  'uuid';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../../db/repository/User/user.entity";
 import {Repository} from "typeorm";
-import e from "express";
 import {ulid} from "ulid";
 import {AuthService} from "../auth/auth.service";
 

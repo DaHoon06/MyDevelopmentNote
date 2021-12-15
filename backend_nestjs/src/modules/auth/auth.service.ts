@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { Inject, Injectable } from '@nestjs/common';
-import AuthConfig from 'src/config/auth.config';
+import { AuthConfig } from 'src/config/auth.config';
 import { ConfigType } from '@nestjs/config';
 
 interface User {
@@ -12,12 +12,11 @@ interface User {
 @Injectable()
 export class AuthService {
     constructor(
-        @Injectable(authConfig.key) private config: ConfigType<typeof authConfig>,
+        @Injectable(AuthConfig.key) private config: ConfigType<typeof AuthConfig>,
     ) {}
 
     login(user: User){
         const payload = { ...user };
-
         return jwt.sign(payload, this.config.jwtSecret, {
             expiresIn: '1d',
             audience: 'example.com',

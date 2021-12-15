@@ -10,7 +10,6 @@ import {
     UseInterceptors
 } from "@nestjs/common";
 import { PostService } from "./post.service";
-import {IPost} from "../../interfaces/Posts/IPost";
 import { ValidationPipe } from "../../custom/pipe/validation.pipe";
 import { PostDto } from "../../dto/post.dto";
 import { ErrorInterceptor } from "../../custom/interceptor/ErrorInterceptor";

@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { ConfigModule } from "@nestjs/config";
-import {UsersModule} from "./modules/Users/users.module";
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {User} from "./custom/decorator/User/User";
-import {UserEntity} from "./db/repository/User/user.entity";
-
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserEntity } from "./db/repository/User/user.entity";
+import { ROUTES } from "./modules/module.router";
+import { RouterModule } from "nest-router";
 
 @Module({
   imports: [
@@ -17,14 +15,14 @@ import {UserEntity} from "./db/repository/User/user.entity";
       }),
       TypeOrmModule.forFeature(
           [UserEntity],
-
       ),
-      //PostModule,
-      //BatchModule,
-      UsersModule
+      RouterModule.forRoutes(ROUTES),
+
   ],
   controllers: [AppController],
   providers: [AppService],
   exports: [],
 })
-export class AppModule {}
+export class AppModule {
+
+}

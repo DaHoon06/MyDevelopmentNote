@@ -10,8 +10,10 @@ export class UserEntity {
 
     @Column({ length: 60})
     email:string;
+
     @Column({length: 60})
     password: string;
+
     @Column({length: 60})
     signupVerifyToken: string;
 }

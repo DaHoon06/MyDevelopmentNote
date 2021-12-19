@@ -1,21 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from "react";
+import Info from "./components/Hooks/useState/Info";
+import Counter from "./components/Hooks/useReducer/Counter";
+import InfoReducer from "./components/Hooks/useReducer/InfoReducer";
+import Average from "./components/Hooks/useMemo/Average";
 
-import PostList from "./components/post/PostList";
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
-
-        <PostList />
-    </div>
-  );
+const App = () => {
+    const [visible, setVisible] = useState(false);
+    return (
+        <div className="App">
+            <button onClick={() => {
+                setVisible(!visible);
+            }}>{visible ? '숨기기' : '보이기'}</button>
+            <hr />
+            {visible && <Info />}
+            <InfoReducer />
+            <br/><br/><br/>
+            <Average />
+        </div>
+    );
 }
 
 export default App;

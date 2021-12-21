@@ -4,6 +4,9 @@ import Info from "./components/Hooks/useState/Info";
 import Counter from "./components/Hooks/useReducer/Counter";
 import InfoReducer from "./components/Hooks/useReducer/InfoReducer";
 import Average from "./components/Hooks/useMemo/Average";
+import SassComponent from "./components/CssSample/SassComponent";
+import CSSModule from "./components/CssSample/CSSModule";
+import StyledComponent from "./components/CssSample/StyledComponent";
 
 const App = () => {
     const [visible, setVisible] = useState(false);
@@ -17,6 +20,12 @@ const App = () => {
             <InfoReducer />
             <br/><br/><br/>
             <Average />
+            <br/><br/><br/>
+            <SassComponent />
+            <br/><br/><br/>
+            <CSSModule />
+            <br/><br/><br/>
+            <StyledComponent />
         </div>
     );
 }

@@ -1,60 +1,81 @@
 import React, {useCallback, useRef, useState} from "react";
-import './index.css'
-import TodoTemplate from "./components/ToDo/TodoTemplate";
-import TodoInsert from "./components/ToDo/TodoInsert";
-import TodoList from "./components/ToDo/TodoList";
+import produce from "immer";
 
 const App = () => {
-    const [todos, setTodos] = useState([
-        {
-            id: 1,
-            text: 'React 기초',
-            checked: true,
-        },
-        {
-            id: 2,
-            text: 'Vue 기초',
-            checked: false,
-        },
-        {
-            id: 3,
-            text: 'Node 기초',
-            checked: false,
-        }
-    ]);
-    const nextId = useRef(4);
-    const onInsert = useCallback(
-        text => {
-            const todo = {
+    const nextId = useRef(1);
+    const [form, setForm] = useState({name: '', username: ''});
+    const [data, setData] = useState({
+        array: [],
+        uselessValue: null
+    });
+
+    const onChange = useCallback(
+        e => {
+            const { name, value } = e.target;
+            setForm(
+                produce(draft => {
+                    draft[name] = value;
+                })
+            );
+        }, []
+    );
+    const onSubmit = useCallback(
+        e => {
+            e.preventDefault();
+            const info = {
                 id: nextId.current,
-                text,
-                checked: false,
+                name: form.name,
+                username: form.username
             };
-            setTodos(todos.concat(todo));
+            setData(
+                produce(draft => {
+                    draft.array.push(info);
+                })
+            );
+            setForm({
+                name: '',
+                username: ''
+            });
             nextId.current += 1;
         },
-        [todos],
+        [form.name,form.username]
     );
     const onRemove = useCallback(
         id => {
-            setTodos(todos.filter(todo => todo.id !== id));
-        },[todos],
-    );
-    const onToggle = useCallback(
-        id => {
-            setTodos(
-                todos.map(todo => todo.id === id ? { ...todo,checked: !todo.checked } : todo),
+            setData(
+                produce(draft => {
+                    draft.array.splice(draft.array.findIndex(info => info.id === id),1);
+                })
             );
         },
-        [todos]
-    );
-
-    return (
-        <TodoTemplate>
-            <TodoInsert onInsert={ onInsert } />
-            <TodoList todos={ todos } onRemove={onRemove} onToggle={onToggle} />
-        </TodoTemplate>
-    );
-};
+        []
+    )
+    return(
+        <div>
+            <form onSubmit={onSubmit}>
+                <input
+                    name='username'
+                    placeholder='아이디'
+                    value={form.username}
+                    onChange={onChange} />
+                <input
+                    name='name'
+                    placeholder='이름'
+                    value={form.name}
+                    onChange={onChange} />
+                <button type='submit'>등록 </button>
+            </form>
+            <div>
+                <ul>
+                    {data.array.map(info => (
+                        <li key={info.id} onClick={() => onRemove(info.id)}>
+                            {info.username} ({info.name})
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    )
+}
 
 export default App;

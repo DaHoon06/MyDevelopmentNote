@@ -12,7 +12,8 @@ interface User {
 @Injectable()
 export class AuthService {
     constructor(
-        @Injectable(AuthConfig.key) private config: ConfigType<typeof AuthConfig>,
+        @Injectable(AuthConfig.key)
+        private config: ConfigType<typeof AuthConfig>,
     ) {}
 
     login(user: User){

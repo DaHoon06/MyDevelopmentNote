@@ -25,7 +25,6 @@
                     <div class="todoBtn_group">
                       <button v-b-modal.modal-center class="updateBtn" @click="editTodo(todoList._id.obId,index)">edit</button>
                       <button class="deleteBtn" @click="deleteData(todoList._id.obId)">ㅡ</button>
-
                     </div>
                   </div>
                 </div>

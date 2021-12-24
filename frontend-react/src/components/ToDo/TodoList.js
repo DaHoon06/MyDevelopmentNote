@@ -1,12 +1,12 @@
 import TodoListItem from "./TodoListItem";
 import  '../../css/ToDo/TodoList.scss'
 
-const TodoList = () => {
+const TodoList = ({todos}) => {
     return(
         <div className='TodoList'>
-            <TodoListItem />
-            <TodoListItem />
-            <TodoListItem />
+            {todos.map(todo =>(
+                <TodoListItem todo={todo} key={todo.id} />
+            ))}
         </div>
     )
 }

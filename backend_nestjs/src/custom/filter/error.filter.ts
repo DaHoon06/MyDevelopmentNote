@@ -5,8 +5,8 @@ import { Request, Response } from 'express';
 export class ErrorFilter implements ExceptionFilter {
     catch(exception: any, host: ArgumentsHost): any {
         const ctx = host.switchToHttp();
-        const res = ctx.getResponse()<Response>;
-        const req = ctx.getRequest()<Request>;
+        const res = ctx.getResponse<Response>();
+        const req = ctx.getRequest<Request>();
 
         const status =
             exception instanceof HttpException

@@ -5,14 +5,18 @@ import {
   Get,
   Param, Patch,
   Post,
-  Res, UseGuards,
+  UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { boardDTO } from './board.dto';
 import { BoardService } from './board.service';
 import { AuthGuard } from "@nestjs/passport";
+import { ErrFilter } from "../../config/filter/err.filter";
+
 
 
 @Controller('board')
+@UseFilters(new ErrFilter())
 export class BoardController {
   constructor(
       private boardService: BoardService
@@ -33,7 +37,6 @@ export class BoardController {
     return data  ;
   }
 
-
   @UseGuards(AuthGuard('jwt'))
   @Post()
   async insertData(@Body() boardDTO: boardDTO) {
@@ -44,7 +47,7 @@ export class BoardController {
     return { result: false }
   }
 
-  //@UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   @Get('/d/:id')
   async getDetailBoard(@Param('id') id: string) {
     console.log(id)

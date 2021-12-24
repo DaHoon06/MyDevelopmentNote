@@ -13,7 +13,7 @@ import { PostService } from "./post.service";
 import { ValidationPipe } from "../../custom/pipe/validation.pipe";
 import { PostDto } from "../../dto/post.dto";
 import { ErrorInterceptor } from "../../custom/interceptor/ErrorInterceptor";
-import {User} from "../../custom/decorator/User/User";
+import { User } from "../../custom/decorator/User/User";
 
 
 interface User {

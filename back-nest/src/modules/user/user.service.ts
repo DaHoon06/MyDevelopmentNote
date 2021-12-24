@@ -19,7 +19,6 @@ export class userService {
             return { result: true}
         }
         return { result: false };
-
     }
 
     async login(){

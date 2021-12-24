@@ -1,7 +1,7 @@
-const paging = (page: any, totalPost: any) => {
+const paging = (page: number, totalPost: number) => {
     const maxPost = 10;
     const maxPage = 10;
-    let currentPage = page ? parseInt(page) : 1;
+    let currentPage = page ? page : 1;
     const hidePost = page === 1 ? 0 : (page - 1) * maxPost;
     const totalPage = Math.ceil(totalPost / maxPost);
 

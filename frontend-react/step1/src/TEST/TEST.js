@@ -3,6 +3,7 @@
 * */
 import produce from "immer";
 import {useCallback, useState} from "react";
+import {Router} from "react-router-dom";
 
 /*
 * 첫번째 파라미터 : 수정하고 싶은 상태
@@ -51,3 +52,11 @@ const originalState = {
 };
 const nextState = update(originalState);
 console.log(nextState);
+
+//------------------------- Router --------------------
+
+/**
+ * React 에서 Router 사용
+ */
+
+//<Route path='주소 규칙' component={보여줄 컴포넌트} />

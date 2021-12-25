@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from "react";
 import produce from "immer";
 
-const App = () => {
+const AppImmer = () => {
     const nextId = useRef(1);
     const [form, setForm] = useState({name: '', username: ''});
     const [data, setData] = useState({
@@ -78,4 +78,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default AppImmer;

@@ -13,7 +13,7 @@ import { ConfigModule } from "@nestjs/config";
 @Module({
   imports: [
       ConfigModule.forRoot({
-          envFilePath: '.env',
+          envFilePath: 'note',
           isGlobal: true,
       }),
       BoardModule,

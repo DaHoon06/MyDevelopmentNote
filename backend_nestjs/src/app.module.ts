@@ -10,7 +10,7 @@ import { RouterModule } from "nest-router";
 @Module({
   imports: [
       ConfigModule.forRoot({
-          envFilePath: '.env',
+          envFilePath: 'note',
           isGlobal: true,
       }),
       TypeOrmModule.forFeature(

@@ -24,7 +24,7 @@ import FooterPage from '@/components/commons/FooterPage.vue';
     HeaderNav,
   }
 })
-export default class App extends Vue {
+export default class AppTodo extends Vue {
 
 
 }

@@ -19,7 +19,7 @@ import FooterPage from '@/components/commons/FooterPage.vue';
     FooterPage,
   }
 })
-export default class App extends Vue {
+export default class AppTodo extends Vue {
 
 }
 </script>

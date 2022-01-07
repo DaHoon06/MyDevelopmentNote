@@ -1,7 +1,22 @@
 import ReactDOMServer from 'react-dom/server';
+import express from 'express';
+import { StaticRouter } from "react-router-dom";
+import App from './App';
 
-const html = ReactDOMServer.renderToString(
-    <div>Server Side Rendering</div>
-);
+const app = express();
+const serverRender = (req,res,next) => {
+    const context = {};
+    const jsx = (
+        <StaticRouter location={req.url} context={context}>
+            <App />
+        </StaticRouter>
+    );
+    const root = ReactDOMServer.renderToString(jsx);
+    res.send(root);
+};
 
-console.log(html);
+app.use(serverRender);
+
+app.listen(5000, () => {
+    console.log(`SERVER START PORT 5000`);
+});

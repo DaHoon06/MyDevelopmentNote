@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import {Route} from "react-router-dom";
+import { Route } from "react-router-dom";
 import PostListPage from "./pages/PostListPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";

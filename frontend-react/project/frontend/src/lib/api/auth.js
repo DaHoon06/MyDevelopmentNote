@@ -10,5 +10,6 @@ export const register = ({username, password}) =>
         username,
         password
     });
+export const logout = () => client.get('/api/auth/logout');
 
 export const check = () => client.get('/api/auth/check');

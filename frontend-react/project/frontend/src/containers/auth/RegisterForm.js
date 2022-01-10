@@ -65,6 +65,11 @@ const RegisterForm = ({ history }) => {
             console.log('CHECK API SUCCESS');
             console.log(user);
             history.push('/');
+            try {
+                localStorage.setItem('user',JSON.stringify(user));
+            } catch (e) {
+                console.log('LOCALSTORAGE Is Not Working');
+            }
         }
     },[user, history]);
 

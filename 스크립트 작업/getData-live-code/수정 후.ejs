@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <%-include('../../header') %>
+</head>
+<body>
+<!-- 본문 -->
+<div class="main-container">
+
+    <!-- 내용 -->
+    <div class="pure-g page-contents">
+
+        <!-- 할당들 -->
+        <div class="pure-u-1-1">
+            <div class="quota-container">
+            </div>
+
+            <div class="custom-quota-container">
+                <table class="pure-table pure-table-bordered w-100" style="table-layout:fixed">
+                    <thead>
+                    <tr>
+                        <th colspan="2"></th>
+                        <th><b>완료</b></th>
+                        <th><b>진행중</b></th>
+                        <th><b>아웃</b></th>
+                        <th><b>미응답</b></th>
+                        <th><b>Total(count)</b></th>
+                    </tr>
+                    </thead>
+                    <tbody class="custom-tbody text-center">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 할당들 -->
+
+    </div>
+    <!-- 내용 -->
+</div>
+<!-- 본문 -->
+<script>
+    $(document).ready(function() {
+
+        function dataList(category, type, ){
+            for(var i = 0; i< type1.length; i++){
+                var listHTML = '<tr>';
+                if(!i) {
+                    listHTML += '<td style="background: #e3e3e3" rowspan="'+type.length+'"><b>'+category+' 응답자<b/></td>'
+                }
+                listHTML +=
+                    ' <td style="background: #e3e3e3"><b>'+type[i]._id+'</b></td>'+
+                    ' <td>'+type[i].COMPLETE+'</td>'+
+                    ' <td>'+type[i].DOING+'</td>'+
+                    ' <td>'+type[i].OUT+'</td>'+
+                    ' <td>'+type[i].NOT+'</td>'+
+                    ' <td>'+type[i].TOTAL+'</td>'+
+                    '</tr>'
+                $('.custom-tbody').append(listHTML);
+            }
+        }
+
+        function dataTotal(result) {
+            var totalHTML = '<tr>';
+            totalHTML += '<td style="background: #e3e3e3" colspan=2 class="text-left"><b>Total</b></td>'+
+                '<td>'+result.COMPLETE+'</td>'+
+                '<td>'+result.DOING+'</td>'+
+                '<td>'+result.OUT+'</td>'+
+                '<td>'+result.NOT+'</td>'+
+                '<td>'+result.TOTAL+'</td>'+
+                '</tr>'
+            $('.custom-tbody').append(totalHTML);
+        }
+
+        (function() {
+            var list = JSON.parse('<%-JSON.stringify(data.getData)%>');
+            var result = list.reduce(function(a,c){
+                return {
+                    COMPLETE: a.COMPLETE + c.COMPLETE,
+                    DOING: a.DOING + c.DOING,
+                    OUT: a.OUT + c.OUT,
+                    TOTAL: a.TOTAL + c.TOTAL,
+                    NOT: a.NOT + c.NOT
+                }
+            },{
+                COMPLETE: 0,
+                DOING: 0,
+                OUT: 0,
+                TOTAL: 0,
+                NOT: 0,
+            });
+
+            // map과 reduce 활용
+            // result 와 동일일
+            var reult2 ={
+                COMPLETE: list.map(r => ({ COMPLETE: r.COMPLETE })).reduce((a,c) => a + c ),
+                DOING: list.map(r => ({ DOING: r.DOING })).reduce((a,c) => a + c ),
+                OUT: list.map(r => ({ OUT: r.OUT })).reduce((a,c) => a + c ),
+                TOTAL: list.map(r => ({ TOTAL: r.TOTAL })).reduce((a,c) => a + c ),
+                NOT: list.map(r => ({ NOT: r.NOT })).reduce((a,c) => a + c ),
+            }
+            var qr = list.filter(function(r){
+                return r.TYPE === 'QR'
+            });
+            var offline = list.filter(function(r){
+                return r.TYPE === '현장'
+            });
+
+            dataList('QR', qr);
+            dataList('현장', offline);
+            dataTotal(result);
+        })();
+    });
+
+
+
+</script>
+</body>
+</html>

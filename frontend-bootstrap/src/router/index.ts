@@ -13,6 +13,10 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/components/board/BoardIndex.vue')
   },
   {
+    path: '/test',
+    component: () => import('@/components/ContainerInfo.vue')
+  },
+  {
     path: '/board/detail/:id',
     component: () => import('@/components/board/DetailBoard.vue')
   },

@@ -4,7 +4,6 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../../db/repository/User/user.entity";
 import {Repository} from "typeorm";
 import {ulid} from "ulid";
-import {AuthService} from "../auth/auth.service";
 
 @Injectable()
 export class UsersService {
@@ -12,7 +11,6 @@ export class UsersService {
         @InjectRepository(UserEntity)
         private usersRepository: Repository<UserEntity>,
         private emailService: EmailService,
-        private authService: AuthService
     ) {}
 
     async createUser(name: string,email: string,password: string){
@@ -27,6 +25,11 @@ export class UsersService {
 
         await this.saveUser(name, email, password, singUpVerifyToken);
         await this. sendMemberJoinEmail(email, singUpVerifyToken);
+
+        return {
+            result: true,
+            getData: 'test',
+        }
     }
 
     private async checkUserExists(email: string){
@@ -48,17 +51,17 @@ export class UsersService {
         await this.emailService.sendMemberJoinVerification(email,signUpVerifyToken);
     }
 
-    async verifyEmail(signupVerifyToken: string){
-        const user = await this.usersRepository.findOne({signupVerifyToken});
-
-        if(!user){
-            throw new NotFoundException('User does not exist');
-        }
-
-        return this.authService.login({
-            id: user.id,
-            name: user.name,
-            email: user.email,
-        });
-    }
+    // async verifyEmail(signupVerifyToken: string){
+    //     const user = await this.usersRepository.findOne({signupVerifyToken});
+    //
+    //     if(!user){
+    //         throw new NotFoundException('User does not exist');
+    //     }
+    //
+    //     return this.authService.login({
+    //         id: user.id,
+    //         name: user.name,
+    //         email: user.email,
+    //     });
+    // }
 }

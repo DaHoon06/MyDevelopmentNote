@@ -8,7 +8,7 @@
       <div class="sideBar_list">
         <b-list-group>
           <b-list-group-item href="#" variant="light">Item1</b-list-group-item>
-          <b-list-group-item href="#">Item2</b-list-group-item>
+          <b-list-group-item href="/test">Item2</b-list-group-item>
           <b-list-group-item href="#">Item3</b-list-group-item>
           <b-list-group-item href="#">Item4</b-list-group-item>
           <b-list-group-item href="#">Item5</b-list-group-item>

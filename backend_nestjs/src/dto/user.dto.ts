@@ -2,7 +2,7 @@ import { IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validato
 import { Transform } from "class-transformer";
 import { NotIn } from "../custom/decorator/User/NotIn";
 
-export class UserDTO {
+export class UserDto {
 
     @NotIn('password',{message: 'password는 name과 같은 문자열을 포함할 수 없습니다.'})
     @Transform(params => {

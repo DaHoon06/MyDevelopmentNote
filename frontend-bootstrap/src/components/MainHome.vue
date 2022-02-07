@@ -1,11 +1,14 @@
 <template>
   <section id="MainBody">
-    <div id="MainBody-wrap">
 
+    <div id="MainBody-wrap">
       <!-- ToDoList 진행 상황 -->
       <div>
         <div id="chart-area">
           <chart-index />
+          <div>
+            <img :src='require(`@/assets/images/${imageTest}.jpg`)' alt="test"/>
+          </div>
         </div>
       </div>
       <!-- ToDOList 시작 -->
@@ -28,6 +31,11 @@ import ToDo from '@/components/toDoList/ToDo.vue';
 })
 export default class MainHome extends Vue {
 
+
+  constructor() {
+    super();
+
+  }
 
 
 }

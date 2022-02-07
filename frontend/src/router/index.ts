@@ -8,8 +8,6 @@ import DetailBoard from '@/components/board/DetailBoard.vue';
 import JoinForm from  '@/components/user/JoinForm.vue';
 
 import chartIndex from '@/components/chart/chartIndex.vue';
-import ImageBanner from "@/components/ImageBanner.vue";
-
 
 Vue.use(VueRouter)
 
@@ -44,11 +42,9 @@ const routes: Array<RouteConfig> = [
     name : 'chartIndex',
     component: chartIndex
   },
-  {
-    path: '/test',
-    name : 'ImageBanner',
-    component: ImageBanner
-  }
+
+
+
 
 
 

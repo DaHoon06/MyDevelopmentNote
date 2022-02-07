@@ -2,10 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserEntity } from "./db/repository/User/user.entity";
-import { ROUTES } from "./modules/module.router";
-import { RouterModule } from "nest-router";
+import {UsersModule} from "./modules";
 
 @Module({
   imports: [
@@ -13,11 +10,7 @@ import { RouterModule } from "nest-router";
           envFilePath: 'note',
           isGlobal: true,
       }),
-      TypeOrmModule.forFeature(
-          [UserEntity],
-      ),
-      RouterModule.forRoutes(ROUTES),
-
+      UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

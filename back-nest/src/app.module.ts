@@ -12,16 +12,16 @@ import { ConfigModule } from "@nestjs/config";
 
 @Module({
   imports: [
-      ConfigModule.forRoot({
-          envFilePath: 'note',
-          isGlobal: true,
-      }),
-      BoardModule,
-      mongoConn,
-      AuthModule,
-      UploadModule,
-      CommentModule,
-      UserModule,
+    ConfigModule.forRoot({
+      envFilePath: 'note',
+      isGlobal: true,
+    }),
+    BoardModule,
+    mongoConn,
+    AuthModule,
+    UploadModule,
+    CommentModule,
+    UserModule,
   ],
   controllers: [AppController,jwtTokenCheck],
   providers: [AppService],

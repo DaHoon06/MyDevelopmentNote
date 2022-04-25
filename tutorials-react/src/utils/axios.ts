@@ -1,24 +1,33 @@
-import axios from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
-const instance = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  timeout: 12000
-})
+const baseURL = process.env.NODE_ENV === 'development' ? '/api' : '/api'
+
+const instance: AxiosInstance = axios.create({
+    baseURL,
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    timeout: 20000
+});
 
 instance.interceptors.request.use(config => {
+    console.log('AXIOS 요청');
+    return config
+});
 
-  return config
-})
-
-instance.interceptors.response.use(response => {
-  
-  return response
+instance.interceptors.response.use(res => {
+    const { data } = res;
+    const { result, error } = data;
+    return res;
 }, error => {
-  const { response } = error;
-  return response;
-})
+    const { res } = error;
+    const{ status, data } = res;
 
-export default instance
+    if(status === 401) {
+        console.log('401 ERROR');
+    } else {
+        console.log(`ERROR : ${error}`);
+    }
+    return res;
+});
+export const axiosInstance = instance;

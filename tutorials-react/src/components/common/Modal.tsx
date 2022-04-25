@@ -26,17 +26,17 @@ const ModalBody = styled.div`
 `;
 
 const Modal = (showModal: boolean) => {
-  const [isModal, setModal] = useState(false);
-  if (showModal) setModal(showModal);
-  else setModal(false);
+    const [isModal, setIsModal] = useState(true);
 
-  return (
-      <ModalContainer>
-          <ModalBody>
-              
-          </ModalBody>
-      </ModalContainer> && isModal
-  )
+    if (showModal) setIsModal(showModal);
+
+    return (
+        <ModalContainer>
+            <ModalBody>
+
+            </ModalBody>
+        </ModalContainer> && { isModal }
+    )
 }
 
 export default Modal;

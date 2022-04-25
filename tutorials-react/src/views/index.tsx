@@ -1,16 +1,10 @@
-import React, { useState } from "react";
-import { MainBody, Footer, Header } from "../domain/common";
+import React from "react";
 
-const IndexView = () => {
-  return (
-    <>
-      <Header />
-      <MainBody />
-      <Footer />
-    </>
-  )
+const Index = () => {
+    return (
+        <div>
+            <p>앙 뷰</p>
+        </div>
+    )
 }
-
-export default IndexView;
-
-
+export default Index;

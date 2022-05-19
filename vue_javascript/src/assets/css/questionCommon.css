@@ -1,0 +1,11 @@
+div.question{
+    border:  1px solid #dee2e6;
+    min-height: 340px;
+    min-width: 880px;
+    border-radius: 15px;
+    margin-top:15vh;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+    width: 100% !important;
+    margin-left:60px;
+    margin-right:60px;
+}

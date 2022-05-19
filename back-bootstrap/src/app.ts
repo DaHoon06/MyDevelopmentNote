@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 
 const app: express.Application = express();
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('pages', path.join(__dirname, 'pages'));
 app.set('view engine', 'ejs');
 
 app.use(express.json({ limit: '50mb' }));

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MainBody, Footer, Header } from "../domain/common";
 
-const IndexView = () => {
+const IndexPage = () => {
   return (
     <>
       <Header />
@@ -11,6 +11,6 @@ const IndexView = () => {
   )
 }
 
-export default IndexView;
+export default IndexPage;
 
 

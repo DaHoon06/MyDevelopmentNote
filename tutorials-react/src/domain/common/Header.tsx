@@ -27,7 +27,7 @@ export const Header = () =>
     <Navigation>
       <section>
         <img className='github-icon' src={ process.env.PUBLIC_URL + '/img/github-icon.png' } alt='logo' />
-        <span className='navigation-title'>DaHoon06</span>
+        <small className='navigation-title'>DaHoon06</small>
       </section>
       <section>
         <ul>

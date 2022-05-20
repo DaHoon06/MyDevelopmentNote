@@ -1,4 +1,4 @@
-import axios from 'Vue/vue-javascript/src/utils/axios';
+import axios from 'Vue/vue-javascript/vue_javascript/src/utils/axios';
 
 const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : 'http://localhost:3000/api';
 const instance = axios.create({

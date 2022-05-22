@@ -1,4 +1,4 @@
-# basic_vuejs
+# vue3-start
 
 ## Project setup
 ```

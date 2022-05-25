@@ -3,7 +3,7 @@
     <navigation-component />
     <main id="body">
       <user-lists-component @target="setChatTarget" />
-      <send-message :targetName="setChatTarget" />
+      <send-message :targetName="targetName" />
     </main>
   </main>
 </template>
@@ -22,25 +22,48 @@ import SendMessage from "@/components/chat/SendMessage.vue";
   },
 })
 export default class ChatList extends Vue {
+  myInfo: {
+    nickName: string,
+    id: string,
+    roomId: string,
+  };
+
+  roomName = "";
   targetName = "";
 
-  private setChatTarget(name: string) {
-    this.$socket.emit("test", name);
-    this.$socket.on("test", (data) => {
-      console.log(data);
+  constructor() {
+    super();
+    this.myInfo = {
+      nickName: '',
+      id: '',
+      roomId: '',
+    };
+  }
+
+  created() {
+    this.init();
+  }
+
+  private init() {
+    this.$socket.on("connect");
+    const sendData = {
+      name: this.getName,
+    }
+    this.$socket.emit("setInit", sendData, (response: any) => {
+      const { nickName, roomId } = response;
+      this.myInfo.nickName = nickName;
+      this.myInfo.roomId = roomId;
+      this.myInfo.id = this.$socket.id;
     });
   }
 
-  private set targetNameComputed(name: string) {
-    this.targetName = name;
-  }
-  private get targetNameComputed() {
-    return this.targetName;
+  private setChatTarget(name: string) {
+    this.$socket.emit("propsName", name);
+    this.$socket.on("propsName", (data) => {
+      this.targetName = data;
+    });
   }
 
-  // mounted() {
-  //   this.setChatTarget();
-  // }
 }
 </script>
 

@@ -1,17 +1,18 @@
 <template>
   <div id="chat-room-wrapper">
     <div id="message-textarea">
-      <p class="notice-msg">{{ this.noticeComputed }}</p>
+      <div class="notice-msg">{{ noticeComputed }}</div>
 
       <div id="chat-body"></div>
     </div>
+
     <div id="message-input-area">
       <input
-        type="text"
-        id="message-input"
-        v-model="message"
-        @keyup.enter="sendMessage"
-        placeholder="메세지를 입력해 주세요."
+          type="text"
+          id="message-input"
+          v-model="message"
+          @keyup.enter="sendMessage"
+          placeholder="메세지를 입력해 주세요."
       />
       <button id="send-message-btn" @click="sendMessage">Send</button>
     </div>
@@ -19,16 +20,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 export interface ChatInformation {
-  name: string;
+  name?: string;
   message?: string;
 }
 
 @Component
 export default class SendMessage extends Vue {
-  @Prop() name?: string;
+  @Prop() targetName?: string;
 
   notice = "";
   message = "";
@@ -44,25 +45,24 @@ export default class SendMessage extends Vue {
     this.connectSocket();
   }
 
-  private setChatRoom() {
-    console.log(this.name);
+  private connectSocket() {
+    this.getMessage();
+    this.getChatList();
+  }
 
-    if (this.name) {
-      this.noticeComputed = `${this.name} 님 과 연결합니다.`;
+  private setChatRoom() {
+    if (this.targetName?.length) {
+      this.noticeComputed = `${this.targetName}님이 입장 하셨습니다.`;
     } else {
-      this.noticeComputed = "상대방을 선택 해주세요.";
+      this.noticeComputed = "대화 상대를 선택해 주세요.";
     }
   }
 
-  private connectSocket() {
-    this.getChatList();
-  }
   private getChatList() {
     this.$socket.emit("getChatRoomList", null);
     this.$socket.on("getChatRoomList", (data) => {
       this.$socket.emit("enterChatRoom", data);
       this.$socket.on("enterChatRoom", (data) => {
-        alert(data);
         this.notice = data;
       });
     });
@@ -73,22 +73,23 @@ export default class SendMessage extends Vue {
       message: this.message,
       nickName: this.getName,
     };
-    if (this.message) {
+    if (this.message.length) {
       this.$socket.emit("sendMessage", sendData);
-      this.$socket.on("getMessage", (data) => {
-        const { nickName, message } = data;
-        this.nickName = nickName;
-        this.chatMessage = message;
-        this.getMessage();
-      });
     } else {
       alert("메세지가 입력되지 않았습니다.");
     }
   }
 
   private getMessage() {
-    this.setChatInformation(this.nickName, this.chatMessage);
-    this.message = "";
+    this.$socket.on("getMessage", (data) => {
+      const { nickName, message } = data;
+      console.log(data)
+      this.nickName = nickName;
+      this.chatMessage = message;
+      this.noticeComputed = '';
+      this.setChatInformation(this.nickName, this.chatMessage);
+      this.message = "";
+    });
   }
 
   private setChatInformation(nickName: string, message: string) {
@@ -110,7 +111,7 @@ export default class SendMessage extends Vue {
       const nameTag = document.createElement("span");
 
       makeSection.className =
-        name === this.getName ? "user-wrapper-other" : "user-wrapper";
+          name === this.getName ? "user-wrapper-other" : "user-wrapper";
       makeArticle.className = "user-container";
       makeMain.className = "chat-main-section";
       msgArea.className = "user-text";
@@ -134,8 +135,13 @@ export default class SendMessage extends Vue {
   private get noticeComputed() {
     return this.notice;
   }
+
+  @Watch('targetName')
+  updateMsg() {
+    this.setChatRoom();
+  }
+
   mounted() {
-    this.getMessage();
     this.setChatRoom();
   }
 }
@@ -203,6 +209,8 @@ export default class SendMessage extends Vue {
 }
 
 .notice-msg {
+  margin-top: 3em;
+  text-align: center;
   font-weight: 500;
   color: #9d9da2;
   font-size: 0.85em;

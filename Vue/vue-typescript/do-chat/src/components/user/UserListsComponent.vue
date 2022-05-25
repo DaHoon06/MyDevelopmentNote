@@ -3,7 +3,7 @@
     <article id="user-list-section">
       <div
           class="user-list-items"
-          v-for="(lists, index) of this.userLists"
+          v-for="(lists, index) of userLists"
           :key="index"
       >
         <span class="list-items">

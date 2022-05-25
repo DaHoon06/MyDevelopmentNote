@@ -2,7 +2,7 @@
   <nav id="nav-container">
     <span id="login-user">
       <small
-        ><strong id="user-info">{{ this.name }} 접속중</strong></small
+        ><strong id="user-info">{{ name }} 접속중</strong></small
       >
     </span>
     <span>

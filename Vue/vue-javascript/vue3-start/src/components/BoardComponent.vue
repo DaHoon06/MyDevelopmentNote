@@ -10,7 +10,7 @@
     <tbody>
     <tr v-for="(data, index) of this.boardData" :key="index">
       <td>{{ data.seq }}</td>
-      <td>{{ data.title }}</td>
+      <td @click="goToDetail(data.seq)">{{ data.title }}</td>
     </tr>
     </tbody>
 
@@ -31,6 +31,11 @@ export default {
     }
   },
   methods: {
+    goToDetail(CRSSEQ_ID) {
+      this.$router.push({
+        path: `/fieldOpen/classDetail/${CRSSEQ_ID}`,
+      })
+    },
     async test() {
       // this.axios.get('/asdasdsad~~/@3123123',{
       //

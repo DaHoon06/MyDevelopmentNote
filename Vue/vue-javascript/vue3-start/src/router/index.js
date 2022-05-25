@@ -11,6 +11,16 @@ const routes = [
     path: '/about',
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/fieldOpen/classDetail/:crrseqId',
+    name: 'TestComponent',
+    component: () => import('../views/TestComponent.vue')
+  },
+  {
+    path: '/test',
+    name: 'TestPage',
+    component: () => import('../views/Test'),
   }
 ]
 

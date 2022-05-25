@@ -12,6 +12,8 @@ import LoginComponent from "@/components/LoginComponent.vue";
     LoginComponent
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+
+}
 </script>
 

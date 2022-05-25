@@ -10,14 +10,14 @@
           <small>닉네임을 입력해주세요.</small>
         </label>
         <label class="nickName" for="name" v-else>
-          <small>{{ this.existsName }}</small>
+          <small>{{ existsName }}</small>
         </label>
         <input
-          type="text"
-          class="name"
-          @keyup.enter="login"
-          id="name"
-          v-model="name"
+            type="text"
+            class="name"
+            @keyup.enter="login"
+            id="name"
+            v-model="name"
         />
       </article>
 
@@ -37,27 +37,12 @@ export default class LoginComponent extends Vue {
   enterName = true;
   test = "";
   msg: string;
-  roomName = "";
-
-  myInfo: {
-    nickName: string;
-    id: string;
-    room: {
-      roomName: string;
-    };
-  };
 
   constructor() {
     super();
     this.msg = "";
 
-    this.myInfo = {
-      nickName: "",
-      id: "",
-      room: {
-        roomName: "",
-      },
-    };
+
   }
 
   async login() {
@@ -67,16 +52,6 @@ export default class LoginComponent extends Vue {
     const result = await this.$store.dispatch("userStore/login", sendData);
 
     if (result) {
-      this.$socket.on("connect", () => {
-        const nickName = this.getName;
-        console.log(`이름 설정 : ${nickName}`);
-        this.$socket.emit("setInit", { nickName }, (response: any) => {
-          this.myInfo.nickName = response.nickName;
-          this.myInfo.id = this.$socket.id;
-          this.myInfo.room = response.room;
-          this.roomName = this.myInfo.room.roomName;
-        });
-      });
       await this.$router.push("/chat");
     } else {
       this.enterName = false;

@@ -69,17 +69,24 @@
 
     <!-- header, hgroup 요소 -->
     <article>
+        <!--  nav 요소: 페이지 네비게이션 콘텐츠를 담는 요 (상단, 사이드, 콘텐츠 내부)-->
+        <!-- nav 안에 ul li 요소를 활요하는 것은 필수가 아닌 선택 사항!! -->
+        <!-- nav 요소와 콘텐츠 요소를 이어줌으로써 웹사이트를 좀 더 의미있게 네비게이션을 구성할 수 있다.  -->
+        <nav>
+            <a href="#html-section">html section 요소</a>
+            <a href="#html-article">html article 요소</a>
+        </nav>
         <!-- header는 특정한 콘텐츠의 시작부분을 나타내는 요소 -->
         <header>
             <!-- hgroup 요소는 heading 요소를 그룹화 하여 제묵 - 부제목 관계를 만드는 요소 -->
-            <hgroup>
+            <hgroup id="html-section">
                 <h1>HTML, section 요소</h1>
                 <h2>부제목 영역</h2>
             </hgroup>
             <p>이 HTML 문서는 Sections 콘텐츠를 설명하기 위한 문서</p>
         </header>
 
-        <section>
+        <section id="html-article">
             <h2>HTML, Article 요소</h2>
             <p>이 HTML 문서는 Sections 콘텐츠를 설명하기 위한 문서</p>
         </section>

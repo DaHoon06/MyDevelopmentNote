@@ -7,9 +7,9 @@
 // export class AuthGuard implements CanActivate {
 //     constructor(private authService: AuthService) {
 //     }
-//     canActivate(context: ExecutionContext
+//     canActivate(store: ExecutionContext
 //     ): boolean | Promise<boolean> | Observable<boolean> {
-//         const request = context.switchToHttp().getRequest();
+//         const request = store.switchToHttp().getRequest();
 //
 //         //보통 JWT 검증 정보 입력
 //         // request.user = {

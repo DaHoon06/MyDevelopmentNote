@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import surveyButton from'@/components/survey/common/survey-button';
-import SurveyProgressBar from "@/components/survey/common/survey-progressBar";
-import RadioComponent from "@/components/survey/DH/radio/RadioComponent";
+import surveyButton from'@/pages/survey/common/survey-button';
+import SurveyProgressBar from "@/pages/survey/common/survey-progressBar";
+import RadioComponent from "@/pages/survey/DH/radio/RadioComponent";
 
 export default {
   name: "dh-index",
@@ -31,13 +31,13 @@ export default {
     SurveyProgressBar,
     surveyButton,
     RadioComponent,
-    'survey-index': () => import('@/components/survey/DH/survey-index'),
-    'survey-sq1': () => import('@/components/survey/DH/survey-sq1'),
-    'survey-sq2': () => import('@/components/survey/DH/survey-sq2'),
-    'survey-sq3': () => import('@/components/survey/DH/survey-sq3'),
-    'survey-sq4': () => import('@/components/survey/DH/survey-sq4'),
-    'survey-sq5': () => import('@/components/survey/DH/survey-sq5'),
-    'survey-end': () => import('@/components/survey/DH/survey-end'),
+    'survey-index': () => import('@/pages/survey/DH/survey-index'),
+    'survey-sq1': () => import('@/pages/survey/DH/survey-sq1'),
+    'survey-sq2': () => import('@/pages/survey/DH/survey-sq2'),
+    'survey-sq3': () => import('@/pages/survey/DH/survey-sq3'),
+    'survey-sq4': () => import('@/pages/survey/DH/survey-sq4'),
+    'survey-sq5': () => import('@/pages/survey/DH/survey-sq5'),
+    'survey-end': () => import('@/pages/survey/DH/survey-end'),
   },
   data:() => ({
     sq: 0,

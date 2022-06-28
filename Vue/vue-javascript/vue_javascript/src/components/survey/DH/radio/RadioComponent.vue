@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import SurveyButton from "@/components/survey/common/survey-button";
+import SurveyButton from "@/pages/survey/common/survey-button";
 
 export default {
   name: "RadioComponent",

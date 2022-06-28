@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import RadioComponent from "@/components/survey/DH/radio/RadioComponent";
+import RadioComponent from "@/pages/survey/DH/radio/RadioComponent";
 
 export default {
   name: "survey-sq1",

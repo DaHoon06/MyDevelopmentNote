@@ -14,8 +14,8 @@
   </div>
 </template>
 <script>
-import survey_desc from "@/components/survey/HY/survey_desc";
-import SurveyCheck from "@/components/survey/HY/survey_check";
+import survey_desc from "@/pages/survey/HY/survey_desc";
+import SurveyCheck from "@/pages/survey/HY/survey_check";
 export default {
   name: "hySurveyIndex",
   components:{

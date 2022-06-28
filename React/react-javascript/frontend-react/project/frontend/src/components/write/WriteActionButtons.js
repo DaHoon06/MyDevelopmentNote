@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-pages";
 import Button from "../common/Button";
 
 const WriteActionButtonsBlock = styled.div`

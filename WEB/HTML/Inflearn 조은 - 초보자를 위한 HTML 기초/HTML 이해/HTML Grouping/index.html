@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grouping content</title>
+</head>
+<body>
+    <!-- 무언가를 Grouping 하는 목적 -->
+
+    <!-- p 요소 : Paragraph (문장을 나타낼 때) - 문장을 의미 -->
+    <h1>HTML Grouping Content</h1>
+    <p>Hello World</p>
+
+    <!-- HTML Blockquote -->
+    <!-- block quotation - 인용 블록 -->
+    <!-- 외부에서 가져온 인용구 등 -->
+    <blockquote>
+        <p>인용구를 가져옵니다.</p>
+        <p>HTML은 문서를 표현하기 위해 만들어진 언어지만, 현재는 웹 애플리케이션에서도 활용됩니다.</p>
+        <!-- 출처 표시 -->
+        <cite>MDN</cite>
+    </blockquote>
+
+    <!-- ol, ul, menu, li -->
+    <!-- ol: ordered list (순서가 있는 목록)  -->
+    <h1>HTML 강의 커리큘럼 (목차와 같이 순서가 존재)</h1>
+    <ol>
+        <li>Grouping content</li>
+        <li>Text-level semantics</li>
+    </ol>
+    <!-- ul: unordered list(순서가 없는 목록) -->
+    <h1>HTML의 요소들</h1>
+    <ul>
+        <li>html</li>
+        <li>body</li>
+    </ul>
+
+    <!-- menu 요소 (firefox 에서만 지원하고 있다.) -->
+    <!-- 버튼 여러개를 가지고 있는 목록 -->
+    <menu>
+        <li>
+            <button>굵게하기</button>
+        </li>
+        <li>
+            <button>취소선</button>
+        </li>
+    </menu>
+
+    <!-- dl, dt, dd 요소 -->
+    <!--
+        dl: definition list(정의 목록),
+        dt: 정의 대상,
+        dd: 정의 설명
+    -->
+    <!-- dt와 dd는 무조건 한쌍 ( 단독 사용 불가능 ) -->
+    <!-- dl 요소 내에서 특정 요소들을 그룹해야하는 경우에 한하여 div 요소를 활용 가능 -->
+    <dl>
+        <div>
+            <dt>마늘</dt>
+            <dd>알싸한 맛</dd>
+            <dd>다음 마늘 설명입니다.</dd>
+        </div>
+        <div>
+            <dt>상추</dt>
+            <dd>쌈 싸먹어</dd>
+        </div>
+    </dl>
+    <!--
+        TIP:
+            aside 요소는 "연관되어 있지만 독립된 콘텐츠"
+            figure 요소는 "연관된 콘첸츠 그 자체" 즉, 독립성을 보장하지 않아도 무관
+            주로 이미지, 동영상, 오디오 등을 활용한 부연설명에 많이 사용됨.
+    -->
+    <!-- figure, figcaption -->
+    <!-- figure: 콘텐츠의 부연설명을 하는 콘텐츠를 담을 때 사용 -->
+    <!-- figcaption 콘텐츠의 부연설명을 하는 콘텐츠를 작성하는 요소 -->
+    <p>우주에 관한 내용</p>
+    <figure>
+        <img src="nasa.jpg" alt="nasa" />
+        <figcaption>NASA는 미항공우주연구소로 우주 관련 연구를 하는 기관이다.</figcaption>
+    </figure>
+
+    <!-- main 요소 -->
+    <!-- 해당 애플리케이션이나 페이지 내에서 가장 중요한 콘텐츠를 담는 컨테이너 요소 -->
+    <!-- 한 페이지 내에서 한번만 사용 가능 -->
+    <main>
+        <h1>메인 콘텐츠</h1>
+    </main>
+    <!--
+        예외적으로 한페이지 내에서 여러개의 main 요소 사용
+        hidden 속성을 통하여 가리거나 다른 조작을 통해 가려질 경우에 허용.
+        활성화 되어있는 main 요소는 언제나 하나여야 한다.
+     -->
+    <main hidden></main>
+    <main hidden></main>
+    <main hidden></main>
+
+    <!-- div 요소 -->
+    <!-- 의미 없이 CSS 등의 목적으로 여러 요소를 Grouping할 때 사용됨 -->
+    <!-- div 요소는 정말 최후의 수단으로만 활용 -->
+    <div></div>
+
+</body>
+</html>

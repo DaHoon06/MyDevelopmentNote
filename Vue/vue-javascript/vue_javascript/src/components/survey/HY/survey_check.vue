@@ -32,7 +32,7 @@
 
 <script>
 import '@/assets/css/questionCommon.css'
-import SurveyFooter from "@/components/survey/HY/common/surveyFooter";
+import SurveyFooter from "@/pages/survey/HY/common/surveyFooter";
 export default {
   name: "surveyCheck",
   components: {SurveyFooter},

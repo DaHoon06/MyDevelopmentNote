@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-pages";
 import palette from "../../lib/styles/palette";
 import Responsive from "../common/Responsive";
 import Tags from '../common/Tags';

@@ -1,5 +1,5 @@
-import Categories from "../components/Categories";
-import NewsList from "../components/NewsList";
+import Categories from "../pages/Categories";
+import NewsList from "../pages/NewsList";
 
 const NewsPage = ({ match }) => {
     const category = match.params.category || 'all';

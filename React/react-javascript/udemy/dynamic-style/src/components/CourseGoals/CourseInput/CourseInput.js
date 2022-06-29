@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from '../../UI/Button/Button';
-import styled from "styled-components";
+import styled from "styled-pages";
 import styles from './CourseInput.module.css';
 
 const FormControl = styled.div`

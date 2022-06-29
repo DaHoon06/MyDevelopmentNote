@@ -32,7 +32,9 @@ const QuoteForm = (props) => {
   return (
       <>
         <Card>
-          <Prompt when={isEntering} message={(location) => '힘들다...'} />
+          <Prompt
+              when={isEntering}
+              message={(location) => '힘들다...'} />
           <form onFocus={formFocusHandler} className={classes.form} onSubmit={submitFormHandler}>
             {props.isLoading && (
                 <div className={classes.loading}>

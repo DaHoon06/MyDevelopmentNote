@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Text-level Semantics</title>
+</head>
+<body>
+    <!-- HTML 요소 내에서 텍스트로 취급되는 요소 -->
+    <!-- 텍스트 사이에서 텍스트로 취급하는 요소 -->
+
+    <!-- HTML a 요소 -->
+    <!-- HTML 내에서 하이퍼텍스트(링크) 생성할 떄 사용 -->
+    <a href="https://www.naver.com">네이버</a>
+
+    <!-- href 속성은 필수값이 아니다. -->
+    <!-- 활성화 상태 / 비활성화 상태 -->
+    <a>네이버</a>
+
+    <!-- a 요소내에서는 다른 a 요소를 삽입할 수 없다. -->
+    <!-- 인터렉티브 콘텐츠 내에는 다른 인터렉티브 콘텐츠를 넣어서는 안된다. -->
+    <!-- 이런 형태로 a 요소 내부에는 버튼을 넣으면 안된다. HTML 규정에 어긋남. -->
+    <div>
+        <a href="https://www.google.com">
+            구글
+            <p>포털 사이드 이다.</p>
+        </a>
+        <button type="button">선호나는 URL에 추가</button>
+    </div>
+
+    <!-- a 요소 hash link -->
+    <!-- 이런 형태로 a 요소를 클릭 했을때 아래 h2 태그로 이동되도록 할 수 있다. -->
+    <nav>
+        <a href="#html-em">HTML EM 요소</a>
+        <a href="#html-strong">HTML strong 요소</a>
+    </nav>
+    <h2 id="html-em">HTML EM 요소</h2>
+    <h2 id="html-strong">HTML strong 요소</h2>
+</body>
+</html>

@@ -22,6 +22,20 @@
     <!-- jpeg에 비해 용량이 적고, 투명도를 표현 ( IE 제외하고 모든 브라우저 지원 ) -->
 </picture>
 
+<!-- video, source, track -->
+<!-- video를 가져와서 보여준다. 플레이어 느낌이 아니다. -->
+<!-- preload 미리 비디오를 불러오는 속성 -->
+<!-- playsinline, 비디오를 모바일에서 인라인으로 재생하는 속성, 전체 화면으로 재생되는게 아님. -->
+<!-- muted, autoplay, 접근성 지침에 의하여 autoplay는 반드시 muted가 있는 상태에만 가능 -->
+<!-- controlls, video player로 활용도 가능 -->
+<video src="video.mp4" preload>
+    <!-- 직접 src를 줘서 가져오거나 -->
+    <!-- source 태그를 통하여 비디오를 불러오는 것도 가능하다. -->
+    <source src="video.mp4" type="video/mpeg4">
+    <!-- 자막을 넣을 때 사용 -->
+    <track srclang="en" lang="en" label="English" src="video.en.vtt" kind="subtitles">
+</video>
+
 
 </body>
 </html>

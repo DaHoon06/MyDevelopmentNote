@@ -12,12 +12,18 @@
     <caption>
         <p>p 요소를 활용하여 테이블 설명도 단다.</p>
     </caption>
-        <!-- thead, tbody, tfoot -->
-    <thead>
+    <!-- 아래 th, td 즉 여러개의 셀에 한번에 CSS 작업을 할 수 있다. -->
+    <!-- col 요소는 tr 요소 내의 cell 갯수와 동일해야한다. -->
+    <colgroup>
+        <col class="table-cell table-cell-title">
+        <col class="table-cell table-cell-title">
+        <col class="table-cell table-cell-title">
+    </colgroup>
+    <thead> <!-- thead, tbody, tfoot -->
     <tr>
-        <td>제목</td>
-        <td>작성일</td>
-        <td>요약</td>
+        <th>제목</th>
+        <th>작성일</th>
+        <th>요약</th>
     </tr>
     </thead>
     <tbody>
@@ -29,7 +35,7 @@
     </tbody>
     <tfoot>
     <!-- tfoot의 경우는 특수한 경우에 사용된다. -->
-    <!-- 테이블 전체를 정리하는 콘텐츠를 담을 때 사용 ex) 엑셀 데이터 표에서 각 행의 값을 최종적으로 보여줄때  -->
+    <!-- 테이블 전체를 정리하는 콘텐츠를 담을 때 사용 ex) 엑셀 데이터 표에서 각 행의 값을 최종적채ㅣ로 보여줄때  -->
     </tfoot>
 
 
